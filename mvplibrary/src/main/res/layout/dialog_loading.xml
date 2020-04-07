@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_loading"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/ic_loading_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!--旋转的图-->
+    <com.llw.mvplibrary.view.LoadingView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--变色的字-->
+    <com.llw.mvplibrary.view.LoadingTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="加载中......"
+        android:textColor="#fff"
+        android:textSize="16sp" />
+</LinearLayout>

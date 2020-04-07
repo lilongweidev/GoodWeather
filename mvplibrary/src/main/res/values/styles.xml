@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--白色风车-->
+    <declare-styleable name="WhiteWindmills">
+        <attr name="windColor" format="reference|color" />
+    </declare-styleable>
+
+    <!--弹窗样式-->
+    <style name="AnimationRightFade"><!--右侧-->
+        <item name="android:windowEnterAnimation">@anim/in_right_to_left</item>  <!--打开动画-->
+        <item name="android:windowExitAnimation">@anim/out_left_to_right</item>  <!--关闭动画-->
+    </style>
+
+    <style name="AnimationBottomFade"><!--底部-->
+        <item name="android:windowEnterAnimation">@anim/in_bottom_to_top</item>
+        <item name="android:windowExitAnimation">@anim/out_top_to_bottom</item>
+    </style>
+
+    <!--加载弹窗的样式-->
+    <style name="loading_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+
+</resources>

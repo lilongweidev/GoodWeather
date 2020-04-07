@@ -1,0 +1,73 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //在模块中添加的依赖若想在项目中使用，则implementation改成api
+    //butterknife  绑定视图依赖BindView，告别findById，不过你还得安装一个butterknife插件才行
+    api 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    //Google Material控件,以及迁移到AndroidX下一些控件的依赖
+    api 'com.google.android.material:material:1.0.0'
+    api 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    api 'androidx.annotation:annotation:1.1.0'
+    api 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //RecyclerView最好的适配器，让你的适配器一目了然，告别代码冗余
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+
+    //图片加载框架
+    api 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    //权限请求框架
+    api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    api "io.reactivex.rxjava2:rxjava:2.0.0"
+    //状态栏
+    api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    //支持okhttp
+    api 'com.squareup.okhttp3:okhttp:3.8.1'
+    api 'com.squareup.retrofit2:retrofit:2.4.0'
+    api 'com.squareup.retrofit2:converter-gson:2.4.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    //阿里巴巴 FastJson
+    api 'com.alibaba:fastjson:1.2.57'
+    //下拉刷新框架
+    api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    //没有使用特殊Header，可以不加这行
+    api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
+}

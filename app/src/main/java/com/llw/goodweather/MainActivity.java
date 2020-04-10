@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -38,17 +40,22 @@ import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.utils.ObjectUtils;
 import com.llw.mvplibrary.view.WhiteWindmills;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
@@ -94,6 +101,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     ImageView ivCitySelect;//城市图标ID
     @BindView(R.id.bg)
     LinearLayout bg;//背景图
+    @BindView(R.id.refresh)
+    SmartRefreshLayout refresh;//刷新布局
 
 
     private RxPermissions rxPermissions;//权限请求框架
@@ -114,6 +123,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     String provinceTitle;//标题
     LiWindow liWindow;//自定义弹窗
 
+    private String district;//改为全局的静态变量,方便更换城市之后也能进行下拉刷新
 
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
@@ -124,6 +134,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         initList();//天气预报列表初始化
         rxPermissions = new RxPermissions(this);//实例化这个权限请求框架，否则会报错
         permissionVersion();//权限判断
+        //由于这个刷新框架默认是有下拉和上拉，但是上拉没有用到，为了不造成误会，我这里禁用上拉
+        refresh.setEnableLoadMore(false);
 
     }
 
@@ -340,9 +352,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                                         @Override
                                         public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                                             showLoadingDialog();
-                                            mPresent.todayWeather(context, arealist.get(position).getName());//今日天气
-                                            mPresent.weatherForecast(context, arealist.get(position).getName());//天气预报
-                                            mPresent.lifeStyle(context, arealist.get(position).getName());//生活指数
+                                            district = arealist.get(position).getName();//选中的区/县赋值给这个全局变量
+                                            mPresent.todayWeather(context, district);//今日天气
+                                            mPresent.weatherForecast(context, district);//天气预报
+                                            mPresent.lifeStyle(context, district);//生活指数
                                             liWindow.closePopupWindow();
 
                                         }
@@ -371,6 +384,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         showCityWindow();
     }
 
+
     /**
      * 定位结果返回
      */
@@ -378,7 +392,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         @Override
         public void onReceiveLocation(BDLocation location) {
             //获取区/县
-            String district = location.getDistrict();
+            district = location.getDistrict();
 
             //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
             showLoadingDialog();
@@ -390,12 +404,25 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPresent.lifeStyle(context, district);
             //必应每日一图
             mPresent.biying(context);
+
+            //下拉刷新
+            refresh.setOnRefreshListener(refreshLayout -> {
+
+                //获取今天的天气数据
+                mPresent.todayWeather(context, district);
+                //获取天气预报数据
+                mPresent.weatherForecast(context, district);
+                //获取生活指数数据
+                mPresent.lifeStyle(context, district);
+
+            });
         }
     }
 
     //查询当天天气，请求成功后的数据返回
     @Override
     public void getTodayWeatherResult(Response<TodayResponse> response) {
+        refresh.finishRefresh();//关闭刷新
         dismissLoadingDialog();//关闭弹窗
         //数据返回后关闭定位
         mLocationClient.stop();
@@ -497,6 +524,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     //数据请求失败返回
     @Override
     public void getDataFailed() {
+        refresh.finishRefresh();//关闭刷新
         dismissLoadingDialog();//关闭弹窗
         ToastUtils.showShortToast(context, "网络异常");//这里的context是框架中封装好的，等同于this
     }

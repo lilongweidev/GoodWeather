@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:gravity="center_vertical"
         android:padding="@dimen/sp_12"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -17,8 +18,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
-        <!--天气描述-->
+        <!--天气描述  文字 隐藏-->
         <TextView
+            android:visibility="gone"
             android:gravity="center"
             android:id="@+id/tv_info"
             android:textSize="@dimen/sp_14"
@@ -26,6 +28,12 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
+        <!--天气描述  图标-->
+        <ImageView
+            android:id="@+id/iv_weather_state"
+            android:background="@mipmap/icon_100"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
 
         <!--最低温、最高温-->
         <TextView

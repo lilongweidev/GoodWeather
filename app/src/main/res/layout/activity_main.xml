@@ -85,8 +85,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
                             <!--温度-->
-                            <LinearLayout
-                                android:gravity="top|center_horizontal"
+                            <RelativeLayout
                                 android:layout_marginTop="20dp"
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
@@ -96,15 +95,17 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
+                                    android:layout_centerInParent="true"
                                     android:textColor="#FFF"
                                     android:textSize="60sp" />
                                 <TextView
+                                    android:layout_toRightOf="@+id/tv_temperature"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:text="℃"
                                     android:textColor="#FFF"
                                     android:textSize="24sp" />
-                            </LinearLayout>
+                            </RelativeLayout>
 
                             <!--最高温和最低温-->
                             <TextView
@@ -115,27 +116,74 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <!--城市-->
-                            <TextView
+                            <LinearLayout
+                                android:gravity="center_vertical"
                                 android:layout_marginTop="20dp"
-                                android:id="@+id/tv_city"
-                                android:textColor="#FFF"
-                                android:text="城市"
-                                android:textSize="20sp"
+                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:id="@+id/tv_city"
+                                    android:textColor="#FFF"
+                                    android:text="定位中"
+                                    android:textSize="20sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/iv_location"
+                                    android:background="@mipmap/icon_location"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"/>
+                            </LinearLayout>
+
                             <!--上一次更新时间-->
-                            <TextView
+                            <LinearLayout
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:drawableLeft="@mipmap/icon_weather_sun"
+                                    android:drawablePadding="4dp"
+                                    android:text="Good Weather"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textColor="#FFF"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+                                <TextView
+                                    android:gravity="right"
+                                    android:id="@+id/tv_old_time"
+                                    android:textColor="#FFF"
+                                    android:text="上次更新时间："
+                                    android:textSize="@dimen/sp_12"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:layout_height="wrap_content"/>
+                            </LinearLayout>
+
+                            <!--分隔线 增加UI效果-->
+                            <View
                                 android:layout_marginTop="8dp"
-                                android:id="@+id/tv_old_time"
-                                android:textColor="#FFF"
-                                android:text="上次更新时间："
-                                android:textSize="@dimen/sp_12"
-                                android:layout_width="wrap_content"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#FFF"
+                                android:alpha="0.1"/>
+
+                            <!--用于显示逐小时天气-->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:padding="12dp"
+                                android:id="@+id/rv_hourly"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
 
                             <!--用于显示天气预报数据-->
                             <androidx.recyclerview.widget.RecyclerView
-                                android:layout_marginTop="20dp"
+                                android:paddingLeft="8dp"
+                                android:paddingRight="8dp"
                                 android:id="@+id/rv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>

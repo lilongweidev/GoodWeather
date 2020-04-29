@@ -1,6 +1,7 @@
 package com.llw.goodweather.api;
 
 
+import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.LifeStyleResponse;
 import com.llw.goodweather.bean.TodayResponse;
@@ -48,5 +49,11 @@ public interface ApiService {
      */
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Call<BiYingImgResponse> biying();
+
+    /**
+     * 逐小时预报
+     */
+    @GET("/s6/weather/hourly?key=3086e91d66c04ce588a7f538f917c7f4")
+    Call<HourlyResponse> getHourly(@Query("location") String location);
 
 }

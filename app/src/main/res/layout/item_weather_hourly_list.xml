@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <!--时间-->
+    <TextView
+        android:id="@+id/tv_time"
+        android:textColor="#FFF"
+        android:text="上午10:00"
+        android:textSize="14sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!--气候图标-->
+    <ImageView
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/iv_weather_state"
+        android:background="@mipmap/icon_100"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+    <!--温度-->
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/tv_temperature"
+        android:textColor="#FFF"
+        android:text="25℃"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

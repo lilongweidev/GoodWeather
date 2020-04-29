@@ -3,6 +3,7 @@ package com.llw.goodweather.contract;
 import android.content.Context;
 
 import com.llw.goodweather.api.ApiService;
+import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.LifeStyleResponse;
 import com.llw.goodweather.bean.TodayResponse;
@@ -120,6 +121,30 @@ public class WeatherContract {
                 }
             });
         }
+
+        /**
+         * 逐小时预报
+         * @param context
+         * @param location
+         */
+        public void hourly(final Context context,String location){
+            ApiService service = ServiceGenerator.createService(ApiService.class,0);
+            service.getHourly(location).enqueue(new NetCallBack<HourlyResponse>() {
+                @Override
+                public void onSuccess(Call<HourlyResponse> call, Response<HourlyResponse> response) {
+                    if(getView() != null){
+                        getView().getHourlyResult(response);
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+                    if(getView() != null){
+                        getView().getDataFailed();
+                    }
+                }
+            });
+        }
     }
 
 
@@ -132,6 +157,8 @@ public class WeatherContract {
         void getLifeStyleResult(Response<LifeStyleResponse> response);
         //获取必应每日一图返回
         void getBiYingResult(Response<BiYingImgResponse> response);
+        //查询逐小时天气的数据返回
+        void getHourlyResult(Response<HourlyResponse> response);
         //错误返回
         void getDataFailed();
     }

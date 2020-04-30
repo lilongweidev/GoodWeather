@@ -1,6 +1,7 @@
 package com.llw.goodweather.api;
 
 
+import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.LifeStyleResponse;
@@ -55,5 +56,11 @@ public interface ApiService {
      */
     @GET("/s6/weather/hourly?key=3086e91d66c04ce588a7f538f917c7f4")
     Call<HourlyResponse> getHourly(@Query("location") String location);
+
+    /**
+     * 空气质量数据  这个的location要传入市的参数，不再是区/县，否则会提示 permission denied  无访问权限
+     */
+    @GET("/s6/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
+    Call<AirNowCityResponse> getAirNowCity(@Query("location") String location);
 
 }

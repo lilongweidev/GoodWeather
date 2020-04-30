@@ -3,6 +3,7 @@ package com.llw.goodweather.contract;
 import android.content.Context;
 
 import com.llw.goodweather.api.ApiService;
+import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.LifeStyleResponse;
@@ -145,6 +146,32 @@ public class WeatherContract {
                 }
             });
         }
+
+        /**
+         * 空气质量数据
+         * @param context
+         * @param location
+         */
+        public void airNowCity(final Context context,String location){
+            ApiService service = ServiceGenerator.createService(ApiService.class,0);
+            service.getAirNowCity(location).enqueue(new NetCallBack<AirNowCityResponse>() {
+                @Override
+                public void onSuccess(Call<AirNowCityResponse> call, Response<AirNowCityResponse> response) {
+                    if(getView() != null){
+                        getView().getAirNowCityResult(response);
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+                    if(getView() != null){
+                        getView().getDataFailed();
+                    }
+                }
+            });
+        }
+
+
     }
 
 
@@ -159,6 +186,8 @@ public class WeatherContract {
         void getBiYingResult(Response<BiYingImgResponse> response);
         //查询逐小时天气的数据返回
         void getHourlyResult(Response<HourlyResponse> response);
+        //查询空气质量的数据返回
+        void getAirNowCityResult(Response<AirNowCityResponse> response);
         //错误返回
         void getDataFailed();
     }

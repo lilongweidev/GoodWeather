@@ -1,18 +1,25 @@
 package com.llw.goodweather;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +48,7 @@ import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
 import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.utils.AnimationUtil;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.utils.ObjectUtils;
 import com.llw.mvplibrary.view.RoundProgressBar;
@@ -102,8 +110,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     TextView tvWindDirection;//风向
     @BindView(R.id.tv_wind_power)
     TextView tvWindPower;//风力
-    @BindView(R.id.iv_city_select)
-    ImageView ivCitySelect;//城市图标ID
+    //    @BindView(R.id.iv_city_select)
+//    ImageView ivCitySelect;//城市图标ID
+    @BindView(R.id.iv_add)
+    ImageView ivAdd;//更多功能
     @BindView(R.id.bg)
     LinearLayout bg;//背景图
     @BindView(R.id.refresh)
@@ -126,6 +136,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     TextView tvO3;//臭氧
     @BindView(R.id.tv_co)
     TextView tvCo;//一氧化碳
+
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
 
 
@@ -152,6 +163,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     private String district;//区/县  改为全局的静态变量,方便更换城市之后也能进行下拉刷新
     private String city;//市 国控站点数据  用于请求空气质量
 
+    //右上角的弹窗
+    private PopupWindow mPopupWindow;
+    private AnimationUtil animUtil;
+    private float bgAlpha = 1f;
+    private boolean bright = false;
+    private static final long DURATION = 500;//0.5s
+    private static final float START_ALPHA = 0.7f;//开始透明度
+    private static final float END_ALPHA = 1f;//结束透明度
+
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -163,8 +183,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         permissionVersion();//权限判断
         //由于这个刷新框架默认是有下拉和上拉，但是上拉没有用到，为了不造成误会，我这里禁用上拉
         refresh.setEnableLoadMore(false);
+        //初始化弹窗
+        mPopupWindow = new PopupWindow(this);
+        animUtil = new AnimationUtil();
 
+//        //设置toolbar
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayShowTitleEnabled(false);//取出默认的标题Label
     }
+
 
     //绑定布局文件
     @Override
@@ -177,6 +204,24 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     protected WeatherContract.WeatherPresenter createPresent() {
         return new WeatherContract.WeatherPresenter();
     }
+
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.context_menu:
+////                showAddWindow(item);
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     /**
      * 初始化 天气预报 和 逐小时 数据列表
@@ -417,10 +462,11 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
     }
 
-    //点击事件
-    @OnClick(R.id.iv_city_select)
-    public void onViewClicked() {//显示城市弹窗
-        showCityWindow();
+    //点击事件  图标的ID也做了更换，点击之后的弹窗也更换了
+    @OnClick(R.id.iv_add)
+    public void onViewClicked() {
+        showAddWindow();//更多功能弹窗
+        toggleBright();//计算动画时间
     }
 
 
@@ -606,16 +652,20 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
             //UI显示
             AirNowCityResponse.HeWeather6Bean.AirNowCityBean data = response.body().getHeWeather6().get(0).getAir_now_city();
-            if(!ObjectUtils.isEmpty(data) && data != null){
-
+            if (!ObjectUtils.isEmpty(data) && data != null) {
                 //污染指数
-                rpbAqi.setMaxProgress(500);//最大进度
+                rpbAqi.setMaxProgress(500);//最大进度，用于计算
+                rpbAqi.setMinText("0");//设置显示最小值
+                rpbAqi.setMinTextSize(32f);
+                rpbAqi.setMaxText("500");//设置显示最大值
+                rpbAqi.setMaxTextSize(32f);
                 rpbAqi.setProgress(Float.valueOf(data.getAqi()));//当前进度
                 rpbAqi.setArcBgColor(getResources().getColor(R.color.arc_bg_color));//圆弧的颜色
                 rpbAqi.setProgressColor(getResources().getColor(R.color.arc_progress_color));//进度圆弧的颜色
                 rpbAqi.setFirstText(data.getQlty());//空气质量描述  取值范围：优，良，轻度污染，中度污染，重度污染，严重污染
-                rpbAqi.setFirstTextSize(32f);
+                rpbAqi.setFirstTextSize(44f);
                 rpbAqi.setSecondText(data.getAqi());//空气质量值
+                rpbAqi.setSecondTextSize(64f);
                 rpbAqi.setMinText("0");
                 rpbAqi.setMinTextColor(getResources().getColor(R.color.arc_progress_color));
 
@@ -626,7 +676,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 tvO3.setText(data.getO3());//臭氧
                 tvCo.setText(data.getCo());//一氧化碳
             }
-
         } else {
             ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
         }
@@ -650,5 +699,78 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         wwBig.stop();//停止大风车
         wwSmall.stop();//停止小风车
         super.onDestroy();
+    }
+
+    //更多功能弹窗，因为区别于我原先写的弹窗
+    private void showAddWindow() {
+        // 设置布局文件
+        mPopupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.pop_add, null));// 为了避免部分机型不显示，我们需要重新设置一下宽高
+        mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x0000));// 设置pop透明效果
+        mPopupWindow.setAnimationStyle(R.style.pop_add);// 设置pop出入动画
+        mPopupWindow.setFocusable(true);// 设置pop获取焦点，如果为false点击返回按钮会退出当前Activity，如果pop中有Editor的话，focusable必须要为true
+        mPopupWindow.setTouchable(true);// 设置pop可点击，为false点击事件无效，默认为true
+        mPopupWindow.setOutsideTouchable(true);// 设置点击pop外侧消失，默认为false；在focusable为true时点击外侧始终消失
+        mPopupWindow.showAsDropDown(ivAdd, -100, 0);// 相对于 + 号正下面，同时可以设置偏移量
+        // 设置pop关闭监听，用于改变背景透明度
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {//关闭弹窗
+            @Override
+            public void onDismiss() {
+                toggleBright();
+            }
+        });
+        //绑定布局中的控件
+        TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);
+        TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);
+        TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
+        changeCity.setOnClickListener(view -> {//切换城市
+            showCityWindow();
+            mPopupWindow.dismiss();
+        });
+        changeBg.setOnClickListener(view -> {//切换图片
+            ToastUtils.showShortToast(context,"你点击了切换图片");
+            mPopupWindow.dismiss();
+        });
+        more.setOnClickListener(view -> {//更多功能
+            startActivity(new Intent(context,TestActivity.class));
+            ToastUtils.showShortToast(context,"如果你有什么好的建议，可以博客留言哦！");
+            mPopupWindow.dismiss();
+        });
+    }
+
+    //计算动画时间
+    private void toggleBright() {
+        // 三个参数分别为：起始值 结束值 时长，那么整个动画回调过来的值就是从0.5f--1f的
+        animUtil.setValueAnimator(START_ALPHA, END_ALPHA, DURATION);
+        animUtil.addUpdateListener(new AnimationUtil.UpdateListener() {
+            @Override
+            public void progress(float progress) {
+                // 此处系统会根据上述三个值，计算每次回调的值是多少，我们根据这个值来改变透明度
+                bgAlpha = bright ? progress : (START_ALPHA + END_ALPHA - progress);
+                backgroundAlpha(bgAlpha);
+            }
+        });
+        animUtil.addEndListner(new AnimationUtil.EndListener() {
+            @Override
+            public void endUpdate(Animator animator) {
+                // 在一次动画结束的时候，翻转状态
+                bright = !bright;
+            }
+        });
+        animUtil.startAnimator();
+    }
+
+    /**
+     * 此方法用于改变背景的透明度，从而达到“变暗”的效果
+     */
+    private void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        // 0.0-1.0
+        lp.alpha = bgAlpha;
+        getWindow().setAttributes(lp);
+        // everything behind this window will be dimmed.
+        // 此方法用来设置浮动层，防止部分手机变暗无效
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 }

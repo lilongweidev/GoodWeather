@@ -50,4 +50,10 @@
         <attr name="round_start_angle" format="float"/>
     </declare-styleable>
 
+    <!--右上角加号点击弹窗动画效果-->
+    <style name="pop_add">
+        <item name="android:windowEnterAnimation">@anim/pop_add_show</item>
+        <item name="android:windowExitAnimation">@anim/pop_add_hide</item>
+    </style>
+
 </resources>

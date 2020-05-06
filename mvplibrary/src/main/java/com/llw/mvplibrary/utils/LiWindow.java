@@ -1,7 +1,10 @@
 package com.llw.mvplibrary.utils;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,15 @@ public class LiWindow {
     public Map<String, Object> getmMap() {
         return mMap;
     }
+
+
+    private float bgAlpha = 1f;
+    private boolean bright = false;
+
+    private static final long DURATION = 500;
+    private static final float START_ALPHA = 0.7f;
+    private static final float END_ALPHA = 1f;
+
 
     public LiWindow(Context context){
         this.mContext = context;
@@ -99,12 +111,14 @@ public class LiWindow {
         mPopupWindow.setOnDismissListener(closeDismiss);
     }
 
+
     public static void setBackgroundAlpha(float bgAlpha,Context mContext){
         WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
         lp.alpha = bgAlpha;
         ((Activity) mContext).getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         ((Activity) mContext).getWindow().setAttributes(lp);
     }
+
 
     /**
      * 设置弹窗动画
@@ -127,11 +141,17 @@ public class LiWindow {
             ((Activity)mContext).getWindow().setAttributes(nomal);
         }
     };
+
+
+
     public void closePopupWindow() {
         if (mPopupWindow != null) {
             mPopupWindow.dismiss();
         }
     }
+
+
+
     /*
         使用方法
     *   LiWindow liWindow = new LiWindow(MainActivity.this);

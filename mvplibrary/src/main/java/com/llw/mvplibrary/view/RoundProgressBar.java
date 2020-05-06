@@ -34,10 +34,10 @@ public class RoundProgressBar extends View {
     private float mSecondTextSize = 56f;//第二行文本的字体大小
     private String mMinText = "0";//进度最小值
     private int mMinTextColor = Color.WHITE;//最小值文本的颜色
-    private float mMinTextSize = 56f;//最小值字体大小
+    private float mMinTextSize = 32f;//最小值字体大小
     private String mMaxText = "0";//进度最大值
     private int mMaxTextColor = Color.WHITE;//最大值文本的颜色
-    private float mMaxTextSize = 56f;//最大值字体大小
+    private float mMaxTextSize = 32f;//最大值字体大小
 
 
     public RoundProgressBar(Context context) {
@@ -104,9 +104,9 @@ public class RoundProgressBar extends View {
         //绘制第二级文本
         drawSecondText(canvas, centerX);
         //绘制最小值文本
-        drawMinText(canvas,rectF.left,rectF.bottom);
+        drawMinText(canvas, rectF.left, rectF.bottom);
         //绘制最大值文本
-        drawMaxText(canvas,rectF.right,rectF.bottom);
+        drawMaxText(canvas, rectF.right, rectF.bottom);
 
     }
 
@@ -187,11 +187,12 @@ public class RoundProgressBar extends View {
 
     /**
      * 绘制最小值文本
-     * @param canvas 画笔
-     * @param leftX X轴位置
+     *
+     * @param canvas  画笔
+     * @param leftX   X轴位置
      * @param bottomY Y轴位置
      */
-    private void drawMinText(Canvas canvas, float leftX,float bottomY) {
+    private void drawMinText(Canvas canvas, float leftX, float bottomY) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(mMinTextColor);
@@ -199,24 +200,25 @@ public class RoundProgressBar extends View {
         paint.setTextSize(mMinTextSize);
         Rect bounds = new Rect();
         paint.getTextBounds(mMinText, 0, mMinText.length(), bounds);//TextView的高度和宽度
-        canvas.drawText(mMinText, leftX, bottomY, paint);
+        canvas.drawText(mMinText, leftX + bounds.width() * 4, bottomY+16, paint);
     }
 
     /**
      * 绘制最大值文本
-     * @param canvas 画笔
-     * @param rightX X轴位置
+     *
+     * @param canvas  画笔
+     * @param rightX  X轴位置
      * @param bottomY Y轴位置
      */
-    private void drawMaxText(Canvas canvas, float rightX,float bottomY) {
+    private void drawMaxText(Canvas canvas, float rightX, float bottomY) {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(mMinTextColor);
+        paint.setColor(mMaxTextColor);
         paint.setTextAlign(Paint.Align.CENTER);//设置绘制方式 中心对齐
-        paint.setTextSize(mMinTextSize);
+        paint.setTextSize(mMaxTextSize);
         Rect bounds = new Rect();
-        paint.getTextBounds(mMinText, 0, mMinText.length(), bounds);//TextView的高度和宽度
-        canvas.drawText(mMinText, rightX, bottomY, paint);
+        paint.getTextBounds(mMaxText, 0, mMaxText.length(), bounds);//TextView的高度和宽度
+        canvas.drawText(mMaxText, rightX - bounds.width(), bottomY+16, paint);
     }
 
     /**

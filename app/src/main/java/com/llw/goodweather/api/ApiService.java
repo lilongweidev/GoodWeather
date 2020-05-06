@@ -5,11 +5,13 @@ import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.LifeStyleResponse;
+import com.llw.goodweather.bean.TestResponse;
 import com.llw.goodweather.bean.TodayResponse;
 import com.llw.goodweather.bean.WeatherForecastResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 /**
@@ -62,5 +64,11 @@ public interface ApiService {
      */
     @GET("/s6/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
     Call<AirNowCityResponse> getAirNowCity(@Query("location") String location);
+
+    /**
+     * 测试接口数据
+     */
+    @GET("/base/test")
+    Call<TestResponse> testList(@Header("Authorization") String Authorization);
 
 }

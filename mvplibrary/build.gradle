@@ -72,4 +72,9 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
     //炫酷的菜单
     api 'com.github.Yalantis:Context-Menu.Android:1.1.4'
+    //圆形图片
+    api 'de.hdodenhof:circleimageview:3.0.1'
+    //富文本
+    api 'com.zzhoujay.richtext:richtext:3.0.7'
+    api 'com.google.android.gms:play-services-auth:16.0.1'
 }

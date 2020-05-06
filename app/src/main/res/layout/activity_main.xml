@@ -37,24 +37,26 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="16sp"
-                    android:textColor="#FFF"
+                    android:textColor="@color/white"
                     android:text="城市天气" />
                 <!--城市图标-->
                 <ImageView
-                    android:id="@+id/iv_city_select"
+                    android:id="@+id/iv_add"
                     android:layout_gravity="right"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:src="@mipmap/icon_city"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/selector_bg_img"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:src="@mipmap/icon_add"/>
             </androidx.appcompat.widget.Toolbar>
 
             <!--下拉刷新布局-->
             <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/refresh"
                 app:srlPrimaryColor="#00000000"
-                app:srlAccentColor="#FFF"
+                app:srlAccentColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <!--刷新头部样式-->
@@ -80,7 +82,7 @@
                                 android:paddingLeft="16dp"
                                 android:paddingTop="12dp"
                                 android:id="@+id/tv_info"
-                                android:textColor="#FFF"
+                                android:textColor="@color/white"
                                 android:textSize="18sp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"/>
@@ -96,14 +98,14 @@
                                     android:layout_height="wrap_content"
                                     android:text="0"
                                     android:layout_centerInParent="true"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:textSize="60sp" />
                                 <TextView
                                     android:layout_toRightOf="@+id/tv_temperature"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:text="℃"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:textSize="24sp" />
                             </RelativeLayout>
 
@@ -111,7 +113,7 @@
                             <TextView
                                 android:layout_marginTop="12dp"
                                 android:id="@+id/tv_low_height"
-                                android:textColor="#FFF"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/sp_14"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
@@ -124,7 +126,7 @@
                                 android:layout_height="wrap_content">
                                 <TextView
                                     android:id="@+id/tv_city"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:text="定位中"
                                     android:textSize="20sp"
                                     android:layout_width="wrap_content"
@@ -149,13 +151,13 @@
                                     android:drawablePadding="4dp"
                                     android:text="Good Weather"
                                     android:textSize="@dimen/sp_12"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <TextView
                                     android:gravity="right"
                                     android:id="@+id/tv_old_time"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:text="上次更新时间："
                                     android:textSize="@dimen/sp_12"
                                     android:layout_width="0dp"
@@ -170,7 +172,7 @@
                                 android:layout_marginRight="20dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
-                                android:background="#FFF"
+                                android:background="@color/white"
                                 android:alpha="0.1"/>
 
                             <!--用于显示逐小时天气-->
@@ -197,7 +199,7 @@
                                 <!--标题-->
                                 <TextView
                                     android:textSize="18sp"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:text="空气质量"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -221,9 +223,9 @@
                                             android:text="污染指数"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
+                                        <!--显示污染指数进度值-->
                                         <com.llw.mvplibrary.view.RoundProgressBar
                                             android:id="@+id/rpb_aqi"
-
                                             app:round_bg_color="#C6D7F4"
                                             app:round_progress_color="#FBFEF7"
                                             android:layout_gravity="center"
@@ -241,15 +243,17 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <TextView
-                                                android:textColor="#9FC8E9"
+                                                android:gravity="center"
+                                                android:textColor="@color/blue_one"
                                                 android:text="PM10"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
                                                 android:layout_height="wrap_content"/>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_pm10"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -262,15 +266,17 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <TextView
-                                                android:textColor="#9FC8E9"
+                                                android:gravity="center"
+                                                android:textColor="@color/blue_one"
                                                 android:text="PM2.5"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
                                                 android:layout_height="wrap_content"/>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_pm25"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -283,25 +289,27 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <LinearLayout
+                                                android:gravity="center"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1">
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="NO"
                                                     android:textSize="12sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="2"
                                                     android:textSize="8sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                             </LinearLayout>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_no2"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -314,25 +322,27 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <LinearLayout
+                                                android:gravity="center"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1">
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="SO"
                                                     android:textSize="12sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="2"
                                                     android:textSize="8sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                             </LinearLayout>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_so2"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -345,25 +355,27 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <LinearLayout
+                                                android:gravity="center"
                                                 android:layout_width="0dp"
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1">
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="O"
                                                     android:textSize="12sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                                 <TextView
-                                                    android:textColor="#9FC8E9"
+                                                    android:textColor="@color/blue_one"
                                                     android:text="3"
                                                     android:textSize="8sp"
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"/>
                                             </LinearLayout>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_o3"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -376,15 +388,17 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content">
                                             <TextView
-                                                android:textColor="#9FC8E9"
+                                                android:gravity="center"
+                                                android:textColor="@color/blue_one"
                                                 android:text="CO"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
                                                 android:layout_height="wrap_content"/>
                                             <TextView
+                                                android:gravity="center"
                                                 android:id="@+id/tv_co"
-                                                android:textColor="#FFF"
+                                                android:textColor="@color/white"
                                                 android:textSize="12sp"
                                                 android:layout_width="0dp"
                                                 android:layout_weight="1"
@@ -404,7 +418,7 @@
                                 <!--标题-->
                                 <TextView
                                     android:textSize="18sp"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:text="风向风力"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -441,7 +455,7 @@
                                         <!--风向-->
                                         <TextView
                                             android:id="@+id/tv_wind_direction"
-                                            android:textColor="#FFF"
+                                            android:textColor="@color/white"
                                             android:textSize="@dimen/sp_14"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
@@ -449,7 +463,7 @@
                                         <TextView
                                             android:layout_marginTop="20dp"
                                             android:id="@+id/tv_wind_power"
-                                            android:textColor="#FFF"
+                                            android:textColor="@color/white"
                                             android:textSize="@dimen/sp_14"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"/>
@@ -466,7 +480,7 @@
                                 <!--标题-->
                                 <TextView
                                     android:textSize="18sp"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:text="生活建议"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -476,7 +490,7 @@
                                     android:id="@+id/tv_comf"
                                     android:text="舒适度："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--旅游指数-->
@@ -485,7 +499,7 @@
                                     android:id="@+id/tv_trav"
                                     android:text="旅游指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--运动指数-->
@@ -494,7 +508,7 @@
                                     android:id="@+id/tv_sport"
                                     android:text="运动指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--洗车指数-->
@@ -503,7 +517,7 @@
                                     android:id="@+id/tv_cw"
                                     android:text="洗车指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--空气指数-->
@@ -512,7 +526,7 @@
                                     android:id="@+id/tv_air"
                                     android:text="空气指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--穿衣指数-->
@@ -521,7 +535,7 @@
                                     android:id="@+id/tv_drsg"
                                     android:text="穿衣指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <!--感冒指数-->
@@ -530,7 +544,7 @@
                                     android:id="@+id/tv_flu"
                                     android:text="感冒指数："
                                     android:textSize="@dimen/sp_14"
-                                    android:textColor="#FFF"
+                                    android:textColor="@color/white"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                             </LinearLayout>

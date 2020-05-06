@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.webkit.WebView;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.utils.ActivityManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -89,6 +92,14 @@ public class WeatherApplication extends BaseApplication {
 
             }
         });
+
+        try{
+            ProviderInstaller.installIfNeeded(this);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.getConnectionStatusCode();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -92,6 +92,8 @@ public class BackgroundManagerActivity extends BaseActivity {
     private XRadioGroup xRadioGroup;
     //显示图片弹窗
     private void showImgWindow() {
+
+        
         liWindow = new LiWindow(context);
         final View view = LayoutInflater.from(context).inflate(R.layout.window_img_list, null);
         xRadioGroup = (XRadioGroup)view.findViewById(R.id.xrg_img);

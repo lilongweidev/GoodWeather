@@ -20,7 +20,6 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestActivity"></activity>
         <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

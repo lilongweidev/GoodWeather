@@ -22,6 +22,16 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 public class WeatherApplication extends BaseApplication {
 
     /**
@@ -54,7 +64,7 @@ public class WeatherApplication extends BaseApplication {
         activityManager = new ActivityManager();
         context = getApplicationContext();
         weatherApplication = this;
-
+        handleSSLHandshake();
 
         this.registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -93,7 +103,7 @@ public class WeatherApplication extends BaseApplication {
             }
         });
 
-        try{
+        try {
             ProviderInstaller.installIfNeeded(this);
         } catch (GooglePlayServicesRepairableException e) {
             e.getConnectionStatusCode();
@@ -108,6 +118,64 @@ public class WeatherApplication extends BaseApplication {
         return activityManager;
     }
 
+    /**
+     * 忽略https的证书校验
+     * <p>
+     * 避免Glide加载https图片报错：
+     * <p>
+     * javax.net.ssl.SSLHandshakeException: java.security.cert.CertPathValidatorException: Trust anchor for certification path not found.
+     */
+
+    public static void handleSSLHandshake() {
+
+        try {
+
+            TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+
+                public X509Certificate[] getAcceptedIssuers() {
+
+                    return new X509Certificate[0];
+                }
+
+                @Override
+
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+
+                }
+
+                @Override
+
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+
+                }
+
+            }};
+
+            SSLContext sc = SSLContext.getInstance("TLS");
+
+            // trustAllCerts信任所有的证书
+
+            sc.init(null, trustAllCerts, new SecureRandom());
+
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+
+                @Override
+
+                public boolean verify(String hostname, SSLSession session) {
+
+                    return true;
+
+                }
+
+            });
+
+        } catch (Exception ignored) {
+
+        }
+
+    }
 
 
     @Override

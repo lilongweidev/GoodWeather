@@ -733,7 +733,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能
-            startActivity(new Intent(context,TestActivity.class));
             ToastUtils.showShortToast(context,"如果你有什么好的建议，可以博客留言哦！");
             mPopupWindow.dismiss();
         });

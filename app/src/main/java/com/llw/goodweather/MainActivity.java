@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,6 +43,9 @@ import com.llw.goodweather.bean.LifeStyleResponse;
 import com.llw.goodweather.bean.TodayResponse;
 import com.llw.goodweather.bean.WeatherForecastResponse;
 import com.llw.goodweather.contract.WeatherContract;
+import com.llw.goodweather.ui.BackgroundManagerActivity;
+import com.llw.goodweather.utils.Constant;
+import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
@@ -68,7 +70,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
@@ -193,6 +194,28 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
+        showLoadingDialog();
+        //取出缓存
+        district = SPUtils.getString(Constant.DISTRICT,"",context);
+        city = SPUtils.getString(Constant.CITY,"",context);
+        //获取今天的天气数据
+        mPresent.todayWeather(context, district);
+        //获取天气预报数据
+        mPresent.weatherForecast(context, district);
+        //获取生活指数数据
+        mPresent.lifeStyle(context, district);
+        //必应每日一图
+        mPresent.biying(context);
+        //获取逐小时天气数据
+        mPresent.hourly(context, district);
+        //获取空气质量数据
+        mPresent.airNowCity(context, city);
+    }
+
     //绑定布局文件
     @Override
     public int getLayoutId() {
@@ -241,7 +264,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         rvHourly.setLayoutManager(managerHourly);
         rvHourly.setAdapter(mAdapterHourly);
     }
-
 
     //权限判断
     private void permissionVersion() {
@@ -729,11 +751,14 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPopupWindow.dismiss();
         });
         changeBg.setOnClickListener(view -> {//切换图片
+            //放入缓存
+            SPUtils.putString(Constant.DISTRICT,district,context);
+            SPUtils.putString(Constant.CITY,city,context);
+            startActivity(new Intent(context, BackgroundManagerActivity.class));
             ToastUtils.showShortToast(context,"你点击了切换图片");
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能
-            startActivity(new Intent(context,TestActivity.class));
             ToastUtils.showShortToast(context,"如果你有什么好的建议，可以博客留言哦！");
             mPopupWindow.dismiss();
         });

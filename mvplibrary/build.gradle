@@ -70,11 +70,7 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     //没有使用特殊Header，可以不加这行
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
-    //炫酷的菜单
-    api 'com.github.Yalantis:Context-Menu.Android:1.1.4'
-    //圆形图片
-    api 'de.hdodenhof:circleimageview:3.0.1'
-    //富文本
-    api 'com.zzhoujay.richtext:richtext:3.0.7'
-    api 'com.google.android.gms:play-services-auth:16.0.1'
+    //自由嵌套的RadioGroup
+    api 'com.github.fodroid:XRadioGroup:v1.5'
+
 }

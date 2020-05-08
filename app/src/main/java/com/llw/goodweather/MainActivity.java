@@ -161,7 +161,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     String provinceTitle;//标题
     LiWindow liWindow;//自定义弹窗
 
-    private String district;//区/县  改为全局的静态变量,方便更换城市之后也能进行下拉刷新
+    private String district = null;//区/县  改为全局的静态变量,方便更换城市之后也能进行下拉刷新
     private String city;//市 国控站点数据  用于请求空气质量
 
     //右上角的弹窗
@@ -200,7 +200,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
         showLoadingDialog();
         //取出缓存
-        district = SPUtils.getString(Constant.DISTRICT,"",context);
+        if(district == null){
+            district = SPUtils.getString(Constant.DISTRICT,"",context);
+        }
+
         city = SPUtils.getString(Constant.CITY,"",context);
         //获取今天的天气数据
         mPresent.todayWeather(context, district);
@@ -723,10 +726,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         super.onDestroy();
     }
 
-    //更多功能弹窗，因为区别于我原先写的弹窗
+    /**
+     * 更多功能弹窗，因为区别于我原先写的弹窗
+     */
     private void showAddWindow() {
         // 设置布局文件
-        mPopupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.pop_add, null));// 为了避免部分机型不显示，我们需要重新设置一下宽高
+        mPopupWindow.setContentView(LayoutInflater.from(this).inflate(R.layout.window_add, null));// 为了避免部分机型不显示，我们需要重新设置一下宽高
         mPopupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setBackgroundDrawable(new ColorDrawable(0x0000));// 设置pop透明效果
@@ -750,12 +755,11 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             showCityWindow();
             mPopupWindow.dismiss();
         });
-        changeBg.setOnClickListener(view -> {//切换图片
+        changeBg.setOnClickListener(view -> {//切换背景
             //放入缓存
             SPUtils.putString(Constant.DISTRICT,district,context);
             SPUtils.putString(Constant.CITY,city,context);
             startActivity(new Intent(context, BackgroundManagerActivity.class));
-            ToastUtils.showShortToast(context,"你点击了切换图片");
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能
@@ -764,7 +768,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         });
     }
 
-    //计算动画时间
+    /**
+     * 计算动画时间
+     */
     private void toggleBright() {
         // 三个参数分别为：起始值 结束值 时长，那么整个动画回调过来的值就是从0.5f--1f的
         animUtil.setValueAnimator(START_ALPHA, END_ALPHA, DURATION);
@@ -798,4 +804,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         // 此方法用来设置浮动层，防止部分手机变暗无效
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
+
+
+
 }

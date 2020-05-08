@@ -55,8 +55,4 @@ public class SPUtils {
         sp.edit().remove(key).commit();
     }
 
-    /*
-    * 多语言切换
-    * */
-
 }

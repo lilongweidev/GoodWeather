@@ -39,7 +39,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/white"
                     android:text="城市天气" />
-                <!--城市图标-->
+                <!--更多功能-->
                 <ImageView
                     android:id="@+id/iv_add"
                     android:layout_gravity="right"

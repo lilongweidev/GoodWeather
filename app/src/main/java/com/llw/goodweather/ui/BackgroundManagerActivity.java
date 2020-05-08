@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
@@ -28,14 +29,15 @@ import me.shihao.library.XRadioGroup;
 public class BackgroundManagerActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar toolbar;//标题栏返回
     @BindView(R.id.wb_everyday)
     SwitchButton wbEveryday;//每日一图开关
     @BindView(R.id.wb_img_list)
     SwitchButton wbImgList;//图片列表
     @BindView(R.id.wb_custom_)
     SwitchButton wbCustom;//手动定义
-    LiWindow liWindow;
+
+    LiWindow liWindow;//弹窗
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -89,7 +91,17 @@ public class BackgroundManagerActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_background_manager;
+    }
+
+
+
+
+
     private XRadioGroup xRadioGroup;
+    private RadioButton rbImg1,rbImg2,rbImg3,rbImg4,rbImg5,rbImg6;
     //显示图片弹窗
     private void showImgWindow() {
 
@@ -97,19 +109,48 @@ public class BackgroundManagerActivity extends BaseActivity {
         liWindow = new LiWindow(context);
         final View view = LayoutInflater.from(context).inflate(R.layout.window_img_list, null);
         xRadioGroup = (XRadioGroup)view.findViewById(R.id.xrg_img);
-        xRadioGroup.setOnCheckedChangeListener(new XRadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(XRadioGroup xRadioGroup, int i) {
-                ToastUtils.showShortToast(context,"点击了第"+i+"个");
-            }
-        });
+        rbImg1 = (RadioButton)view.findViewById(R.id.rb_img_1);
+        rbImg2 = (RadioButton)view.findViewById(R.id.rb_img_2);
+        rbImg3 = (RadioButton)view.findViewById(R.id.rb_img_3);
+        rbImg4 = (RadioButton)view.findViewById(R.id.rb_img_4);
+        rbImg5 = (RadioButton)view.findViewById(R.id.rb_img_5);
+        rbImg6 = (RadioButton)view.findViewById(R.id.rb_img_6);
+
+        if(xRadioGroup.isSelected()){
+            wbImgList.setChecked(true);
+        }else {
+            wbImgList.setChecked(false);
+        }
+//        xRadioGroup.setOnCheckedChangeListener(new XRadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(XRadioGroup xRadioGroup, int i) {
+//                switch (xRadioGroup.getCheckedRadioButtonId()){
+//                    case R.id.rb_img_1:
+//                        ToastUtils.showShortToast(context,"点击了第1个");
+//                        break;
+//                    case R.id.rb_img_2:
+//                        ToastUtils.showShortToast(context,"点击了第2个");
+//                        break;
+//                    case R.id.rb_img_3:
+//                        ToastUtils.showShortToast(context,"点击了第3个");
+//                        break;
+//                    case R.id.rb_img_4:
+//                        ToastUtils.showShortToast(context,"点击了第4个");
+//                        break;
+//                    case R.id.rb_img_5:
+//                        ToastUtils.showShortToast(context,"点击了第5个");
+//                        break;
+//                    case R.id.rb_img_6:
+//                        ToastUtils.showShortToast(context,"点击了第6个");
+//                        break;
+//                }
+//
+//            }
+//        });
         liWindow.showBottomPopupWindow(view);//显示弹窗
 
     }
 
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_background_manager;
-    }
+
 
 }

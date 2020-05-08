@@ -2,9 +2,9 @@
 <resources>
     <color name="arc_bg_color">#C6D7F4</color>
     <color name="arc_progress_color">#FBFEF7</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
-    <color name="blue_one">#9FC8E9</color>
-    <color name="transparent">#00000000</color>
-    <color name="transparent_bg">#22000000</color>
+    <color name="white">#ffffff</color><!--白色-->
+    <color name="black">#000000</color><!--黑色-->
+    <color name="blue_one">#9FC8E9</color><!--浅蓝色-->
+    <color name="transparent">#00000000</color><!--透明-->
+    <color name="transparent_bg">#22000000</color><!--半透明-->
 </resources>

@@ -63,14 +63,12 @@
         <attr name="sb_shadow_color" format="reference|color"/>
         <attr name="sb_uncheck_color" format="reference|color"/>
         <attr name="sb_checked_color" format="reference|color"/>
-
         <attr name="sb_border_width" format="reference|dimension"/>
         <attr name="sb_checkline_color" format="reference|color"/>
         <attr name="sb_checkline_width" format="reference|dimension"/>
         <attr name="sb_uncheckcircle_color" format="reference|color"/>
         <attr name="sb_uncheckcircle_width" format="reference|dimension"/>
         <attr name="sb_uncheckcircle_radius" format="reference|dimension"/>
-
         <attr name="sb_checked" format="reference|boolean"/>
         <attr name="sb_shadow_effect" format="reference|boolean"/>
         <attr name="sb_effect_duration" format="reference|integer"/>

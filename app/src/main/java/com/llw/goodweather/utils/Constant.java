@@ -12,6 +12,8 @@ public class Constant {
     public final static String IMG_LIST = "img_list";//图片列表开关
     public final static String CUSTOM_IMG = "custom_img";//手动定义开关
     public final static String IMG_POSITION = "img_position";//选中的本地背景图片
+    public final static  int SELECT_PHOTO = 2;//启动相册标识
+    public final static String CUSTOM_IMG_PATH = "custom_img_path";//手动上传图片地址
 
 
 }

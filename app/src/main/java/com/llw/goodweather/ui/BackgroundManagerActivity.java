@@ -1,6 +1,13 @@
 package com.llw.goodweather.ui;
 
+import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.llw.goodweather.R;
+import com.llw.goodweather.utils.CameraUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
@@ -19,10 +27,15 @@ import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.view.SwitchButton;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.shihao.library.XRadioGroup;
+
+import static com.llw.goodweather.utils.Constant.SELECT_PHOTO;
 
 /**
  * 壁纸管理  三种模式，本地壁纸列表、必应每日一图、自己上传图片
@@ -39,6 +52,7 @@ public class BackgroundManagerActivity extends BaseActivity {
     SwitchButton wbCustom;//手动定义
 
     LiWindow liWindow;//弹窗
+    RxPermissions rxPermissions;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -85,6 +99,8 @@ public class BackgroundManagerActivity extends BaseActivity {
                     SPUtils.putBoolean(Constant.CUSTOM_IMG, false, context);
                     wbEveryday.setChecked(false);
                     wbImgList.setChecked(false);
+                    //Android版本判断 6.0及以上动态权限获取
+                    permissionVersion();
                 } else {
                     SPUtils.putBoolean(Constant.CUSTOM_IMG, false, context);
                 }
@@ -92,9 +108,77 @@ public class BackgroundManagerActivity extends BaseActivity {
         });
     }
 
+    //权限判断
+    private void permissionVersion() {
+        Intent intent = new Intent();
+        if (Build.VERSION.SDK_INT >= 23) {//6.0或6.0以上
+            //动态权限申请
+            permissionsRequest();
+        } else {//6.0以下
+            //发现只要权限在AndroidManifest.xml中注册过，均会认为该权限granted  提示一下即可
+            if (Build.VERSION.SDK_INT <19) {
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+            }else {
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+            }
+            startActivityForResult(intent, SELECT_PHOTO);
+        }
+
+    }
+
+    //动态权限申请
+    private void permissionsRequest() {//使用这个框架需要制定JDK版本，建议用1.8
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(granted -> {
+                    if (granted) {//申请成功
+                        //得到权限之后打开本地相册
+                        Intent selectPhotoIntent = CameraUtils.getSelectPhotoIntent();
+                        startActivityForResult(selectPhotoIntent, SELECT_PHOTO);
+                    } else {//申请失败
+                        wbCustom.setChecked(false);
+                        ToastUtils.showShortToast(this, "权限未开启");
+                    }
+                });
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_background_manager;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            //打开相册后返回
+            case SELECT_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    String imagePath = null;
+                    //判断手机系统版本号
+                    if (Build.VERSION.SDK_INT > 19) {
+                        //4.4及以上系统使用这个方法处理图片
+                        imagePath = CameraUtils.getImgeOnKitKatPath(data, this);
+                    } else {
+                        imagePath = CameraUtils.getImageBeforeKitKatPath(data, this);
+                    }
+                    displayImage(imagePath);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 从相册获取完图片(根据图片路径显示图片)
+     */
+    private void displayImage(String imagePath) {
+        if (!TextUtils.isEmpty(imagePath)) {
+            SPUtils.putString(Constant.CUSTOM_IMG_PATH, imagePath, context);
+        } else {
+            wbCustom.setChecked(true);
+            ToastUtils.showShortToast(context,"图片获取失败");
+        }
     }
 
 

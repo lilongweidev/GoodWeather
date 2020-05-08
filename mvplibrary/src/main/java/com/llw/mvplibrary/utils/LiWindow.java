@@ -96,7 +96,7 @@ public class LiWindow {
      * 底部显示
      * @param mView
      */
-    public void showBottomPopupWindow(View mView) {
+    public void showBottomPopupWindow(View mView,PopupWindow.OnDismissListener onDismissListener) {
         mPopupWindow = new PopupWindow(mView,
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         mPopupWindow.setContentView(mView);
@@ -104,11 +104,11 @@ public class LiWindow {
         mPopupWindow.setFocusable(true);
         mPopupWindow.setAnimationStyle(R.style.AnimationBottomFade); //设置动画
         mPopupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
-        setBackgroundAlpha(0.5f,mContext);
-        WindowManager.LayoutParams nomal = ((Activity) mContext).getWindow().getAttributes();
-        nomal.alpha = 0.5f;
-        ((Activity) mContext).getWindow().setAttributes(nomal);
-        mPopupWindow.setOnDismissListener(closeDismiss);
+//        setBackgroundAlpha(0.5f,mContext);
+//        WindowManager.LayoutParams nomal = ((Activity) mContext).getWindow().getAttributes();
+//        nomal.alpha = 0.5f;
+//        ((Activity) mContext).getWindow().setAttributes(nomal);
+        mPopupWindow.setOnDismissListener(onDismissListener);
     }
 
 

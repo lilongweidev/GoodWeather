@@ -13,6 +13,7 @@ import java.util.List;
 public class AreaAdapter  extends BaseQuickAdapter<CityResponse.CityBean.AreaBean, BaseViewHolder> {
     public AreaAdapter(int layoutResId, @Nullable List<CityResponse.CityBean.AreaBean> data) {
         super(layoutResId, data);
+        
     }
 
     @Override

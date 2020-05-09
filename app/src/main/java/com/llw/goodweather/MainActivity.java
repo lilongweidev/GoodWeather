@@ -187,36 +187,81 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //初始化弹窗
         mPopupWindow = new PopupWindow(this);
         animUtil = new AnimationUtil();
-
-//        //设置toolbar
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);//取出默认的标题Label
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
-        showLoadingDialog();
-        //取出缓存
+        showLoadingDialog();//在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
         if(district == null){
+            //取出缓存
             district = SPUtils.getString(Constant.DISTRICT,"",context);
+            city = SPUtils.getString(Constant.CITY,"",context);
         }
 
-        city = SPUtils.getString(Constant.CITY,"",context);
+        isOpenChangeBg();//是否开启了切换背景
+
         //获取今天的天气数据
         mPresent.todayWeather(context, district);
         //获取天气预报数据
         mPresent.weatherForecast(context, district);
         //获取生活指数数据
         mPresent.lifeStyle(context, district);
-        //必应每日一图
-        mPresent.biying(context);
         //获取逐小时天气数据
         mPresent.hourly(context, district);
         //获取空气质量数据
         mPresent.airNowCity(context, city);
+    }
+
+    //判断是否开启了切换背景，没有开启则用默认的背景
+    private void isOpenChangeBg() {
+        boolean isEverydayImg = SPUtils.getBoolean(Constant.EVERYDAY_IMG,false,context);//每日图片
+        boolean isImgList = SPUtils.getBoolean(Constant.IMG_LIST,false,context);//图片列表
+        boolean isCustomImg = SPUtils.getBoolean(Constant.CUSTOM_IMG,false,context);//手动定义
+        //因为只有有一个为true，其他两个就都会是false,所以可以一个一个的判断
+        if(isEverydayImg != true && isImgList != true && isCustomImg != true){
+            //当所有开关都没有打开的时候用默认的图片
+            bg.setBackgroundResource(R.drawable.pic_bg);
+        }else {
+            if(isEverydayImg!=false){//开启每日一图
+                mPresent.biying(context);
+            }else if(isImgList!=false){//开启图片列表
+                int position = SPUtils.getInt(Constant.IMG_POSITION,-1,context);
+                switch (position){
+                    case 0:
+                        bg.setBackgroundResource(R.drawable.img_1);
+                        break;
+                    case 1:
+                        bg.setBackgroundResource(R.drawable.img_2);
+                        break;
+                    case 2:
+                        bg.setBackgroundResource(R.drawable.img_3);
+                        break;
+                    case 3:
+                        bg.setBackgroundResource(R.drawable.img_4);
+                        break;
+                    case 4:
+                        bg.setBackgroundResource(R.drawable.img_5);
+                        break;
+                    case 5:
+                        bg.setBackgroundResource(R.drawable.img_6);
+                        break;
+                }
+            }else if(isCustomImg != false){
+                String imgPath = SPUtils.getString(Constant.CUSTOM_IMG_PATH,"",context);
+                Glide.with(context)
+                        .asBitmap()
+                        .load(imgPath)
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                Drawable drawable = new BitmapDrawable(context.getResources(), resource);
+                                bg.setBackground(drawable);
+                            }
+                        });
+            }
+        }
     }
 
     //绑定布局文件
@@ -231,23 +276,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         return new WeatherContract.WeatherPresenter();
     }
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.context_menu:
-////                showAddWindow(item);
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     /**
      * 初始化 天气预报 和 逐小时 数据列表
@@ -514,8 +542,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPresent.weatherForecast(context, district);
             //获取生活指数数据
             mPresent.lifeStyle(context, district);
-            //必应每日一图
-            mPresent.biying(context);
             //获取逐小时天气数据
             mPresent.hourly(context, district);
             //获取空气质量数据

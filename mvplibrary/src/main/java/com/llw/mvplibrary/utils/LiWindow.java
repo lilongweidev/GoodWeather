@@ -104,10 +104,6 @@ public class LiWindow {
         mPopupWindow.setFocusable(true);
         mPopupWindow.setAnimationStyle(R.style.AnimationBottomFade); //设置动画
         mPopupWindow.showAtLocation(mView, Gravity.BOTTOM, 0, 0);
-//        setBackgroundAlpha(0.5f,mContext);
-//        WindowManager.LayoutParams nomal = ((Activity) mContext).getWindow().getAttributes();
-//        nomal.alpha = 0.5f;
-//        ((Activity) mContext).getWindow().setAttributes(nomal);
         mPopupWindow.setOnDismissListener(onDismissListener);
     }
 

@@ -4,11 +4,13 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <!--自由嵌套的RadioGroup-->
     <me.shihao.library.XRadioGroup
         android:id="@+id/xrg_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <!--线性布局 一横排三个 里面以权重自适应宽度-->
         <LinearLayout
             android:padding="8dp"
             android:layout_width="match_parent"
@@ -68,7 +70,7 @@
                     android:layout_height="match_parent"/>
             </RelativeLayout>
         </LinearLayout>
-
+        <!--线性布局 一横排三个 里面以权重自适应宽度-->
         <LinearLayout
             android:padding="8dp"
             android:layout_width="match_parent"
@@ -130,5 +132,4 @@
         </LinearLayout>
 
     </me.shihao.library.XRadioGroup>
-
 </LinearLayout>

@@ -138,6 +138,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     @BindView(R.id.tv_co)
     TextView tvCo;//一氧化碳
 
+
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
 
 

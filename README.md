@@ -1,10 +1,9 @@
 # GoodWeather
-#### 天气APP文章博客
-
 ![](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.jpg)
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
 
+#### 天气APP文章博客(手把手开发天气APP)
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>
 [Android 天气APP（二）获取定位信息](https://blog.csdn.net/qq_38436214/article/details/105328603)<br>
 [Android 天气APP（三）访问天气API与数据请求](https://blog.csdn.net/qq_38436214/article/details/105328657)<br>

@@ -16,4 +16,5 @@ public class Constant {
     public final static String CUSTOM_IMG_PATH = "custom_img_path";//手动上传图片地址
 
 
+    public static final String FLAG_OTHER_RETURN = "flag_other_return";
 }

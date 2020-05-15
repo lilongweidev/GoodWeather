@@ -191,6 +191,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //初始化弹窗
         mPopupWindow = new PopupWindow(this);
         animUtil = new AnimationUtil();
+
     }
 
 

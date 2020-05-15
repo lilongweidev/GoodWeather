@@ -44,6 +44,7 @@ import com.llw.goodweather.bean.TodayResponse;
 import com.llw.goodweather.bean.WeatherForecastResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
+import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
@@ -600,7 +601,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             wwSmall.startRotate();//小风车开始转动
 
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
@@ -623,7 +624,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
@@ -656,7 +657,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 ToastUtils.showShortToast(context, "生活指数数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
@@ -680,7 +681,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         } else {
             ToastUtils.showShortToast(context, "数据为空");
         }
-
     }
 
     //逐小时天气预报返回
@@ -698,7 +698,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 ToastUtils.showShortToast(context, "逐小时预报数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
@@ -734,7 +734,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 tvCo.setText(data.getCo());//一氧化碳
             }
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 

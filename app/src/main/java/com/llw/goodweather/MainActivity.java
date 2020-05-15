@@ -174,6 +174,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     private static final float START_ALPHA = 0.7f;//开始透明度
     private static final float END_ALPHA = 1f;//结束透明度
 
+    public boolean flagOther = false;//其他页面返回才执行
+
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -188,6 +190,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //初始化弹窗
         mPopupWindow = new PopupWindow(this);
         animUtil = new AnimationUtil();
+
     }
 
 
@@ -195,41 +198,43 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     protected void onResume() {
         super.onResume();
         showLoadingDialog();//在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
-        if(district == null){
+        flagOther = SPUtils.getBoolean(Constant.FLAG_OTHER_RETURN, false, context);
+        if (flagOther == true) {
             //取出缓存
-            district = SPUtils.getString(Constant.DISTRICT,"",context);
-            city = SPUtils.getString(Constant.CITY,"",context);
-        }
+            district = SPUtils.getString(Constant.DISTRICT, "", context);
+            city = SPUtils.getString(Constant.CITY, "", context);
+            //获取今天的天气数据
+            mPresent.todayWeather(context, district);
+            //获取天气预报数据
+            mPresent.weatherForecast(context, district);
+            //获取生活指数数据
+            mPresent.lifeStyle(context, district);
+            //获取逐小时天气数据
+            mPresent.hourly(context, district);
+            //获取空气质量数据
+            mPresent.airNowCity(context, city);
 
+        }
         isOpenChangeBg();//是否开启了切换背景
 
-        //获取今天的天气数据
-        mPresent.todayWeather(context, district);
-        //获取天气预报数据
-        mPresent.weatherForecast(context, district);
-        //获取生活指数数据
-        mPresent.lifeStyle(context, district);
-        //获取逐小时天气数据
-        mPresent.hourly(context, district);
-        //获取空气质量数据
-        mPresent.airNowCity(context, city);
+
     }
 
     //判断是否开启了切换背景，没有开启则用默认的背景
     private void isOpenChangeBg() {
-        boolean isEverydayImg = SPUtils.getBoolean(Constant.EVERYDAY_IMG,false,context);//每日图片
-        boolean isImgList = SPUtils.getBoolean(Constant.IMG_LIST,false,context);//图片列表
-        boolean isCustomImg = SPUtils.getBoolean(Constant.CUSTOM_IMG,false,context);//手动定义
+        boolean isEverydayImg = SPUtils.getBoolean(Constant.EVERYDAY_IMG, false, context);//每日图片
+        boolean isImgList = SPUtils.getBoolean(Constant.IMG_LIST, false, context);//图片列表
+        boolean isCustomImg = SPUtils.getBoolean(Constant.CUSTOM_IMG, false, context);//手动定义
         //因为只有有一个为true，其他两个就都会是false,所以可以一个一个的判断
-        if(isEverydayImg != true && isImgList != true && isCustomImg != true){
+        if (isEverydayImg != true && isImgList != true && isCustomImg != true) {
             //当所有开关都没有打开的时候用默认的图片
             bg.setBackgroundResource(R.drawable.pic_bg);
-        }else {
-            if(isEverydayImg!=false){//开启每日一图
+        } else {
+            if (isEverydayImg != false) {//开启每日一图
                 mPresent.biying(context);
-            }else if(isImgList!=false){//开启图片列表
-                int position = SPUtils.getInt(Constant.IMG_POSITION,-1,context);
-                switch (position){
+            } else if (isImgList != false) {//开启图片列表
+                int position = SPUtils.getInt(Constant.IMG_POSITION, -1, context);
+                switch (position) {
                     case 0:
                         bg.setBackgroundResource(R.drawable.img_1);
                         break;
@@ -249,8 +254,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                         bg.setBackgroundResource(R.drawable.img_6);
                         break;
                 }
-            }else if(isCustomImg != false){
-                String imgPath = SPUtils.getString(Constant.CUSTOM_IMG_PATH,"",context);
+            } else if (isCustomImg != false) {
+                String imgPath = SPUtils.getString(Constant.CUSTOM_IMG_PATH, "", context);
                 Glide.with(context)
                         .asBitmap()
                         .load(imgPath)
@@ -784,13 +789,14 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         });
         changeBg.setOnClickListener(view -> {//切换背景
             //放入缓存
-            SPUtils.putString(Constant.DISTRICT,district,context);
-            SPUtils.putString(Constant.CITY,city,context);
+            SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, true, context);
+            SPUtils.putString(Constant.DISTRICT, district, context);
+            SPUtils.putString(Constant.CITY, city, context);
             startActivity(new Intent(context, BackgroundManagerActivity.class));
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能
-            ToastUtils.showShortToast(context,"如果你有什么好的建议，可以博客留言哦！");
+            ToastUtils.showShortToast(context, "如果你有什么好的建议，可以博客留言哦！");
             mPopupWindow.dismiss();
         });
     }
@@ -831,7 +837,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         // 此方法用来设置浮动层，防止部分手机变暗无效
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
-
 
 
 }

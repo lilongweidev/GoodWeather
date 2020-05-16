@@ -42,9 +42,9 @@ public class CodeToStringUtils {
                 codeInfo = "无访问权限，你没有购买你所访问的这部分服务";
                 break;
             case "sign error":
-                codeInfo = "sign error";
+                codeInfo = "签名错误";
                 break;
-                
+
         }
 
         return codeInfo;

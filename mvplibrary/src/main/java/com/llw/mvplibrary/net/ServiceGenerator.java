@@ -31,7 +31,7 @@ public class ServiceGenerator {
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
 
         //设置请求超时的时间，这里是10秒
-        okHttpClientBuilder.connectTimeout(10000, TimeUnit.MILLISECONDS);
+        okHttpClientBuilder.connectTimeout(20000, TimeUnit.MILLISECONDS);
 
         //消息拦截器  因为有时候接口不同在排错的时候 需要先从接口的响应中做分析。利用了消息拦截器可以清楚的看到接口返回的所有内容
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

@@ -1,5 +1,6 @@
 # GoodWeather
-![](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.jpg)
+![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.png)
+![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
 

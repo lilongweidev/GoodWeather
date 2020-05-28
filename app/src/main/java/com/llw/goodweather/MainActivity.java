@@ -179,6 +179,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
     public boolean flagOther = false;//跳转其他页面时才为true
 
+    
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
     public void initData(Bundle savedInstanceState) {

@@ -107,6 +107,24 @@ public class LiWindow {
         mPopupWindow.setOnDismissListener(onDismissListener);
     }
 
+    /**
+     * 中间显示
+     * @param mView
+     */
+    public void showCenterPopupWindow(View mView,int width,int height) {
+        mPopupWindow = new PopupWindow(mView,
+                width, height, true);
+        mPopupWindow.setContentView(mView);
+        mPopupWindow.setAnimationStyle(R.style.AnimationCenterFade); //设置动画
+        mPopupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
+        mPopupWindow.update();
+        setBackgroundAlpha(0.5f,mContext);
+        WindowManager.LayoutParams nomal = ((Activity) mContext).getWindow().getAttributes();
+        nomal.alpha = 0.5f;
+        ((Activity) mContext).getWindow().setAttributes(nomal);
+        mPopupWindow.setOnDismissListener(closeDismiss);
+    }
+
 
     public static void setBackgroundAlpha(float bgAlpha,Context mContext){
         WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();

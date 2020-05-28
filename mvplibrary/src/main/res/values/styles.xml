@@ -16,6 +16,11 @@
         <item name="android:windowExitAnimation">@anim/out_top_to_bottom</item>
     </style>
 
+    <style name="AnimationCenterFade"><!--中间-->
+        <item name="android:windowEnterAnimation">@anim/window_show_anim</item>
+        <item name="android:windowExitAnimation">@anim/window_hidden_anim</item>
+    </style>
+
     <!--加载弹窗的样式-->
     <style name="loading_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

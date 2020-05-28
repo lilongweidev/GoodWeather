@@ -31,5 +31,7 @@ public class WeatherForecastAdapter extends BaseQuickAdapter<WeatherResponse.HeW
         ImageView weatherStateIcon = helper.getView(R.id.iv_weather_state);
         int code = Integer.parseInt(item.getCond_code_d());//获取天气状态码，根据状态码来显示图标
         WeatherUtil.changeIcon(weatherStateIcon,code);//调用工具类中写好的方法
+
+        helper.addOnClickListener(R.id.item_forecast);//绑定点击事件的id
     }
 }

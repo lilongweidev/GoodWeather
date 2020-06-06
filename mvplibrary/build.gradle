@@ -72,5 +72,7 @@ dependencies {
     api 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
     //自由嵌套的RadioGroup
     api 'com.github.fodroid:XRadioGroup:v1.5'
+    //EventBus
+    api 'org.greenrobot:eventbus:3.1.1'
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:gravity="center"
+    android:layout_height="@dimen/dp_30"
+    android:paddingLeft="@dimen/dp_12"
+    android:paddingRight="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_4"
+    android:paddingBottom="@dimen/dp_4"
+    android:layout_margin="5dp"
+    android:background="@drawable/shape_gray_bg_16"
+    android:singleLine="true"
+    android:text="搜索历史"
+    android:textColor="@color/black"
+    android:textSize="14sp"/>

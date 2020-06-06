@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
-    <uses-permission android:name="android.permission.INTERNET" /><!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".WeatherApplication"
@@ -20,8 +20,8 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.BackgroundManagerActivity"></activity>
-        <!-- 百度定位AK -->
+        <activity android:name=".ui.SearchCityActivity"></activity>
+        <activity android:name=".ui.BackgroundManagerActivity" /> <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Fh0NIFb6Tg8f7altVIpdGoDH0BR2myG4" /> <!-- 百度定位服务 -->

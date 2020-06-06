@@ -36,8 +36,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
             unbinder = KnifeKit.bind(this);
         }
         initData(savedInstanceState);
-
-
     }
 
     @Override
@@ -48,7 +46,9 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
     @Override
     protected void onStart() {
         super.onStart();
+
     }
+
 
     //弹窗出现
     public void showLoadingDialog(){

@@ -34,25 +34,25 @@
 
     <!--圆环进度条-->
     <declare-styleable name="RoundProgressBar">
-        <attr name="round_max_progress" format="float"/>
-        <attr name="round_bg_color" format="color"/>
-        <attr name="round_stroke_width" format="dimension"/>
-        <attr name="round_progress" format="float"/>
-        <attr name="round_progress_color" format="color"/>
-        <attr name="round_first_text" format="string"/>
-        <attr name="round_first_text_color" format="color"/>
-        <attr name="round_first_text_size" format="dimension"/>
-        <attr name="round_second_text" format="string"/>
-        <attr name="round_second_text_color" format="color"/>
-        <attr name="round_second_text_size" format="dimension"/>
-        <attr name="round_min_text" format="string"/>
-        <attr name="round_min_text_color" format="color"/>
-        <attr name="round_min_text_size" format="dimension"/>
-        <attr name="round_max_text" format="string"/>
-        <attr name="round_max_text_color" format="color"/>
-        <attr name="round_max_text_size" format="dimension"/>
-        <attr name="round_angle_size" format="float"/>
-        <attr name="round_start_angle" format="float"/>
+        <attr name="round_max_progress" format="float" />
+        <attr name="round_bg_color" format="color" />
+        <attr name="round_stroke_width" format="dimension" />
+        <attr name="round_progress" format="float" />
+        <attr name="round_progress_color" format="color" />
+        <attr name="round_first_text" format="string" />
+        <attr name="round_first_text_color" format="color" />
+        <attr name="round_first_text_size" format="dimension" />
+        <attr name="round_second_text" format="string" />
+        <attr name="round_second_text_color" format="color" />
+        <attr name="round_second_text_size" format="dimension" />
+        <attr name="round_min_text" format="string" />
+        <attr name="round_min_text_color" format="color" />
+        <attr name="round_min_text_size" format="dimension" />
+        <attr name="round_max_text" format="string" />
+        <attr name="round_max_text_color" format="color" />
+        <attr name="round_max_text_size" format="dimension" />
+        <attr name="round_angle_size" format="float" />
+        <attr name="round_start_angle" format="float" />
     </declare-styleable>
 
     <!--右上角加号点击弹窗动画效果-->
@@ -63,23 +63,39 @@
 
     <!--开关按钮-->
     <declare-styleable name="SwitchButton">
-        <attr name="sb_shadow_radius" format="reference|dimension"/>
-        <attr name="sb_shadow_offset" format="reference|dimension"/>
-        <attr name="sb_shadow_color" format="reference|color"/>
-        <attr name="sb_uncheck_color" format="reference|color"/>
-        <attr name="sb_checked_color" format="reference|color"/>
-        <attr name="sb_border_width" format="reference|dimension"/>
-        <attr name="sb_checkline_color" format="reference|color"/>
-        <attr name="sb_checkline_width" format="reference|dimension"/>
-        <attr name="sb_uncheckcircle_color" format="reference|color"/>
-        <attr name="sb_uncheckcircle_width" format="reference|dimension"/>
-        <attr name="sb_uncheckcircle_radius" format="reference|dimension"/>
-        <attr name="sb_checked" format="reference|boolean"/>
-        <attr name="sb_shadow_effect" format="reference|boolean"/>
-        <attr name="sb_effect_duration" format="reference|integer"/>
-        <attr name="sb_button_color" format="reference|color"/>
-        <attr name="sb_show_indicator" format="reference|boolean"/>
-        <attr name="sb_background" format="reference|color"/>
-        <attr name="sb_enable_effect" format="reference|boolean"/>
+        <attr name="sb_shadow_radius" format="reference|dimension" />
+        <attr name="sb_shadow_offset" format="reference|dimension" />
+        <attr name="sb_shadow_color" format="reference|color" />
+        <attr name="sb_uncheck_color" format="reference|color" />
+        <attr name="sb_checked_color" format="reference|color" />
+        <attr name="sb_border_width" format="reference|dimension" />
+        <attr name="sb_checkline_color" format="reference|color" />
+        <attr name="sb_checkline_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_color" format="reference|color" />
+        <attr name="sb_uncheckcircle_width" format="reference|dimension" />
+        <attr name="sb_uncheckcircle_radius" format="reference|dimension" />
+        <attr name="sb_checked" format="reference|boolean" />
+        <attr name="sb_shadow_effect" format="reference|boolean" />
+        <attr name="sb_effect_duration" format="reference|integer" />
+        <attr name="sb_button_color" format="reference|color" />
+        <attr name="sb_show_indicator" format="reference|boolean" />
+        <attr name="sb_background" format="reference|color" />
+        <attr name="sb_enable_effect" format="reference|boolean" />
     </declare-styleable>
+
+    <!--历史记录-->
+    <declare-styleable name="TagFlowLayout">
+        <!--最大选择数量-->
+        <attr name="max_select" format="integer" />
+        <!--最大可显示行数-->
+        <attr name="limit_line_count" format="integer" />
+        <!--是否设置多行隐藏-->
+        <attr name="is_limit" format="boolean" />
+        <attr name="tag_gravity">
+            <enum name="left" value="-1" />
+            <enum name="center" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+
 </resources>

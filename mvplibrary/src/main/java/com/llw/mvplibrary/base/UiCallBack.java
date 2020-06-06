@@ -15,5 +15,4 @@ public interface UiCallBack {
 
     //布局
     int getLayoutId();
-
 }

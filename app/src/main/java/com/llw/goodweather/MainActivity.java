@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,9 @@ import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.CityResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.WeatherContract;
+import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
+import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
@@ -58,6 +61,9 @@ import com.llw.mvplibrary.view.WhiteWindmills;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +73,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -178,8 +183,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     private static final float END_ALPHA = 1f;//结束透明度
 
     public boolean flagOther = false;//跳转其他页面时才为true
+    public boolean searchCityData = false;//搜索城市是否传递数据回来
 
-    
+
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -195,6 +201,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         mPopupWindow = new PopupWindow(this);
         animUtil = new AnimationUtil();
 
+        EventBus.getDefault().register(this);//注册
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(SearchCityEvent event){//接收
+        //获取weather所有数据
+        mPresent.weatherData(context, event.mLocation);
+        //获取空气质量数据
+        mPresent.airNowCity(context, event.mCity);
     }
 
 
@@ -203,6 +218,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         super.onResume();
         showLoadingDialog();//在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
         flagOther = SPUtils.getBoolean(Constant.FLAG_OTHER_RETURN, false, context);
+
         if (flagOther == true) {
             //取出缓存
             district = SPUtils.getString(Constant.DISTRICT, "", context);
@@ -225,7 +241,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //因为只有有一个为true，其他两个就都会是false,所以可以一个一个的判断
         if (isEverydayImg != true && isImgList != true && isCustomImg != true) {
             //当所有开关都没有打开的时候用默认的图片
-            bg.setBackgroundResource(R.drawable.pic_bg);
+            bg.setBackgroundResource(R.drawable.img_5);
         } else {
             if (isEverydayImg != false) {//开启每日一图
                 mPresent.biying(context);
@@ -837,6 +853,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     public void onDestroy() {
         wwBig.stop();//停止大风车
         wwSmall.stop();//停止小风车
+        EventBus.getDefault().unregister(this);//解注
         super.onDestroy();
     }
 
@@ -864,6 +881,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //绑定布局中的控件
         TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);
         TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);
+        TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);
         TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
         changeCity.setOnClickListener(view -> {//切换城市
             showCityWindow();
@@ -875,6 +893,11 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             SPUtils.putString(Constant.DISTRICT, district, context);
             SPUtils.putString(Constant.CITY, city, context);
             startActivity(new Intent(context, BackgroundManagerActivity.class));
+            mPopupWindow.dismiss();
+        });
+        searchCity.setOnClickListener(view ->{//搜索城市
+            SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, false, context);//缓存标识
+            startActivity(new Intent(context, SearchCityActivity.class));
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能

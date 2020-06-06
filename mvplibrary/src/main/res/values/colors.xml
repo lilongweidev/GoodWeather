@@ -4,6 +4,7 @@
     <color name="arc_progress_color">#FBFEF7</color>
     <color name="white">#ffffff</color><!--白色-->
     <color name="black">#000000</color><!--黑色-->
+    <color name="black_2">#1E1E1A</color><!--黑色2-->
     <color name="green">#77d034</color><!--绿色-->
     <color name="blue_one">#9FC8E9</color><!--浅蓝色-->
     <color name="transparent">#00000000</color><!--透明-->

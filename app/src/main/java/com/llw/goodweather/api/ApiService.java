@@ -3,6 +3,7 @@ package com.llw.goodweather.api;
 
 import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
+import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 
 import retrofit2.Call;
@@ -42,5 +43,11 @@ public interface ApiService {
      */
     @GET("/s6/weather?key=3086e91d66c04ce588a7f538f917c7f4")
     Call<WeatherResponse> weatherData(@Query("location") String location);
+
+    /**
+     * 搜索城市
+     */
+    @GET("/find?key=3086e91d66c04ce588a7f538f917c7f4&group=cn&number=10")
+    Call<SearchCityResponse> searchCity(@Query("location") String location);
 
 }

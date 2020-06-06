@@ -5,7 +5,7 @@
     android:gravity="center"
     android:id="@+id/bg"
     android:fitsSystemWindows="true"
-    android:background="@drawable/pic_bg"
+    android:background="@drawable/img_5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">

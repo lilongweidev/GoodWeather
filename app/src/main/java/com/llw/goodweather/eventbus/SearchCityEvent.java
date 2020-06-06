@@ -1,5 +1,8 @@
 package com.llw.goodweather.eventbus;
 
+/**
+ * 搜索城市消息事件
+ */
 public class SearchCityEvent {
 
     public final String mLocation;

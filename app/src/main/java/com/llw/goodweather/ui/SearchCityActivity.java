@@ -67,23 +67,21 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
 
     @BindView(R.id.edit_query)
-    AutoCompleteTextView editQuery;
+    AutoCompleteTextView editQuery;//输入框
     @BindView(R.id.iv_clear_search)
-    ImageView ivClearSearch;
+    ImageView ivClearSearch;//清空输入的内容图标
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.rv)
-    RecyclerView rv;
-    @BindView(R.id.tv_history_hint)
-    TextView tvHistoryHint;
+    RecyclerView rv;//数据显示列表
     @BindView(R.id.clear_all_records)
-    ImageView clearAllRecords;
+    ImageView clearAllRecords;//清理所有历史记录
     @BindView(R.id.fl_search_records)
-    TagFlowLayout flSearchRecords;
+    TagFlowLayout flSearchRecords;//搜索历史布局
     @BindView(R.id.iv_arrow)
-    ImageView ivArrow;
+    ImageView ivArrow;//超过三行就会出现，展开显示更多
     @BindView(R.id.ll_history_content)
-    LinearLayout llHistoryContent;
+    LinearLayout llHistoryContent;//搜索历史主布局
 
 
 
@@ -103,7 +101,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         StatusBarUtil.StatusBarLightMode(context);//黑色字体
         Back(toolbar);
 
-        initView();
+        initView();//初始化页面数据
         initAutoComplete("history", editQuery);
     }
 
@@ -200,7 +198,8 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 SPUtils.putString(Constant.LOCATION, mList.get(position).getLocation(), context);
                 //发送消息
-                EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getLocation(), mList.get(position).getParent_city()));
+                EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getLocation(),
+                        mList.get(position).getParent_city()));
 
                 finish();
             }
@@ -293,6 +292,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         }
     }
 
+    //提示弹窗  后续我可能会改，因为原生的太丑了
     private void showDialog(String dialogTitle, @NonNull DialogInterface.OnClickListener onClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(dialogTitle);
@@ -373,6 +373,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                 mList.addAll(response.body().getHeWeather6().get(0).getBasic());
                 mAdapter.notifyDataSetChanged();
                 runLayoutAnimation(rv);
+
             } else {
                 ToastUtils.showShortToast(context, "很抱歉，未找到相应的城市");
             }

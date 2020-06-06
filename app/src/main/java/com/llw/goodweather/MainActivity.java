@@ -218,7 +218,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         super.onResume();
         showLoadingDialog();//在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
         flagOther = SPUtils.getBoolean(Constant.FLAG_OTHER_RETURN, false, context);
-
         if (flagOther == true) {
             //取出缓存
             district = SPUtils.getString(Constant.DISTRICT, "", context);

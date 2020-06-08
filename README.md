@@ -10,20 +10,6 @@ http://d.firim.vip/h4sg<br>
 #### 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.png)<br>
 
-
-# 版本说明
-
-## V 1.0
-* 初始版本<br>
-## V 1.1
-* 七天天气预报、逐小时天气预报、界面UI优化<br>
-## V 1.2<br>
-* 增加用户体验，允许自己修改背景<br>
-## V 1.3<br>
-* 修复相关异常BUG,增加天气详情数据<br>
-## V 1.4<br>
-* 增加搜索城市功能、历史搜索记录<br>
-
 # 天气APP文章博客(一步一步开发天气APP)
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>
 [Android 天气APP（二）获取定位信息](https://blog.csdn.net/qq_38436214/article/details/105328603)<br>
@@ -41,6 +27,21 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十四）修复UI显示异常、优化业务代码逻辑、增加详情天气显示](https://blog.csdn.net/qq_38436214/article/details/106155207)<br>
 [Android 天气APP（十五）增加城市搜索、历史搜索记录](https://blog.csdn.net/qq_38436214/article/details/106591788)<br>
 
+# 版本说明
+
+### V 1.0
+* 初始版本<br>
+### V 1.1
+* 七天天气预报、逐小时天气预报、界面UI优化<br>
+### V 1.2<br>
+* 增加用户体验，允许自己修改背景<br>
+### V 1.3<br>
+* 修复相关异常BUG,增加天气详情数据<br>
+### V 1.4 (最新版本)<br>
+* 增加搜索城市功能、历史搜索记录<br>
+
+
+# 沟通交流
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
 

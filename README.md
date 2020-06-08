@@ -1,17 +1,22 @@
 # GoodWeather
 
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
-#### APK下载
-![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.png)<br>
-
-#### 下载链接
-http://d.firim.vip/h4sg<br>
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)<br>
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
 
+#### 网址下载
+http://d.firim.vip/h4sg<br>
+
+#### 扫码下载
+![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.png)<br>
+
+
 # 版本说明
-## V1.0<br>
+
+#### V1.0<br>
 * 初始版本<br>
+#### V1.1<br>
+* 七天天气预报、逐小时天气预报、界面UI优化<br>
 
 #### 天气APP文章博客(一步一步开发天气APP)
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>

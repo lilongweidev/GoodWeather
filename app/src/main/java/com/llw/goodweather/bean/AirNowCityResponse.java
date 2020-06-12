@@ -1,7 +1,9 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
-
+/**
+ * 空气质量数据实体
+ */
 public class AirNowCityResponse {
 
     private List<HeWeather6Bean> HeWeather6;

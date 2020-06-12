@@ -97,5 +97,14 @@
             <enum name="right" value="1" />
         </attr>
     </declare-styleable>
+    <!--折线图-->
+    <declare-styleable name="WeatherChartView">
+        <attr name="textColor" format="color"/>
+        <attr name="dayTextColor" format="color"/>
+        <attr name="nightTextColor" format="color"/>
+        <attr name="dayColor" format="color"/>
+        <attr name="nightColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
 
 </resources>

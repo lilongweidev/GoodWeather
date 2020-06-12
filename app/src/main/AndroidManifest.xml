@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SearchCityActivity"></activity>
+        <activity android:name=".ui.HotCityWeatherActivity" />
+        <activity android:name=".ui.HotCityActivity" />
+        <activity android:name=".ui.SearchCityActivity" />
         <activity android:name=".ui.BackgroundManagerActivity" /> <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

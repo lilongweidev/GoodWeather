@@ -3,7 +3,7 @@ package com.llw.goodweather.contract;
 import android.content.Context;
 
 import com.llw.goodweather.api.ApiService;
-import com.llw.goodweather.bean.SearchCityResponse;
+import com.llw.goodweather.bean.HotCityResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
 import com.llw.mvplibrary.net.NetCallBack;
@@ -11,25 +11,25 @@ import com.llw.mvplibrary.net.ServiceGenerator;
 
 import retrofit2.Call;
 import retrofit2.Response;
-/**
- * 搜索城市订阅器
- */
-public class SearchCityContract {
 
-    public static class SearchCityPresenter extends BasePresenter<ISearchCityView> {
+/**
+ * 热门城市订阅器
+ */
+public class HotCityContract {
+
+    public static class HotCityPresenter extends BasePresenter<IHotCityView> {
 
         /**
-         * 搜索城市
+         * 热门城市城市 - 海外
          * @param context
-         * @param location
          */
-        public void searchCity(final Context context, String location) {
+        public void hotCity(final Context context) {
             ApiService service = ServiceGenerator.createService(ApiService.class, 2);//指明访问的地址
-            service.searchCity(location).enqueue(new NetCallBack<SearchCityResponse>() {
+            service.hotCity().enqueue(new NetCallBack<HotCityResponse>() {
                 @Override
-                public void onSuccess(Call<SearchCityResponse> call, Response<SearchCityResponse> response) {
+                public void onSuccess(Call<HotCityResponse> call, Response<HotCityResponse> response) {
                     if(getView() != null){
-                        getView().getSearchCityResult(response);
+                        getView().getHotCityResult(response);
                     }
                 }
 
@@ -44,9 +44,9 @@ public class SearchCityContract {
 
     }
 
-    public interface ISearchCityView extends BaseView {
-        //查询城市返回数据
-        void getSearchCityResult(Response<SearchCityResponse> response);
+    public interface IHotCityView extends BaseView {
+        //热门城市返回数据
+        void getHotCityResult(Response<HotCityResponse> response);
         //错误返回
         void getDataFailed();
     }

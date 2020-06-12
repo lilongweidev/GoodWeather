@@ -1,7 +1,9 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
-
+/**
+ * 天气数据实体
+ */
 public class WeatherResponse {
 
     private List<HeWeather6Bean> HeWeather6;

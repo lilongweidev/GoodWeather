@@ -52,4 +52,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation project(':mvplibrary')//引入模块  然后将项目里的依赖移动到模块的build.gradle里
 
+
 }

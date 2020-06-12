@@ -10,4 +10,11 @@
     <color name="transparent">#00000000</color><!--透明-->
     <color name="transparent_bg">#22000000</color><!--黑色半透明-->
     <color name="transparent_bg_white">#22FFFFFF</color><!--白色半透明-->
+
+    <color name="orange">#F38A50</color><!--橘色-->
+    <color name="shallow_orange">#FFEFD5</color><!--浅橘色-->
+    <color name="black_3">#454545</color><!--黑色3-->
+    <color name="gray">#BABABA</color><!--灰色-->
+    <color name="pink">#FFBCB3</color><!--粉色-->
+    <color name="pink_one">#FDEBE8</color><!--浅粉色-->
 </resources>

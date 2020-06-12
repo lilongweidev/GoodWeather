@@ -75,4 +75,10 @@ dependencies {
     //EventBus
     api 'org.greenrobot:eventbus:3.1.1'
 
+    //蠕虫蠕动动画TabLayout
+    api 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
+    //Optional: see how to use the utility.
+    api 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+
+
 }

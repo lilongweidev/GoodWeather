@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
+    tools:context=".ui.HotCityWeatherActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@color/pink"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navigationIcon="@mipmap/icon_return_white"
+        app:contentInsetLeft="@dimen/dp_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@color/pink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp_24"
+            android:textColor="@color/white"
+            android:text="城市" />
+
+        <!--温度-->
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_temperature"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="72sp" />
+            <TextView
+                android:layout_toRightOf="@+id/tv_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="℃"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!--气候图标-->
+            <ImageView
+                android:id="@+id/iv_weather_state"
+                android:scaleType="fitXY"
+                android:background="@mipmap/icon_100"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"/>
+
+            <!--最高温和最低温-->
+            <TextView
+                android:id="@+id/tv_tem_max"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tv_tem_min"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14"
+                android:alpha="0.5"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--动画TabLayout-->
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:stl_indicatorAlwaysInCenter="false"
+        app:stl_indicatorWithoutPadding="false"
+        app:stl_indicatorInFront="false"
+        app:stl_indicatorInterpolation="smart"
+        app:stl_indicatorGravity="bottom"
+        app:stl_indicatorColor="@color/pink"
+        app:stl_indicatorThickness="4dp"
+        app:stl_indicatorWidth="auto"
+        app:stl_dividerColor="@color/transparent"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_overlineColor="@color/transparent"
+        app:stl_overlineThickness="0dp"
+        app:stl_underlineColor="@color/transparent"
+        app:stl_underlineThickness="1dp"
+        app:stl_defaultTabBackground="@color/transparent"
+        app:stl_defaultTabTextAllCaps="false"
+        app:stl_defaultTabTextColor="#FC000000"
+        app:stl_defaultTabTextSize="12sp"
+        app:stl_defaultTabTextHorizontalPadding="16dp"
+        app:stl_defaultTabTextMinWidth="0dp"
+        app:stl_distributeEvenly="false"
+        app:stl_clickable="true"
+        app:stl_titleOffset="24dp"
+        app:stl_drawDecorationAfterTab="false"
+        />
+    <!--ViewPager-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

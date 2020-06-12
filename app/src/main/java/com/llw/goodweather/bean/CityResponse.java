@@ -1,7 +1,9 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
-
+/**
+ * 城市数据实体
+ */
 public class CityResponse {
 
     /**

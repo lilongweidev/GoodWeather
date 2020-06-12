@@ -43,6 +43,7 @@ import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
+import com.llw.goodweather.ui.HotCityActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
@@ -878,9 +879,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             }
         });
         //绑定布局中的控件
-        TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);
-        TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);
-        TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);
+        TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);//切换城市
+        TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景
+        TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
+        TextView hotCity = mPopupWindow.getContentView().findViewById(R.id.tv_hot_city);//热门城市
         TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
         changeCity.setOnClickListener(view -> {//切换城市
             showCityWindow();
@@ -894,9 +896,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             startActivity(new Intent(context, BackgroundManagerActivity.class));
             mPopupWindow.dismiss();
         });
-        searchCity.setOnClickListener(view ->{//搜索城市
+        searchCity.setOnClickListener(view ->{//城市搜索
             SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, false, context);//缓存标识
             startActivity(new Intent(context, SearchCityActivity.class));
+            mPopupWindow.dismiss();
+        });
+        hotCity.setOnClickListener(view ->{//热门城市
+            startActivity(new Intent(context, HotCityActivity.class));
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能

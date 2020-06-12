@@ -26,6 +26,9 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十三）仿微信弹窗(右上角加号点击弹窗效果)、自定义背景图片、UI优化调整](https://blog.csdn.net/qq_38436214/article/details/105941708)<br>
 [Android 天气APP（十四）修复UI显示异常、优化业务代码逻辑、增加详情天气显示](https://blog.csdn.net/qq_38436214/article/details/106155207)<br>
 [Android 天气APP（十五）增加城市搜索、历史搜索记录](https://blog.csdn.net/qq_38436214/article/details/106591788)<br>
+[Android 天气APP（十六）热门城市 - 海外城市](https://blog.csdn.net/qq_38436214/article/details/106645543)<br>
+
+
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
 
@@ -43,6 +46,8 @@ http://d.firim.vip/h4sg<br>
 * 增加用户体验，允许自己修改背景<br>
 ### V 1.3<br>
 * 修复相关异常BUG,增加天气详情数据<br>
-### V 1.4 (最新版本)<br>
+### V 1.4<br>
 * 增加搜索城市功能、历史搜索记录<br>
+### V 1.5 (最新版本)<br>
+* 增加海外热门城市、新的天气UI效果<br>
 

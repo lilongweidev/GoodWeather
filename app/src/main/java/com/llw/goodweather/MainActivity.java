@@ -370,7 +370,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         tv_pcpn.setText(data.getPcpn());
         tv_pop.setText(data.getPop() + "%");
         tv_vis.setText(data.getVis());
-        liWindow.showCenterPopupWindow(view, SizeUtils.dp2px(context, 300), SizeUtils.dp2px(context, 500));
+        liWindow.showCenterPopupWindow(view, SizeUtils.dp2px(context, 300), SizeUtils.dp2px(context, 500),true);
 
     }
 
@@ -404,7 +404,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         tv_pop.setText(data.getPop() + "%");
         tv_dew.setText(data.getDew() + "℃");
         tv_cloud.setText(data.getCloud());
-        liWindow.showCenterPopupWindow(view, SizeUtils.dp2px(context, 300), SizeUtils.dp2px(context, 400));
+        liWindow.showCenterPopupWindow(view, SizeUtils.dp2px(context, 300), SizeUtils.dp2px(context, 400),true);
 
     }
 

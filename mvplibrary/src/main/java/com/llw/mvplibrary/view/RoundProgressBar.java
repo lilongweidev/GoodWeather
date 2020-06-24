@@ -40,6 +40,9 @@ public class RoundProgressBar extends View {
     private float mMaxTextSize = 32f;//最大值字体大小
 
 
+
+
+
     public RoundProgressBar(Context context) {
         super(context, null);
     }

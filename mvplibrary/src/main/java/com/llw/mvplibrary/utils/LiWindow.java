@@ -111,9 +111,9 @@ public class LiWindow {
      * 中间显示
      * @param mView
      */
-    public void showCenterPopupWindow(View mView,int width,int height) {
+    public void showCenterPopupWindow(View mView,int width,int height,boolean focusable) {
         mPopupWindow = new PopupWindow(mView,
-                width, height, true);
+                width, height, focusable);
         mPopupWindow.setContentView(mView);
         mPopupWindow.setAnimationStyle(R.style.AnimationCenterFade); //设置动画
         mPopupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);

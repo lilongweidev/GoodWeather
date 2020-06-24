@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_280"
+    android:layout_height="@dimen/dp_120"
+    android:background="@drawable/shape_white_5"
+    android:gravity="center"
+    android:orientation="vertical">
+    <!--国内-->
+    <TextView
+        android:id="@+id/tv_inland"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:foreground="@drawable/bg_white"
+        android:gravity="center"
+        android:text="国内热门城市"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18" />
+    <!--分割线-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray" />
+    <!--海外-->
+    <TextView
+        android:id="@+id/tv_foreign"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:foreground="@drawable/bg_white"
+        android:gravity="center"
+        android:text="海外热门城市"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18" />
+</LinearLayout>

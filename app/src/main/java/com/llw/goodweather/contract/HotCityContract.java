@@ -23,9 +23,9 @@ public class HotCityContract {
          * 热门城市城市 - 海外
          * @param context
          */
-        public void hotCity(final Context context) {
+        public void hotCity(final Context context,String group) {
             ApiService service = ServiceGenerator.createService(ApiService.class, 2);//指明访问的地址
-            service.hotCity().enqueue(new NetCallBack<HotCityResponse>() {
+            service.hotCity(group).enqueue(new NetCallBack<HotCityResponse>() {
                 @Override
                 public void onSuccess(Call<HotCityResponse> call, Response<HotCityResponse> response) {
                     if(getView() != null){

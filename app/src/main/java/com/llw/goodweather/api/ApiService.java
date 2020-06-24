@@ -52,9 +52,9 @@ public interface ApiService {
     Call<SearchCityResponse> searchCity(@Query("location") String location);
 
     /**
-     * 海外热门城市
+     * 热门城市(包含海外和国内)
      */
-    @GET("/top?key=3086e91d66c04ce588a7f538f917c7f4&group=overseas&number=50&lang=zh")
-    Call<HotCityResponse> hotCity();
+    @GET("/top?key=3086e91d66c04ce588a7f538f917c7f4&number=50&lang=zh")
+    Call<HotCityResponse> hotCity(@Query("group") String group);
 
 }

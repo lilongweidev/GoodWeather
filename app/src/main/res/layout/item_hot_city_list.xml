@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+            <!--增加id-->
             <ImageView
+                android:id="@+id/iv_mark"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_80"
                 android:background="@drawable/shape_orange_8"
@@ -57,8 +58,9 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
+            <!--增加id-->
             <ImageView
+                android:id="@+id/iv_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/dp_12"

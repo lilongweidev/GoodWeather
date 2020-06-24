@@ -1,6 +1,8 @@
 # GoodWeather
 
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)<br>
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/hot_city.gif)
+<br>
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
 

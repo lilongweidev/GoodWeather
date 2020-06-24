@@ -27,6 +27,9 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十四）修复UI显示异常、优化业务代码逻辑、增加详情天气显示](https://blog.csdn.net/qq_38436214/article/details/106155207)<br>
 [Android 天气APP（十五）增加城市搜索、历史搜索记录](https://blog.csdn.net/qq_38436214/article/details/106591788)<br>
 [Android 天气APP（十六）热门城市 - 海外城市](https://blog.csdn.net/qq_38436214/article/details/106645543)<br>
+[Android 天气APP（十七）热门城市 - 国内城市](https://blog.csdn.net/qq_38436214/article/details/106942710)<br>
+
+
 
 
 

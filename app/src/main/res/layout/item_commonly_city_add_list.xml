@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/item_add_city"
-    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical">
     <!--城市信息-->
     <TextView
         android:id="@+id/tv_location"
         android:layout_width="match_parent"
-        android:textSize="@dimen/sp_16"
-        android:paddingLeft="@dimen/dp_16"
         android:layout_height="@dimen/dp_50"
-        android:textColor="@color/shallow_black" />
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_16"
+        android:textColor="@color/shallow_black"
+        android:textSize="@dimen/sp_16" />
     <!--分隔线-->
     <View
         android:layout_width="match_parent"

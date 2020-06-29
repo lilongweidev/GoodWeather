@@ -19,4 +19,12 @@
     <color name="pink_one">#FDEBE8</color><!--浅粉色-->
 
     <color name="shallow_blue">#E7F3FC</color><!--浅蓝色 偏白-->
+
+    <color name="shallow_gray">#F2F2F2</color><!--浅灰色-->
+    <color name="dark_gray">#707070</color><!--深灰色-->
+    <color name="shallow_black">#6D6D6D</color><!--褐黑色-->
+    <color name="red">#FF0A00</color><!--红色-->
+    <color name="line_gray">#E3E5E8</color><!--灰色分割线-->
+    <color name="shallow_yellow">#E7C373</color><!--浅黄色-->
+
 </resources>

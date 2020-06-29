@@ -17,6 +17,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
+import org.litepal.LitePal;
+
 public class WeatherApplication extends BaseApplication {
 
     /**
@@ -88,6 +90,7 @@ public class WeatherApplication extends BaseApplication {
             }
         });
 
+        LitePal.initialize(this);//初始化
     }
 
 

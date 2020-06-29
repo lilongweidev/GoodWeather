@@ -56,6 +56,16 @@
             android:textSize="@dimen/sp_16"/>
 
         <TextView
+            android:id="@+id/tv_resident_city"
+            android:gravity="center"
+            android:layout_width="@dimen/dp_140"
+            android:layout_height="@dimen/dp_48"
+            android:text="常用城市"
+            android:foreground="@drawable/bg_white"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16"/>
+
+        <TextView
             android:id="@+id/tv_more"
             android:gravity="center"
             android:layout_width="@dimen/dp_140"

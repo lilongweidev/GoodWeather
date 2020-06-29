@@ -43,6 +43,7 @@ import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
+import com.llw.goodweather.ui.CommonlyUsedCityActivity;
 import com.llw.goodweather.ui.HotCityActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
@@ -68,6 +69,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -883,6 +885,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景
         TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
         TextView hotCity = mPopupWindow.getContentView().findViewById(R.id.tv_hot_city);//热门城市
+        TextView residentCity = mPopupWindow.getContentView().findViewById(R.id.tv_resident_city);//常用城市
         TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
         changeCity.setOnClickListener(view -> {//切换城市
             showCityWindow();
@@ -903,6 +906,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         });
         hotCity.setOnClickListener(view ->{//热门城市
             startActivity(new Intent(context, HotCityActivity.class));
+            mPopupWindow.dismiss();
+        });
+        residentCity.setOnClickListener( view ->{//常用城市
+            startActivity(new Intent(context, CommonlyUsedCityActivity.class));
             mPopupWindow.dismiss();
         });
         more.setOnClickListener(view -> {//更多功能

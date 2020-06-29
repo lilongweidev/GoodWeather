@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/shallow_gray"
+    tools:context=".ui.CommonlyUsedCityActivity">
+
+    <!--头部-->
+    <androidx.appcompat.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/white"
+        android:elevation="@dimen/dp_2"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@mipmap/icon_return"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <!--输入框布局-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginRight="@dimen/dp_12"
+            android:layout_weight="1"
+            android:background="@drawable/shape_gray_bg_14"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_12"
+            android:paddingRight="@dimen/dp_12">
+            <!--搜索图标-->
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:src="@mipmap/icon_search" />
+            <!--输入框-->
+            <EditText
+                android:id="@+id/edit_query"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="添加城市"
+                android:imeOptions="actionSearch"
+                android:paddingLeft="@dimen/dp_8"
+                android:paddingRight="@dimen/dp_4"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@drawable/cursor_style"
+                android:textSize="@dimen/sp_14" />
+            <!--清除输入的内容-->
+            <ImageView
+                android:id="@+id/iv_clear_search"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:src="@mipmap/icon_delete"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <!--没有数据时显示-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/lay_normal"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="@dimen/dp_160"
+            android:layout_height="@dimen/dp_160"
+            android:src="@mipmap/icon_normal"/>
+
+        <TextView
+            android:textSize="@dimen/sp_16"
+            android:text="空空如也~"
+            android:textColor="@color/dark_gray"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!--常用城市展示列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_commonly_used"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+
+    <!--搜索城市展示列表-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+</LinearLayout>

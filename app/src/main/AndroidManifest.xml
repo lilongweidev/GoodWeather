@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.CommonlyUsedCityActivity"></activity>
         <activity android:name=".ui.HotCityWeatherActivity" />
         <activity android:name=".ui.HotCityActivity" />
         <activity android:name=".ui.SearchCityActivity" />

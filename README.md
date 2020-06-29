@@ -2,6 +2,7 @@
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/hot_city.gif)
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
 <br>
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
@@ -30,6 +31,8 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十五）增加城市搜索、历史搜索记录](https://blog.csdn.net/qq_38436214/article/details/106591788)<br>
 [Android 天气APP（十六）热门城市 - 海外城市](https://blog.csdn.net/qq_38436214/article/details/106645543)<br>
 [Android 天气APP（十七）热门城市 - 国内城市](https://blog.csdn.net/qq_38436214/article/details/106942710)<br>
+[Android 天气APP（十八）常用城市](https://blog.csdn.net/qq_38436214/article/details/106993550)<br>
+
 
 
 
@@ -43,7 +46,9 @@ http://d.firim.vip/h4sg<br>
 
 ## 版本说明
 
-### V 1.6 (最新版本)<br>
+### V 1.7 (最新版本)<br>
+* 增加常用城市列表<br>
+### V 1.6 <br>
 * 增加国内热门城市<br>
 ### V 1.5<br>
 * 增加海外热门城市、新的天气UI效果<br>

@@ -36,6 +36,7 @@ public abstract class NetCallBack<T> implements Callback<T> {//这里实现了re
     //访问失败回调
     @Override
     public void onFailure(Call<T> call, Throwable t) {
+        Log.d("data str", t.toString());
         onFailed();
     }
 

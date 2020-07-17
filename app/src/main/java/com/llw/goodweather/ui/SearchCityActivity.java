@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.SearchCityAdapter;
+import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.contract.SearchCityContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
@@ -381,6 +382,11 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
+    }
+
+    @Override
+    public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
+
     }
 
     /**

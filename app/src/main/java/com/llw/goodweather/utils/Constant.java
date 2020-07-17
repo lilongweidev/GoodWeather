@@ -5,7 +5,7 @@ package com.llw.goodweather.utils;
  */
 public class Constant {
 
-    public final static int SUCCESS_CODE = 200;
+    public final static String SUCCESS_CODE = "200";
     public final static String CITY = "city";//市
     public final static String DISTRICT = "district";//区/县
     public final static String EVERYDAY_IMG = "everyday_img";//每日图片开关

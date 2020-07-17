@@ -9,6 +9,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.llw.goodweather.R;
+import com.llw.goodweather.bean.DailyResponse;
+import com.llw.goodweather.bean.HourlyResponse;
+import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.HotCityWeatherContract;
 import com.llw.goodweather.eventbus.ForecastEvent;
@@ -112,6 +115,21 @@ public class HotCityWeatherActivity extends MvpActivity<HotCityWeatherContract.H
                 ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
             }
         }
+    }
+
+    @Override
+    public void getNowResult(Response<NowResponse> response) {
+
+    }
+
+    @Override
+    public void getDailyResult(Response<DailyResponse> response) {
+
+    }
+
+    @Override
+    public void getHourlyResult(Response<HourlyResponse> response) {
+
     }
 
     //异常返回

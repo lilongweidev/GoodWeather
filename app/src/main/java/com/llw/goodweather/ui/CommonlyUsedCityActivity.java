@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.CommonlyCityAdapter;
 import com.llw.goodweather.adapter.CommonlyCityAddAdapter;
+import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.contract.SearchCityContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
@@ -171,6 +173,7 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
 
         if (cityList.size() > 0 && cityList != null) {
             mAdapter = new CommonlyCityAdapter(R.layout.item_commonly_city_list, cityList);
+
             rvCommonlyUsed.setLayoutManager(new LinearLayoutManager(context));
             rvCommonlyUsed.setAdapter(mAdapter);
             mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -236,6 +239,11 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
+    }
+
+    @Override
+    public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
+
     }
 
     /**

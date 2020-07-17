@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.HotCityAdapter;
 import com.llw.goodweather.bean.HotCityResponse;
+import com.llw.goodweather.bean.NewHotCityResponse;
 import com.llw.goodweather.contract.HotCityContract;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
@@ -166,6 +167,11 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
         } else {
             ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
         }
+    }
+
+    @Override
+    public void getNewHotCityResult(Response<NewHotCityResponse> response) {
+
     }
 
     //异常返回

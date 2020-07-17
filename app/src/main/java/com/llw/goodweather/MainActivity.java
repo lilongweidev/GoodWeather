@@ -37,8 +37,13 @@ import com.llw.goodweather.adapter.ProvinceAdapter;
 import com.llw.goodweather.adapter.WeatherForecastAdapter;
 import com.llw.goodweather.adapter.WeatherHourlyAdapter;
 import com.llw.goodweather.bean.AirNowCityResponse;
+import com.llw.goodweather.bean.AirNowResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.CityResponse;
+import com.llw.goodweather.bean.DailyResponse;
+import com.llw.goodweather.bean.HourlyResponse;
+import com.llw.goodweather.bean.LifestyleResponse;
+import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
@@ -213,6 +218,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         mPresent.weatherData(context, event.mLocation);
         //获取空气质量数据
         mPresent.airNowCity(context, event.mCity);
+
+        initRequest(event.mLocation);
     }
 
 
@@ -229,6 +236,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPresent.weatherData(context, district);
             //获取空气质量数据
             mPresent.airNowCity(context, city);
+
+            initRequest(district);//onResume
         }else {
             dismissLoadingDialog();
         }
@@ -608,6 +617,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                                             mPresent.hourly(context, district);//逐小时天气*/
                                             mPresent.weatherData(context, district);//获取weather所有数据
                                             mPresent.airNowCity(context, city);//空气质量数据
+
+                                            initRequest(district);//切换城市后
+
                                             flag = false;//切换城市得到的城市不属于定位，因此这里隐藏定位图标
                                             liWindow.closePopupWindow();//关闭弹窗
                                         }
@@ -655,12 +667,16 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             //获取空气质量数据
             mPresent.airNowCity(context, city);
 
+            initRequest(district);//定位后
+
             //下拉刷新
             refresh.setOnRefreshListener(refreshLayout -> {
                 //获取weather所有数据
-                mPresent.weatherData(context, district);
-                //获取空气质量数据
-                mPresent.airNowCity(context, city);
+//                mPresent.weatherData(context, district);
+//                //获取空气质量数据
+//                mPresent.airNowCity(context, city);
+
+                initRequest(district);
             });
         }
     }
@@ -836,6 +852,70 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         refresh.finishRefresh();//关闭刷新
         dismissLoadingDialog();//关闭弹窗
         ToastUtils.showShortToast(context, "天气数据获取异常");
+    }
+
+    /**
+     * 实况天气数据返回
+     * @param response
+     */
+    @Override
+    public void getNowResult(Response<NowResponse> response) {
+        refresh.finishRefresh();
+        dismissLoadingDialog();
+        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){//200则成功返回数据
+            //根据V7版本的原则，只要是200就一定有数据，我们可以不用做判空处理，但是，为了使程序不ANR，还是要做的，信自己得永生
+            NowResponse data = response.body();
+            if(data != null){
+                tvTemperature.setText(data.getNow().getTemp());//温度
+                if (flag) {
+                    ivLocation.setVisibility(View.VISIBLE);//显示定位图标
+                } else {
+                    ivLocation.setVisibility(View.GONE);//显示定位图标
+                }
+                tvCity.setText(district);//城市
+                tvInfo.setText(data.getNow().getText());//天气状况
+
+                String time = DateUtils.updateTime(data.getUpdateTime());//截去前面的字符，保留后面所有的字符，就剩下 22:00
+
+                tvOldTime.setText("上次更新时间：" + WeatherUtil.showTimeInfo(time) + time);
+                tvWindDirection.setText("风向     " + data.getNow().getWindDir());//风向
+                tvWindPower.setText("风力     " + data.getNow().getWindScale() + "级");//风力
+                wwBig.startRotate();//大风车开始转动
+                wwSmall.startRotate();//小风车开始转动
+            }else {
+                ToastUtils.showShortToast(context,"暂无数据");
+            }
+        }else {//其他状态返回提示文字
+            ToastUtils.showShortToast(context,CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
+    }
+
+    @Override
+    public void getDailyResult(Response<DailyResponse> response) {
+
+    }
+
+    @Override
+    public void getHourlyResult(Response<HourlyResponse> response) {
+
+    }
+
+    @Override
+    public void getAirNowResult(Response<AirNowResponse> response) {
+
+    }
+
+    @Override
+    public void getLifestyleResult(Response<LifestyleResponse> response) {
+
+    }
+
+    /**
+     * 综合请求
+     * @param district
+     */
+    private void initRequest(String district){
+        mPresent.nowWeather(district);//实况天气请求
     }
 
 

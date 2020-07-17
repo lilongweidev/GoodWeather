@@ -1,5 +1,6 @@
 package com.llw.goodweather.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,6 +55,27 @@ public class DateUtils {
     public static String getNowTimeDetail() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
         return sdf.format(new Date());
+    }
+
+    //根据传入的时间，先转换再截取，得到更新时间  传入  "2020-07-16T09:39+08:00"
+    public static String updateTime(String dateTime) {
+        String result = null;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");  //yyyy-MM-dd'T'HH:mm:ss.SSSZ
+        Date  date = null;
+        try {
+            date = df.parse(dateTime);
+            SimpleDateFormat df1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+            Date date1 =  df1.parse(date.toString());
+            DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            result = df2.format(date1).substring(11);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        return result;
+
+
     }
 
     //获取今天是星期几

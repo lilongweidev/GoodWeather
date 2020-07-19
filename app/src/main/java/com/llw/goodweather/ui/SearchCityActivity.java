@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -85,9 +87,10 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     LinearLayout llHistoryContent;//搜索历史主布局
 
 
-
-    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
+    //    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
+    List<NewSearchCityResponse.LocationBean> mList = new ArrayList<>();//V7数据源
     SearchCityAdapter mAdapter;//适配器
+
 
     private RecordsDao mRecordsDao;
     //默然展示词条个数
@@ -137,7 +140,8 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                         showLoadingDialog();
                         //添加数据
                         mRecordsDao.addRecords(location);
-                        mPresent.searchCity(context, location);
+//                        mPresent.searchCity(context, location);
+                        mPresent.newSearchCity(location);//搜索城市  V7
                         //数据保存
                         saveHistory("history", editQuery);
                     } else {
@@ -197,10 +201,10 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SPUtils.putString(Constant.LOCATION, mList.get(position).getLocation(), context);
+                SPUtils.putString(Constant.LOCATION, mList.get(position).getName(), context);
                 //发送消息
-                EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getLocation(),
-                        mList.get(position).getParent_city()));
+                EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getName(),
+                        mList.get(position).getAdm2()));//Adm2 代表市
 
                 finish();
             }
@@ -335,7 +339,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     };
 
     //点击事件
-    @OnClick({R.id.iv_clear_search,R.id.clear_all_records, R.id.iv_arrow})
+    @OnClick({R.id.iv_clear_search, R.id.clear_all_records, R.id.iv_arrow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_clear_search://清空输入的内容
@@ -369,7 +373,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     public void getSearchCityResult(Response<SearchCityResponse> response) {
         dismissLoadingDialog();
         if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
-            if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
+            /*if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
                 mList.clear();
                 mList.addAll(response.body().getHeWeather6().get(0).getBasic());
                 mAdapter.notifyDataSetChanged();
@@ -377,16 +381,29 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
             } else {
                 ToastUtils.showShortToast(context, "很抱歉，未找到相应的城市");
-            }
+            }*/
 
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
+    /**
+     * 搜索城市返回数据  V7
+     *
+     * @param response
+     */
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
-
+        dismissLoadingDialog();
+        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+            mList.clear();
+            mList.addAll(response.body().getLocation());
+            mAdapter.notifyDataSetChanged();
+            runLayoutAnimation(rv);
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+        }
     }
 
     /**

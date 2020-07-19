@@ -20,13 +20,14 @@ public abstract class NetCallBack<T> implements Callback<T> {//这里实现了re
         if (response != null && response.body() != null && response.isSuccessful()) {
 
             BaseResponse baseResponse = new Gson().fromJson(new Gson().toJson(response.body()), BaseResponse.class);
-            if (baseResponse.getCode() == 404) {//404
+            if(baseResponse.getCode() == 400){
+                Log.e("Warn",baseResponse.getData().toString());
+            }else if (baseResponse.getCode() == 404) {//404
                 Log.e("Warn",baseResponse.getData().toString());
             }else if(baseResponse.getCode() == 500) {//500
                 Log.e("Warn",baseResponse.getData().toString());
             } else {//无异常则返回数据
                 onSuccess(call, response);
-                Log.e("Warn","其他情况");
             }
         } else {
             onFailed();

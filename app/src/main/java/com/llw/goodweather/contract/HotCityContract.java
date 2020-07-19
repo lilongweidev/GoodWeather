@@ -48,7 +48,7 @@ public class HotCityContract {
          * @param range  类型   world 海外  cn  国内
          */
         public void newHotCity(String range) {
-            ApiService service = ServiceGenerator.createService(ApiService.class, 2);//指明访问的地址
+            ApiService service = ServiceGenerator.createService(ApiService.class, 4);//指明访问的地址
             service.newHotCity(range).enqueue(new NetCallBack<NewHotCityResponse>() {
                 @Override
                 public void onSuccess(Call<NewHotCityResponse> call, Response<NewHotCityResponse> response) {

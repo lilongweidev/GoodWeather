@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.HotCityResponse;
+import com.llw.goodweather.bean.NewHotCityResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +16,18 @@ import java.util.List;
 /**
  * 热门城市列表适配器
  */
-public class HotCityAdapter extends BaseQuickAdapter<HotCityResponse.HeWeather6Bean.BasicBean, BaseViewHolder> {
+public class HotCityAdapter extends BaseQuickAdapter<NewHotCityResponse.TopCityListBean, BaseViewHolder> {
 
     private int mType;
 
     //  增加一个item样式类型，在Activity中传入
-    public HotCityAdapter(int layoutResId, @Nullable List<HotCityResponse.HeWeather6Bean.BasicBean> data,int type) {
+    public HotCityAdapter(int layoutResId, @Nullable List<NewHotCityResponse.TopCityListBean> data,int type) {
         super(layoutResId, data);
         this.mType = type;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, HotCityResponse.HeWeather6Bean.BasicBean item) {
+    protected void convert(BaseViewHolder helper, NewHotCityResponse.TopCityListBean item) {
         ImageView ivMark = helper.getView(R.id.iv_mark);
         ImageView ivOpen = helper.getView(R.id.iv_open);
         if (mType == 0) {//国内
@@ -40,8 +41,8 @@ public class HotCityAdapter extends BaseQuickAdapter<HotCityResponse.HeWeather6B
             ivOpen.setImageDrawable(mContext.getDrawable(R.mipmap.icon_open_orange));//图标
         }
 
-        helper.setText(R.id.tv_hot_city_name,item.getLocation())
-                .setText(R.id.tv_cnty_and_area,item.getCnty()+" —— "+item.getAdmin_area());
+        helper.setText(R.id.tv_hot_city_name,item.getName())
+                .setText(R.id.tv_cnty_and_area,item.getCountry()+" —— "+item.getAdm1());
         helper.addOnClickListener(R.id.item_hot_city);
     }
 

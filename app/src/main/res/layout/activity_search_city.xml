@@ -31,6 +31,8 @@
             android:layout_marginRight="@dimen/dp_12"
             android:layout_weight="1"
             android:background="@drawable/shape_gray_bg_14"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_12"
             android:paddingRight="@dimen/dp_12">

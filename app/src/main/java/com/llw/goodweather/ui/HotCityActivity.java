@@ -19,6 +19,7 @@ import com.llw.goodweather.adapter.HotCityAdapter;
 import com.llw.goodweather.bean.HotCityResponse;
 import com.llw.goodweather.bean.NewHotCityResponse;
 import com.llw.goodweather.contract.HotCityContract;
+import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
@@ -43,7 +44,6 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
     Toolbar toolbar;//标题bar
     @BindView(R.id.rv)
     RecyclerView rv;//列表
-
     @BindView(R.id.tv_title)
     TextView tvTitle;//标题
     @BindView(R.id.lay_bg)
@@ -51,7 +51,8 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
 
 
 
-    List<HotCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();
+//    List<HotCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();
+    List<NewHotCityResponse.TopCityListBean> mList = new ArrayList<>();
     HotCityAdapter mAdapter;
 
     LiWindow liWindow;
@@ -89,7 +90,7 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(context, HotCityWeatherActivity.class);
-                intent.putExtra("location", mList.get(position).getLocation());
+                intent.putExtra("location", mList.get(position).getName());
                 startActivity(intent);
             }
         });
@@ -109,14 +110,16 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
             type = 0;
             initList(type);
             showLoadingDialog();
-            mPresent.hotCity(context, "cn");
+//            mPresent.hotCity(context, "cn");
+            mPresent.newHotCity("cn");
             liWindow.closePopupWindow();
         });
         tvForeign.setOnClickListener(v -> {
             type = 1;
             initList(type);
             showLoadingDialog();
-            mPresent.hotCity(context, "overseas");
+//            mPresent.hotCity(context, "overseas");
+            mPresent.newHotCity("world");
             liWindow.closePopupWindow();
         });
 
@@ -137,8 +140,13 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
     //返回数据处理
     @Override
     public void getHotCityResult(Response<HotCityResponse> response) {
+
+    }
+
+    @Override
+    public void getNewHotCityResult(Response<NewHotCityResponse> response) {
         dismissLoadingDialog();
-        if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
+        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
             toolbar.setNavigationIcon(getResources().getDrawable(R.mipmap.icon_return_white));//返回箭头颜色
             tvTitle.setTextColor(getResources().getColor(R.color.white));//标题颜色
 
@@ -154,24 +162,19 @@ public class HotCityActivity extends MvpActivity<HotCityContract.HotCityPresente
                 layBg.setBackgroundColor(getResources().getColor(R.color.shallow_orange));//背景  橙色
             }
 
-
+            List<NewHotCityResponse.TopCityListBean> data = response.body().getTopCityList();
             //数据赋值
-            if (response.body().getHeWeather6().get(0).getBasic() != null && response.body().getHeWeather6().get(0).getBasic().size() > 0) {
+            if (data != null && data.size() > 0) {
                 mList.clear();
-                mList.addAll(response.body().getHeWeather6().get(0).getBasic());
+                mList.addAll(data);
                 mAdapter.notifyDataSetChanged();
                 runLayoutAnimation(rv);//刷新适配器
             } else {
                 ToastUtils.showShortToast(context, "数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, response.body().getHeWeather6().get(0).getStatus());
+            ToastUtils.showShortToast(context, response.body().getStatus());
         }
-    }
-
-    @Override
-    public void getNewHotCityResult(Response<NewHotCityResponse> response) {
-
     }
 
     //异常返回

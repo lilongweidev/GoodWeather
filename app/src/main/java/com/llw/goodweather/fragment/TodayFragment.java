@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.llw.goodweather.R;
+import com.llw.goodweather.adapter.HourlyAdapter;
 import com.llw.goodweather.adapter.WeatherHourlyAdapter;
+import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.eventbus.TodayHourlyEvent;
 import com.llw.mvplibrary.base.BaseFragment;
 import com.llw.mvplibrary.view.WeatherChartView;
+import com.llw.mvplibrary.view.WeatherChartViewHourly;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,12 +29,13 @@ public class TodayFragment extends BaseFragment {
 
 
     @BindView(R.id.line_char)
-    WeatherChartView lineChar;//折线图
+    WeatherChartViewHourly lineChar;//折线图
     @BindView(R.id.rv_hourly)
     RecyclerView rvHourly;//逐三小时天气列表
 
-    List<WeatherResponse.HeWeather6Bean.HourlyBean> mList = new ArrayList<>();
-    WeatherHourlyAdapter mAdapter;
+//    List<WeatherResponse.HeWeather6Bean.HourlyBean> mList = new ArrayList<>();
+    List<HourlyResponse.HourlyBean> mList = new ArrayList<>();
+    HourlyAdapter mAdapter;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -48,12 +52,12 @@ public class TodayFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(TodayHourlyEvent event) {//接收
-        List<WeatherResponse.HeWeather6Bean.HourlyBean> data = new ArrayList<>();
+        List<HourlyResponse.HourlyBean> data = new ArrayList<>();
         data.addAll(event.mHourlyBean);
-        Log.i("dayArray", data.get(0).getCond_txt());
+        Log.i("dayArray", data.get(0).getText());
         int[] dayArray = new int[data.size()];
         for (int i = 0; i < data.size(); i++) {
-            dayArray[i] = Integer.parseInt(event.mHourlyBean.get(i).getTmp());
+            dayArray[i] = Integer.parseInt(event.mHourlyBean.get(i).getTemp());
         }
         Log.i("dayArray", dayArray.toString());
 
@@ -63,8 +67,8 @@ public class TodayFragment extends BaseFragment {
         initList(data);
     }
 
-    private void initList(List<WeatherResponse.HeWeather6Bean.HourlyBean> data) {
-        mAdapter = new WeatherHourlyAdapter(R.layout.item_weather_hourly_hot_list, mList);
+    private void initList(List<HourlyResponse.HourlyBean> data) {
+        mAdapter = new HourlyAdapter(R.layout.item_weather_hourly_hot_list, mList);
         rvHourly.setLayoutManager(new LinearLayoutManager(context));
         rvHourly.setAdapter(mAdapter);
 

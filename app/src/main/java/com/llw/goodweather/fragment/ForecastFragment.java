@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.llw.goodweather.R;
+import com.llw.goodweather.adapter.DailyAdapter;
 import com.llw.goodweather.adapter.WeatherForecastHotAdapter;
+import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.eventbus.ForecastEvent;
 import com.llw.goodweather.utils.ToastUtils;
@@ -30,12 +32,12 @@ public class ForecastFragment extends BaseFragment {
     @BindView(R.id.rv_forecast)
     RecyclerView rvForecast;//未来七天天气预报
 
-    List<WeatherResponse.HeWeather6Bean.DailyForecastBean> mList = new ArrayList<>();
-    WeatherForecastHotAdapter mAdapter;
+//    List<WeatherResponse.HeWeather6Bean.DailyForecastBean> mList = new ArrayList<>();
+    List<DailyResponse.DailyBean> mList = new ArrayList<>();
+    DailyAdapter mAdapter;
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
@@ -48,13 +50,13 @@ public class ForecastFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(ForecastEvent event) {//接收
-        List<WeatherResponse.HeWeather6Bean.DailyForecastBean> data = new ArrayList<>();
-        data.addAll(event.mForecastBean);
+        List<DailyResponse.DailyBean> data = new ArrayList<>();
+        data.addAll(event.mDailyBean);
         int[] maxArray = new int[data.size()];
         int[] minArray = new int[data.size()];
         for (int i = 0; i < data.size(); i++) {
-            maxArray[i] = Integer.parseInt(event.mForecastBean.get(i).getTmp_max());
-            minArray[i] = Integer.parseInt(event.mForecastBean.get(i).getTmp_min());
+            maxArray[i] = Integer.parseInt(event.mDailyBean.get(i).getTempMax());
+            minArray[i] = Integer.parseInt(event.mDailyBean.get(i).getTempMin());
         }
 
         lineChar.setTempMax(maxArray);
@@ -66,8 +68,8 @@ public class ForecastFragment extends BaseFragment {
 
     }
 
-    private void initList(List<WeatherResponse.HeWeather6Bean.DailyForecastBean> data) {
-        mAdapter = new WeatherForecastHotAdapter(R.layout.item_weather_forecast_hot_list,mList);
+    private void initList(List<DailyResponse.DailyBean> data) {
+        mAdapter = new DailyAdapter(R.layout.item_weather_forecast_hot_list,mList);
         rvForecast.setLayoutManager(new LinearLayoutManager(context));
         rvForecast.setAdapter(mAdapter);
 

@@ -1,8 +1,14 @@
 package com.llw.goodweather.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -58,21 +64,15 @@ public class DateUtils {
     }
 
     //根据传入的时间，先转换再截取，得到更新时间  传入  "2020-07-16T09:39+08:00"
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String updateTime(String dateTime) {
         String result = null;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");  //yyyy-MM-dd'T'HH:mm:ss.SSSZ
-        Date  date = null;
-        try {
-            date = df.parse(dateTime);
-            SimpleDateFormat df1 = new SimpleDateFormat ("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
-            Date date1 =  df1.parse(date.toString());
-            DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            result = df2.format(date1).substring(11);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
+        LocalDateTime date = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        System.out.println("dateString:"+dateString);
 
+        result = dateString.substring(11);
         return result;
 
 

@@ -8,6 +8,7 @@ public class Constant {
     public final static String SUCCESS_CODE = "200";
     public final static String CITY = "city";//市
     public final static String DISTRICT = "district";//区/县
+    public final static String LOCATION_ID = "locationId";//通过搜索接口得到的城市id,在V7中所有数据通过id来查询
     public final static String EVERYDAY_IMG = "everyday_img";//每日图片开关
     public final static String IMG_LIST = "img_list";//图片列表开关
     public final static String CUSTOM_IMG = "custom_img";//手动定义开关

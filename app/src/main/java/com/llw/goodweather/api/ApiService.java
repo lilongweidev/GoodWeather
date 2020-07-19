@@ -48,6 +48,7 @@ public interface ApiService {
 
     /**
      * 获取所有天气数据，在返回值中再做处理
+     *
      * @param location
      * @return
      */
@@ -67,31 +68,32 @@ public interface ApiService {
     Call<HotCityResponse> hotCity(@Query("group") String group);
 
 
-
-
     /**********       以下为 V7版本API使用     **************/
 
     /**
      * 实况天气
+     *
      * @param location 城市名
      * @return 返回实况天气数据
      */
-    @GET("/v7/weather/now?key=3086e91d66c04ce588a7f538f917c7f4")
+    @GET("/v7/weather/now?key=3086e91d66c04ce588a7f538f917c7f4&gzip=n")
     Call<NowResponse> nowWeather(@Query("location") String location);
 
     /**
      * 天气预报  因为是开发者所以最多可以获得15天的数据，但是如果你是普通用户，那么最多只能获得三天的数据
      * 分为 3天、7天、10天、15天 四种情况，这是时候就需要动态的改变请求的url
-     * @param type  天数类型  传入3d / 7d / 10d / 15d  通过Path拼接到请求的url里面
-     * @param location 城市名
+     *
+     * @param type     天数类型  传入3d / 7d / 10d / 15d  通过Path拼接到请求的url里面
+     * @param location 城市id
      * @return 返回天气预报数据
      */
     @GET("/v7/weather/{type}?key=3086e91d66c04ce588a7f538f917c7f4")
-    Call<DailyResponse> dailyWeather(@Path("type") String type,@Query("location") String location);
+    Call<DailyResponse> dailyWeather(@Path("type") String type, @Query("location") String location);
 
     /**
      * 逐小时预报（未来24小时）之前是逐三小时预报
-     * @param location  城市名
+     *
+     * @param location 城市id
      * @return 返回逐小时数据
      */
     @GET("/v7/weather/24h?key=3086e91d66c04ce588a7f538f917c7f4")
@@ -99,7 +101,8 @@ public interface ApiService {
 
     /**
      * 当天空气质量
-     * @param location 城市名
+     *
+     * @param location 城市id
      * @return 返回当天空气质量数据
      */
     @GET("/v7/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
@@ -107,7 +110,8 @@ public interface ApiService {
 
     /**
      * 空气质量5天预报
-     * @param location 城市名
+     *
+     * @param location 城市id
      * @return 返回空气质量5天预报数据
      */
     @GET("/v7/air/5d?key=3086e91d66c04ce588a7f538f917c7f4")
@@ -115,35 +119,38 @@ public interface ApiService {
 
     /**
      * 生活指数
-     * @param type 可以控制定向获取那几项数据 全部数据 0, 运动指数	1 ，洗车指数	2 ，穿衣指数	3 ，
-     *             钓鱼指数	4 ，紫外线指数  5 ，旅游指数  6，花粉过敏指数	7，舒适度指数	8，
-     *             感冒指数	9 ，空气污染扩散条件指数	10 ，空调开启指数	 11 ，太阳镜指数	12 ，
-     *             化妆指数  13 ，晾晒指数  14 ，交通指数  15 ，防晒指数	16
-     * @param location 城市名
-     * @return 返回当前生活指数数据
+     *
+     * @param type     可以控制定向获取那几项数据 全部数据 0, 运动指数	1 ，洗车指数	2 ，穿衣指数	3 ，
+     *                 钓鱼指数	4 ，紫外线指数  5 ，旅游指数  6，花粉过敏指数	7，舒适度指数	8，
+     *                 感冒指数	9 ，空气污染扩散条件指数	10 ，空调开启指数	 11 ，太阳镜指数	12 ，
+     *                 化妆指数  13 ，晾晒指数  14 ，交通指数  15 ，防晒指数	16
+     * @param location 城市id
      * @return
      */
     @GET("/v7/indices/1d?key=3086e91d66c04ce588a7f538f917c7f4")
-    Call<LifestyleResponse> Lifestyle(@Query("type") String type,
+    Call<LifestyleResponse> lifestyle(@Query("type") String type,
                                       @Query("location") String location);
 
     /**
      * 搜索城市  V7版本  模糊搜索，国内范围 返回10条数据
+     *
      * @param location 城市名
+     * @param mode     exact 精准搜索  fuzzy 模糊搜索
      * @return
      */
-    @GET("/v2/city/lookup?key=3086e91d66c04ce588a7f538f917c7f4&range=cn&mode=fuzzy")
-    Call<NewSearchCityResponse> newSearchCity(@Query("location") String location);
+    @GET("/v2/city/lookup?key=3086e91d66c04ce588a7f538f917c7f4&range=cn")
+    Call<NewSearchCityResponse> newSearchCity(@Query("location") String location,
+                                              @Query("mode") String mode);
 
     /**
      * 热门城市
-     * @param range  cn表示国内  world 表示全世界
+     *
+     * @param range cn表示国内  world 表示全世界
      * @return 返回热门城市数据 遗憾的是，现在最多只能返回20条，
-     *         之前是有50条的，后面只能想别的办法来做海外热门城市了，目前就先这样了
+     * 之前是有50条的，后面只能想别的办法来做海外热门城市了，目前就先这样了
      */
     @GET("/v2/city/top?key=3086e91d66c04ce588a7f538f917c7f4&number=20")
     Call<NewHotCityResponse> newHotCity(@Query("range") String range);
-
 
 
 }

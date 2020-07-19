@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
+import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.goodweather.contract.HotCityWeatherContract;
@@ -19,6 +20,7 @@ import com.llw.goodweather.eventbus.TodayHourlyEvent;
 import com.llw.goodweather.fragment.ForecastFragment;
 import com.llw.goodweather.fragment.TodayFragment;
 import com.llw.goodweather.utils.CodeToStringUtils;
+import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
@@ -56,6 +58,7 @@ public class HotCityWeatherActivity extends MvpActivity<HotCityWeatherContract.H
     SmartTabLayout tab;//标签视图
     @BindView(R.id.vp)
     ViewPager vp;
+    private String locationId;
 
 
     @Override
@@ -66,7 +69,8 @@ public class HotCityWeatherActivity extends MvpActivity<HotCityWeatherContract.H
 
         initView();
         String location = getIntent().getStringExtra("location");
-        mPresent.weatherData(context, location);
+        mPresent.newSearchCity(location);
+//        mPresent.weatherData(context, location);
     }
 
     private void initView() {
@@ -96,7 +100,7 @@ public class HotCityWeatherActivity extends MvpActivity<HotCityWeatherContract.H
         if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
             if (response.body().getHeWeather6().get(0).getBasic() != null) {//得到数据不为空则进行数据显示
                 //基本天气信息
-                WeatherResponse.HeWeather6Bean.NowBean nowBean = response.body().getHeWeather6().get(0).getNow();
+                /*WeatherResponse.HeWeather6Bean.NowBean nowBean = response.body().getHeWeather6().get(0).getNow();
                 tvTitle.setText(response.body().getHeWeather6().get(0).getBasic().getLocation());
                 Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
                 tvTemperature.setText(nowBean.getTmp());
@@ -110,26 +114,82 @@ public class HotCityWeatherActivity extends MvpActivity<HotCityWeatherContract.H
                 //传递数据到TodayFragment和ForcastFragment
                 EventBus.getDefault().post(new TodayHourlyEvent(response.body().getHeWeather6().get(0).getHourly()));
                 EventBus.getDefault().post(new ForecastEvent(response.body().getHeWeather6().get(0).getDaily_forecast()));
-                dismissLoadingDialog();
+                dismissLoadingDialog();*/
             } else {
                 ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
             }
         }
     }
 
+    /**
+     * 搜索城市  返回精确数据
+     * @param response
+     */
+    @Override
+    public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
+        dismissLoadingDialog();
+        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+            if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
+                locationId = response.body().getLocation().get(0).getId();//城市Id
+                tvTitle.setText(response.body().getLocation().get(0).getName());
+                showLoadingDialog();
+                mPresent.nowWeather(locationId);//查询实况天气
+                mPresent.dailyWeather(locationId);//查询天气预报
+                mPresent.hourlyWeather(locationId);//查询逐小时天气预报
+            } else {
+                ToastUtils.showShortToast(context, "数据为空");
+            }
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+        }
+    }
+
+    /**
+     * 实况天气返回  V7
+     * @param response
+     */
     @Override
     public void getNowResult(Response<NowResponse> response) {
-
+        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+            Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+            tvTemperature.setText(response.body().getNow().getTemp());
+            tvTemperature.setTypeface(typeface);//使用字体
+            int code = Integer.parseInt(response.body().getNow().getIcon());//获取天气状态码，根据状态码来显示图标
+            WeatherUtil.changeIcon(ivWeatherState, code);//调用工具类中写好的方法
+        }else {
+            ToastUtils.showShortToast(context,CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
     }
 
+    /**
+     * 天气预报 V7
+     * @param response
+     */
     @Override
     public void getDailyResult(Response<DailyResponse> response) {
+        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+            tvTemMin.setText(response.body().getDaily().get(0).getTempMin());
+            tvTemMax.setText(response.body().getDaily().get(0).getTempMax());
 
+            //传递数据到ForcastFragment
+            EventBus.getDefault().post(new ForecastEvent(response.body().getDaily()));
+        }else {
+            ToastUtils.showShortToast(context,CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
     }
 
+    /**
+     * 逐小时天气预报 V7
+     * @param response
+     */
     @Override
     public void getHourlyResult(Response<HourlyResponse> response) {
-
+        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+            //传递数据到TodayFragment
+            EventBus.getDefault().post(new TodayHourlyEvent(response.body().getHourly()));
+        }else {
+            ToastUtils.showShortToast(context,CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
     }
 
     //异常返回

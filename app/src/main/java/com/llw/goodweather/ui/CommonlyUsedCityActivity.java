@@ -59,8 +59,10 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
     LinearLayout layNormal;//常用城市为空时展示的布局
 
     CommonlyCityAdapter mAdapter;//常用城市列表适配器
-    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
+//    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
+    List<NewSearchCityResponse.LocationBean> mList =new ArrayList<>();
     CommonlyCityAddAdapter mAdapterAdd;//搜索城市列表适配器
+
 
     List<ResidentCity> cityList;//常用城市列表
 
@@ -90,7 +92,6 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 QueryWeather(position);
-
             }
         });
     }
@@ -102,18 +103,18 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
      */
     private void QueryWeather(int position) {
         ResidentCity residentCity = new ResidentCity();
-        residentCity.setLocation(mList.get(position).getLocation());//地区／城市名称
-        residentCity.setParent_city(mList.get(position).getParent_city());//该地区／城市的上级城市
-        residentCity.setAdmin_area(mList.get(position).getAdmin_area());//该地区／城市所属行政区域
-        residentCity.setCnty(mList.get(position).getCnty());//该地区／城市所属国家名称
+        residentCity.setLocation(mList.get(position).getName());//地区／城市名称
+        residentCity.setParent_city(mList.get(position).getAdm2());//该地区／城市的上级城市
+        residentCity.setAdmin_area(mList.get(position).getAdm1());//该地区／城市所属行政区域
+        residentCity.setCnty(mList.get(position).getCountry());//该地区／城市所属国家名称
 
         residentCity.save();//保存数据到数据库中
         if (residentCity.save()) {//保存成功
             //然后使用之前在搜索城市天气中写好的代码
-            SPUtils.putString(Constant.LOCATION, mList.get(position).getLocation(), context);
+            SPUtils.putString(Constant.LOCATION, mList.get(position).getName(), context);
             //发送消息
-            EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getLocation(),
-                    mList.get(position).getParent_city()));
+            EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getName(),
+                    mList.get(position).getAdm2()));
             finish();
         } else {//保存失败
             ToastUtils.showShortToast(context, "添加城市失败");
@@ -140,7 +141,8 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
                 if (!s.toString().equals("")) {//输入后，显示清除按钮
                     ivClearSearch.setVisibility(View.VISIBLE);
                     mAdapterAdd.changTxColor(s.toString());
-                    mPresent.searchCity(context, s.toString());//开始搜索
+//                    mPresent.searchCity(context, s.toString());//开始搜索
+                    mPresent.newSearchCity(s.toString());//搜索城市  V7  模糊搜索返回十条数据
                 } else {//隐藏和显示控件
                     initHideOrShow();
 
@@ -225,7 +227,7 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
     public void getSearchCityResult(Response<SearchCityResponse> response) {
         dismissLoadingDialog();
         if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
-            if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
+           /* if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
                 rvCommonlyUsed.setVisibility(View.GONE);//隐藏常用城市列表
                 mList.clear();
                 mList.addAll(response.body().getHeWeather6().get(0).getBasic());
@@ -234,16 +236,35 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
                 layNormal.setVisibility(View.GONE);
             } else {
                 ToastUtils.showShortToast(context, "很抱歉，未找到相应的城市");
-            }
+            }*/
 
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
         }
     }
 
+    /**
+     * 搜索城市天气 V7
+     * @param response
+     */
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
-
+        dismissLoadingDialog();
+        if(response.body().getStatus().equals(Constant.SUCCESS_CODE)){
+            List<NewSearchCityResponse.LocationBean> data = response.body().getLocation();
+            if(data !=null && data.size()>0){
+                rvCommonlyUsed.setVisibility(View.GONE);//隐藏常用城市列表
+                mList.clear();
+                mList.addAll(response.body().getLocation());
+                mAdapterAdd.notifyDataSetChanged();
+                rvSearch.setVisibility(View.VISIBLE);//显示搜索城市列表
+                layNormal.setVisibility(View.GONE);
+            }else {
+                ToastUtils.showShortToast(context,"没有找到相关城市");
+            }
+        }else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+        }
     }
 
     /**

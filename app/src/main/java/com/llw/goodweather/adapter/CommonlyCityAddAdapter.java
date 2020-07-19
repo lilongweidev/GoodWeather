@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
+import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
 
 import java.util.List;
@@ -18,27 +19,27 @@ import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 /**
  * 添加城市时搜索返回结果列表适配器
  */
-public class CommonlyCityAddAdapter extends BaseQuickAdapter<SearchCityResponse.HeWeather6Bean.BasicBean, BaseViewHolder> {
+public class CommonlyCityAddAdapter extends BaseQuickAdapter<NewSearchCityResponse.LocationBean, BaseViewHolder> {
 
     private String edStr;//关键字
 
-    public CommonlyCityAddAdapter(int layoutResId, @Nullable List<SearchCityResponse.HeWeather6Bean.BasicBean> data) {
+    public CommonlyCityAddAdapter(int layoutResId, @Nullable List<NewSearchCityResponse.LocationBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SearchCityResponse.HeWeather6Bean.BasicBean item) {
+    protected void convert(BaseViewHolder helper, NewSearchCityResponse.LocationBean item) {
         TextView textView = helper.getView(R.id.tv_location);
 
-        String result = item.getLocation() + " , " + item.getParent_city() + " , " + item.getAdmin_area() + " , " + item.getCnty();
+        String result = item.getName() + " , " + item.getAdm2() + " , " + item.getAdm1() + " , " + item.getCountry();
         if (edStr != null && edStr.length() > 0) {
             textView.setText(matcherSearchText(mContext.getResources().getColor(R.color.shallow_yellow),result,edStr));
 
         } else {
-            textView.setText(item.getLocation() + " , " +
-                            item.getParent_city() + " , " +
-                            item.getAdmin_area() + " , " +
-                            item.getCnty());
+            textView.setText(item.getName() + " , " +
+                            item.getAdm2() + " , " +
+                            item.getAdm1() + " , " +
+                            item.getCountry());
         }
 
         helper.addOnClickListener(R.id.item_add_city);

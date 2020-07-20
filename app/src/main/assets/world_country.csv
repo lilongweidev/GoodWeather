@@ -1,4 +1,5 @@
-﻿阿富汗,af
+﻿CountryName,CountryCode
+阿富汗,af
 奥兰群岛,ax
 阿尔巴尼亚,al
 阿尔及利亚,dz
@@ -25,7 +26,7 @@
 百慕大,bm
 不丹,bt
 玻利维亚,bo
-博内尔岛、圣尤斯特歇斯和萨巴岛,BQ
+博内尔岛、圣尤斯特歇斯和萨巴岛,bq
 波黑,ba
 博茨瓦纳,bw
 布维岛,bv
@@ -65,53 +66,53 @@
 厄瓜多尔,ec
 埃及,eg
 救星,sv
-Equatorial Guinea,GQ
-Eritrea,ER
-Estonia,EE
-Ethiopia,ET
-Falkland Islands (Malvinas),FK
-Faroe Islands,FO
-Fiji,FJ
-Finland,FI
-France,FR
-French Guiana,GF
-French Polynesia,PF
-French Southern Territories,TF
-Gabon,GA
-Gambia,GM
-Georgia,GE
-Germany,DE
-Ghana,GH
-Gibraltar,GI
-Greece,GR
-Greenland,GL
-Grenada,GD
-Guadeloupe,GP
-Guam,GU
-Guatemala,GT
-Guernsey,GG
-Guinea,GN
-Guinea-Bissau,GW
-Guyana,GY
-Haiti,HT
-Heard Island and McDonald Islands,HM
-Holy See,VA
-Honduras,HN
-Hong Kong,HK
-Hungary,HU
-Iceland,IS
-India,IN
-Indonesia,ID
-Iran (Islamic Republic of),IR
-Iraq,IQ
+赤道几内亚,gq
+厄立特里亚,er
+爱沙尼亚,ee
+埃塞俄比亚,et
+福克兰群岛（马尔维纳斯）,fk
+法罗群岛,fo
+斐济,fj
+芬兰,fi
+法国,fr
+法属圭亚那,gf
+法属波利尼西亚,pf
+法属南部领地,tf
+加蓬,ga
+冈比亚,gm
+佐治亚州,ge
+德国,de
+加纳,gh
+直布罗陀,gi
+希腊,gr
+格陵兰,gl
+格林纳达,gd
+瓜德罗普岛,gp
+关岛,gu
+危地马拉,gt
+根西岛,gg
+几内亚,gn
+几内亚比绍,gw
+圭亚那,gy
+海地,ht
+希尔德岛和麦当劳群岛,hm
+教廷,va
+洪都拉斯,hn
+香港,hk
+匈牙利,hu
+冰岛,is
+印度,in
+印度尼西亚,id
+伊朗（伊斯兰共和国）,ir
+伊拉克,iq
 爱尔兰,ie
 马恩岛,im
-Israel,IL
-Italy,IT
-Jamaica,JM
-Japan,JP
-Jersey,JE
-Jordan,JO
+以色列,il
+意大利,it
+牙买加,jm
+日本,jp
+泽西岛,je
+约旦,jo
 哈萨克斯坦,kz
 肯尼亚,ke
 基里巴斯,ki
@@ -119,131 +120,131 @@ Jordan,JO
 韩国（共和国）,kr
 科威特,kw
 吉尔吉斯斯坦,kg
-老挝人民民主共和国,LA
+老挝人民民主共和国,la
 拉脱维亚,lv
 黎巴嫩,lb
-Lesotho,LS
+莱索托,ls
 利比里亚,lr
-Libya,LY
+利比亚,ly
 列支敦士登,li
 立陶宛,lt
 卢森堡,lu
 澳门,mo
-Macedonia (the former Yugoslav Republic of),MK
-Madagascar,MG
-Malawi,MW
-Malaysia,MY
-Maldives,MV
-Mali,ML
-Malta,MT
-Marshall Islands,MH
-Martinique,MQ
-Mauritania,MR
-Mauritius,MU
-Mayotte,YT
-Mexico,MX
-Micronesia (Federated States of),FM
-Moldova (Republic of),MD
-Monaco,MC
-Mongolia,MN
-Montenegro,ME
-Montserrat,MS
-Morocco,MA
-Mozambique,MZ
-Myanmar,MM
-Namibia,NA
-Nauru,NR
-Nepal,NP
-Netherlands,NL
-New Caledonia,NC
-New Zealand,NZ
-Nicaragua,NI
-Niger,NE
-Nigeria,NG
-Niue,NU
-Norfolk Island,NF
-Northern Mariana Islands,MP
-Norway,NO
-Oman,OM
-Pakistan,PK
-Palau,PW
-"Palestine, State of",PS
-Panama,PA
-Papua New Guinea,PG
-Paraguay,PY
-Peru,PE
-Philippines,PH
-Pitcairn,PN
-Poland,PL
-Portugal,PT
-Puerto Rico,PR
-Qatar,QA
-Réunion,RE
-Romania,RO
-Russian Federation,RU
-Rwanda,RW
-Saint Barthélemy,BL
-"Saint Helena, Ascension and Tristan da Cunha",SH
-Saint Kitts and Nevis,KN
-Saint Lucia,LC
-Saint Martin (French part),MF
-Saint Pierre and Miquelon,PM
-Saint Vincent and the Grenadines,VC
-Samoa,WS
-San Marino,SM
-Sao Tome and Principe,ST
-Saudi Arabia,SA
-Senegal,SN
-Serbia,RS
-Seychelles,SC
-Sierra Leone,SL
-Singapore,SG
-Sint Maarten (Dutch part),SX
-Slovakia,SK
-Slovenia,SI
-Solomon Islands,SB
-Somalia,SO
-South Africa,ZA
-South Georgia and the South Sandwich Islands,GS
-South Sudan,SS
-Spain,ES
-Sri Lanka,LK
-Sudan,SD
-Suriname,SR
-Svalbard and Jan Mayen,SJ
-Swaziland,SZ
-Sweden,SE
-Switzerland,CH
-Syrian Arab Republic,SY
-"Taiwan, Province of China",TW
-Tajikistan,TJ
-"Tanzania, United Republic of",TZ
-Thailand,TH
-Timor-Leste,TL
-Togo,TG
-Tokelau,TK
-Tonga,TO
-Trinidad and Tobago,TT
-Tunisia,TN
-Turkey,TR
-Turkmenistan,TM
-Turks and Caicos Islands,TC
-Tuvalu,TV
-Uganda,UG
-Ukraine,UA
-United Arab Emirates,AE
-United Kingdom of Great Britain and Northern Ireland,GB
-United States of America,US
-United States Minor Outlying Islands,UM
-Uruguay,UY
-Uzbekistan,UZ
-Vanuatu,VU
-Venezuela (Bolivarian Republic of),VE
-Viet Nam,VN
-Virgin Islands (British),VG
-Virgin Islands (U.S.),VI
-Wallis and Futuna,WF
-Western Sahara,EH
-Yemen,YE
-Zambia,ZM
-Zimbabwe,ZW
+马其顿(前南斯拉夫共和国),mk
+马达加斯加岛,mg
+马拉维,mw
+马来西亚,my
+马尔代夫,mv
+马里,ml
+马耳他,mt
+马绍尔群岛,mh
+马提尼克岛,mq
+毛利塔尼亚,mr
+毛里求斯,mu
+马约特岛,yt
+墨西哥,mx
+密克罗尼西亚联邦,fm
+摩尔多瓦(共和国),md
+摩纳哥,mc
+蒙古,mn
+黑山共和国,me
+蒙特色拉特岛,ms
+摩洛哥,ma
+莫桑比克,mz
+缅甸,mm
+纳米比亚,na
+瑙鲁,nr
+尼泊尔,np
+荷兰,nl
+新喀里多尼亚,nc
+新西兰,nz
+尼加拉瓜,ni
+尼日尔,ne
+尼日利亚,ng
+紐埃,nu
+诺福克岛,nf
+北马里亚纳群岛,mp
+挪威,no
+阿曼,om
+巴基斯坦,pk
+帕劳群岛,pw
+巴勒斯坦,ps
+巴拿马,pa
+巴布亚新几内亚,pg
+巴拉圭,py
+秘鲁,pe
+菲律宾,ph
+皮特凯恩,pn
+波兰,pl
+葡萄牙,pt
+波多黎各,pr
+卡塔尔,qa
+留尼汪岛,re
+罗马尼亚,ro
+俄罗斯联邦,ru
+卢旺达,rw
+圣巴特尔米,BL
+圣赫勒拿岛、阿森松岛和特里斯坦达库尼亚岛,sh
+圣基茨和尼维斯,kn
+圣卢西亚岛,lc
+圣马丁(法国部分),mf
+圣皮埃尔和密克隆群岛,pm
+圣文森特和格林纳丁斯,vc
+萨摩亚,ws
+圣马力诺,sm
+圣多美与普林希比共和国,st
+沙特阿拉伯,sa
+塞内加尔,sn
+塞尔维亚,rs
+塞舌尔,sc
+塞拉利昂,sl
+新加坡,sg
+圣马丁岛（荷兰）,sx
+斯洛伐克,sk
+斯洛文尼亚,si
+所罗门群岛,sb
+索马里,so
+南非,za
+南乔治亚和南桑威奇群岛,gs
+南苏丹,ss
+西班牙,es
+斯里兰卡,lk
+苏丹,sd
+苏里南,sr
+斯瓦尔巴和扬马延,sj
+斯威士兰,sz
+瑞典,se
+瑞士,ch
+阿拉伯叙利亚共和国,sy
+中国台湾省,tw
+塔吉克斯坦,tj
+坦桑尼亚联合共和国,tz
+泰国,th
+东帝汶,tl
+多哥,tg
+托克劳,tk
+汤加,to
+特立尼达和多巴哥,tt
+突尼斯,tn
+土耳其,tr
+土库曼斯坦,tm
+特克斯和凯科斯群岛,tc
+图瓦卢,tv
+乌干达,ug
+乌克兰,ua
+阿拉伯联合酋长国,AE
+大不列颠及北爱尔兰联合王国,gb
+美国,us
+美国外围的小岛屿,um
+乌拉圭,uy
+乌兹别克斯坦,uz
+瓦努阿图,vn
+委内瑞拉玻利瓦尔共和国,ve
+越南,vn
+维尔京群岛(英国),vg
+维尔京群岛(美国),vi
+瓦利斯群岛和富图纳群岛,wf
+西撒哈拉,eh
+也门,ye
+赞比亚,zm
+津巴布韦,zw

@@ -55,6 +55,7 @@ import com.llw.goodweather.ui.BackgroundManagerActivity;
 import com.llw.goodweather.ui.CommonlyUsedCityActivity;
 import com.llw.goodweather.ui.HotCityActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
+import com.llw.goodweather.ui.WorldCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
@@ -241,13 +242,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             //取出缓存
             district = SPUtils.getString(Constant.DISTRICT, "", context);
             city = SPUtils.getString(Constant.CITY, "", context);
-            //获取weather所有数据
-            mPresent.weatherData(context, district);
-            //获取空气质量数据
-            mPresent.airNowCity(context, city);
+//            //获取weather所有数据
+//            mPresent.weatherData(context, district);
+//            //获取空气质量数据
+//            mPresent.airNowCity(context, city);
 
             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-            mPresent.newSearchCity(district);//其他页面返回时
+            mPresent.newSearchCity("宝安区");//其他页面返回时
 
         } else {
             dismissLoadingDialog();
@@ -711,22 +712,22 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
             //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
             showLoadingDialog();
-            mPresent.weatherData(context, district);
-            //获取空气质量数据
-            mPresent.airNowCity(context, city);
+//            mPresent.weatherData(context, district);
+//            //获取空气质量数据
+//            mPresent.airNowCity(context, city);
 
             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-            mPresent.newSearchCity(district);//定位返回时
+            mPresent.newSearchCity("宝安区");//定位返回时
 
             //下拉刷新
             refresh.setOnRefreshListener(refreshLayout -> {
                 //获取weather所有数据
-                mPresent.weatherData(context, district);
-                //获取空气质量数据
-                mPresent.airNowCity(context, city);
+//                mPresent.weatherData(context, district);
+//                //获取空气质量数据
+//                mPresent.airNowCity(context, city);
 
                 //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-                mPresent.newSearchCity(district);//下拉刷新时
+                mPresent.newSearchCity("宝安区");//下拉刷新时
             });
         }
     }
@@ -1156,7 +1157,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             mPopupWindow.dismiss();
         });
         hotCity.setOnClickListener(view -> {//热门城市
-            startActivity(new Intent(context, HotCityActivity.class));
+//            startActivity(new Intent(context, HotCityActivity.class));
+            startActivity(new Intent(context, WorldCityActivity.class));
             mPopupWindow.dismiss();
         });
         residentCity.setOnClickListener(view -> {//常用城市

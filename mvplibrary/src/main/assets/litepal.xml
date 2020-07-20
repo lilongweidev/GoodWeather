@@ -3,10 +3,11 @@
     <!--数据库名称-->
     <dbname value="GoodWeather" />
     <!--数据库版本-->
-    <version value="1" />
+    <version value="2" />
 
     <!--数据列表  映射模型-->
     <list>
-        <mapping class="com.llw.mvplibrary.bean.ResidentCity"/>
+        <mapping class="com.llw.mvplibrary.bean.ResidentCity"/><!--常用城市-->
+        <mapping class="com.llw.mvplibrary.bean.Country"/><!--世界国家-->
     </list>
 </litepal>

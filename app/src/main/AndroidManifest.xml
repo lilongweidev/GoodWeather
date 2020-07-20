@@ -20,7 +20,16 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SplashActivity"></activity>
+        <activity android:name=".ui.WorldCityActivity"></activity>
+        <activity android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.CommonlyUsedCityActivity" />
         <activity android:name=".ui.HotCityWeatherActivity" />
         <activity android:name=".ui.HotCityActivity" />
@@ -35,11 +44,7 @@
             android:process=":remote" />
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

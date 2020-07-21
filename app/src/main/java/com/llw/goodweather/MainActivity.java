@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.llw.goodweather.adapter.AreaAdapter;
 import com.llw.goodweather.adapter.CityAdapter;
 import com.llw.goodweather.adapter.DailyAdapter;
@@ -53,7 +54,6 @@ import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
 import com.llw.goodweather.ui.CommonlyUsedCityActivity;
-import com.llw.goodweather.ui.HotCityActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.ui.WorldCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
@@ -159,16 +159,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
 
-
-    private RxPermissions rxPermissions;//权限请求框架
     //定位器
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
-
-    List<WeatherResponse.HeWeather6Bean.DailyForecastBean> mListDailyForecast;//总数据  七天天气数据
-    WeatherForecastAdapter mAdapter;//初始化适配器 七天天气预报
-    List<WeatherResponse.HeWeather6Bean.HourlyBean> mListHourlyBean;//总数据  逐小时天气预报
-    WeatherHourlyAdapter mAdapterHourly;//初始化适配器 逐小时天气预报
 
     //V7 版本
     List<DailyResponse.DailyBean> dailyListV7 = new ArrayList<>();//天气预报数据列表
@@ -210,8 +203,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         //ButterKnife.bind(this);
         StatusBarUtil.transparencyBar(context);//透明状态栏
         initList();//天气预报列表初始化
-        rxPermissions = new RxPermissions(this);//实例化这个权限请求框架，否则会报错
-        permissionVersion();//权限判断
+        startLocation();//开始定位
         //由于这个刷新框架默认是有下拉和上拉，但是上拉没有用到，为了不造成误会，我这里禁用上拉
         refresh.setEnableLoadMore(false);
         //初始化弹窗
@@ -223,11 +215,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(SearchCityEvent event) {//接收
-//        //获取weather所有数据
-//        mPresent.weatherData(context, event.mLocation);
-//        //获取空气质量数据
-//        mPresent.airNowCity(context, event.mCity);
-
+        flag = false;//切换城市得到的城市不属于定位，因此这里隐藏定位图标
         //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
         mPresent.newSearchCity(event.mLocation);//相应事件时
     }
@@ -242,13 +230,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             //取出缓存
             district = SPUtils.getString(Constant.DISTRICT, "", context);
             city = SPUtils.getString(Constant.CITY, "", context);
-//            //获取weather所有数据
-//            mPresent.weatherData(context, district);
-//            //获取空气质量数据
-//            mPresent.airNowCity(context, city);
 
             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-            mPresent.newSearchCity("宝安区");//其他页面返回时
+            mPresent.newSearchCity(district);//其他页面返回时
 
         } else {
             dismissLoadingDialog();
@@ -357,7 +341,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 showHourlyWindow(data);
             }
         });*/
-
 
         /**   V7 版本   **/
         //天气预报
@@ -468,30 +451,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         tv_cloud.setText(data.getCloud() + "%");
         liWindow.showCenterPopupWindow(view, SizeUtils.dp2px(context, 300), SizeUtils.dp2px(context, 400), true);
 
-    }
-
-    //权限判断
-    private void permissionVersion() {
-        if (Build.VERSION.SDK_INT >= 23) {//6.0或6.0以上
-            //动态权限申请
-            permissionsRequest();
-        } else {//6.0以下
-            //发现只要权限在AndroidManifest.xml中注册过，均会认为该权限granted  提示一下即可
-            ToastUtils.showShortToast(this, "你的版本在Android6.0以下，不需要动态申请权限。");
-        }
-    }
-
-    //动态权限申请
-    private void permissionsRequest() {//使用这个框架需要制定JDK版本，建议用1.8
-        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
-                .subscribe(granted -> {
-                    if (granted) {//申请成功
-                        //得到权限之后开始定位
-                        startLocation();
-                    } else {//申请失败
-                        ToastUtils.showShortToast(this, "权限未开启");
-                    }
-                });
     }
 
     //定位
@@ -663,9 +622,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                                             showLoadingDialog();
                                             district = arealist.get(position).getName();//选中的区/县赋值给这个全局变量
 
-                                            mPresent.weatherData(context, district);//获取weather所有数据
-                                            mPresent.airNowCity(context, city);//空气质量数据
-
                                             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
                                             mPresent.newSearchCity(district);//切换城市时
 
@@ -717,7 +673,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 //            mPresent.airNowCity(context, city);
 
             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-            mPresent.newSearchCity("宝安区");//定位返回时
+            mPresent.newSearchCity(district);//定位返回时
 
             //下拉刷新
             refresh.setOnRefreshListener(refreshLayout -> {
@@ -727,7 +683,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 //                mPresent.airNowCity(context, city);
 
                 //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-                mPresent.newSearchCity("宝安区");//下拉刷新时
+                mPresent.newSearchCity(district);//下拉刷新时
             });
         }
     }
@@ -929,6 +885,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 ToastUtils.showShortToast(context, "数据为空");
             }
         } else {
+            tvCity.setText("查询城市失败");
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
         }
     }
@@ -983,6 +940,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 dailyListV7.clear();//添加数据之前先清除
                 dailyListV7.addAll(data);//添加数据
                 mAdapterDailyV7.notifyDataSetChanged();//刷新列表
+                Log.d("result-->",new Gson().toJson(dailyListV7));
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
@@ -1136,7 +1094,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);//切换城市
         TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景
         TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
-        TextView hotCity = mPopupWindow.getContentView().findViewById(R.id.tv_hot_city);//热门城市
+        TextView worldCity = mPopupWindow.getContentView().findViewById(R.id.tv_world_city);//世界城市
         TextView residentCity = mPopupWindow.getContentView().findViewById(R.id.tv_resident_city);//常用城市
         TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
         changeCity.setOnClickListener(view -> {//切换城市
@@ -1156,12 +1114,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
             startActivity(new Intent(context, SearchCityActivity.class));
             mPopupWindow.dismiss();
         });
-        hotCity.setOnClickListener(view -> {//热门城市
-//            startActivity(new Intent(context, HotCityActivity.class));
+        worldCity.setOnClickListener(view -> {//世界城市
             startActivity(new Intent(context, WorldCityActivity.class));
             mPopupWindow.dismiss();
         });
         residentCity.setOnClickListener(view -> {//常用城市
+            SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, false, context);//缓存标识
             startActivity(new Intent(context, CommonlyUsedCityActivity.class));
             mPopupWindow.dismiss();
         });

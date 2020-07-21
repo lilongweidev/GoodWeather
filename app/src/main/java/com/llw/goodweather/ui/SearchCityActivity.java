@@ -365,30 +365,6 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     }
 
     /**
-     * 搜索城市返回的结果数据
-     *
-     * @param response
-     */
-    @Override
-    public void getSearchCityResult(Response<SearchCityResponse> response) {
-        dismissLoadingDialog();
-        if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
-            /*if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
-                mList.clear();
-                mList.addAll(response.body().getHeWeather6().get(0).getBasic());
-                mAdapter.notifyDataSetChanged();
-                runLayoutAnimation(rv);
-
-            } else {
-                ToastUtils.showShortToast(context, "很抱歉，未找到相应的城市");
-            }*/
-
-        } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
-        }
-    }
-
-    /**
      * 搜索城市返回数据  V7
      *
      * @param response

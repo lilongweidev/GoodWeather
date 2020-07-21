@@ -20,10 +20,11 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.WorldCityActivity"></activity>
-        <activity android:name=".ui.SplashActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+        <activity android:name=".ui.WorldCityActivity" />
+        <activity
+            android:name=".ui.SplashActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,8 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.CommonlyUsedCityActivity" />
-        <activity android:name=".ui.HotCityWeatherActivity" />
-        <activity android:name=".ui.HotCityActivity" />
+        <activity android:name=".ui.WorldCityWeatherActivity" />
         <activity android:name=".ui.SearchCityActivity" />
         <activity android:name=".ui.BackgroundManagerActivity" /> <!-- 百度定位AK -->
         <meta-data
@@ -43,9 +43,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

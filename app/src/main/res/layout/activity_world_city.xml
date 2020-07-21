@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:background="@color/shallow_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.WorldCityActivity">
@@ -26,12 +27,15 @@
             android:layout_gravity="center"
             android:textSize="@dimen/sp_16"
             android:textColor="@color/black"
-            android:text="世界国家" />
+            android:text="国家/地区" />
 
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
+        android:background="@color/white"
+        android:layout_marginTop="@dimen/dp_2"
+        android:paddingBottom="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

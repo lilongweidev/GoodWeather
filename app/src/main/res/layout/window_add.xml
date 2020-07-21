@@ -46,11 +46,11 @@
             android:textSize="@dimen/sp_16"/>
 
         <TextView
-            android:id="@+id/tv_hot_city"
+            android:id="@+id/tv_world_city"
             android:gravity="center"
             android:layout_width="@dimen/dp_140"
             android:layout_height="@dimen/dp_48"
-            android:text="热门城市"
+            android:text="世界城市"
             android:foreground="@drawable/bg_white"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_16"/>

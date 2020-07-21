@@ -9,6 +9,9 @@ import com.llw.mvplibrary.bean.Country;
 
 import java.util.List;
 
+/**
+ * 国家列表适配器
+ */
 public class CountryAdapter extends BaseQuickAdapter<Country, BaseViewHolder> {
     public CountryAdapter(int layoutResId, @Nullable List<Country> data) {
         super(layoutResId, data);

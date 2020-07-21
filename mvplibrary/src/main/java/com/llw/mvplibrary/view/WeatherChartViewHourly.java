@@ -293,7 +293,7 @@ public class WeatherChartViewHourly extends View {
         // 控件宽
         int width = getWidth();
         // 每一份宽
-        float w = width / 20;
+        float w = width / 30;
         mXAxis[0] = w;
         mXAxis[1] = w * 3;
         mXAxis[2] = w * 5;

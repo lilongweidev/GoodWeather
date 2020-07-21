@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+    <TextView
+        android:id="@+id/tv_title"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:padding="@dimen/dp_16"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        android:layout_width="@dimen/dp_240"
+        android:layout_height="?attr/actionBarSize"/>
+    <View
+        android:layout_width="@dimen/dp_240"
+        android:layout_height="@dimen/dp_2"
+        android:background="@color/line_gray"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_city"
+        android:layout_width="@dimen/dp_240"
+        android:layout_height="match_parent"/>
+</LinearLayout>

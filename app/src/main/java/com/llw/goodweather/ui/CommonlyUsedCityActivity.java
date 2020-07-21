@@ -59,10 +59,8 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
     LinearLayout layNormal;//常用城市为空时展示的布局
 
     CommonlyCityAdapter mAdapter;//常用城市列表适配器
-//    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
     List<NewSearchCityResponse.LocationBean> mList =new ArrayList<>();
     CommonlyCityAddAdapter mAdapterAdd;//搜索城市列表适配器
-
 
     List<ResidentCity> cityList;//常用城市列表
 
@@ -217,30 +215,6 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
     @Override
     protected SearchCityContract.SearchCityPresenter createPresent() {
         return new SearchCityContract.SearchCityPresenter();
-    }
-
-    /**
-     * 请求数据返回处理
-     * @param response
-     */
-    @Override
-    public void getSearchCityResult(Response<SearchCityResponse> response) {
-        dismissLoadingDialog();
-        if (("ok").equals(response.body().getHeWeather6().get(0).getStatus())) {
-           /* if (response.body().getHeWeather6().get(0).getBasic().size() > 0) {
-                rvCommonlyUsed.setVisibility(View.GONE);//隐藏常用城市列表
-                mList.clear();
-                mList.addAll(response.body().getHeWeather6().get(0).getBasic());
-                mAdapterAdd.notifyDataSetChanged();
-                rvSearch.setVisibility(View.VISIBLE);//显示搜索城市列表
-                layNormal.setVisibility(View.GONE);
-            } else {
-                ToastUtils.showShortToast(context, "很抱歉，未找到相应的城市");
-            }*/
-
-        } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getHeWeather6().get(0).getStatus()));
-        }
     }
 
     /**

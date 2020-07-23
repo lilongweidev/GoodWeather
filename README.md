@@ -33,10 +33,8 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十六）热门城市 - 海外城市](https://blog.csdn.net/qq_38436214/article/details/106645543)<br>
 [Android 天气APP（十七）热门城市 - 国内城市](https://blog.csdn.net/qq_38436214/article/details/106942710)<br>
 [Android 天气APP（十八）常用城市](https://blog.csdn.net/qq_38436214/article/details/106993550)<br>
-
-
-
-
+[Android 天气APP（十九）更换新版API接口（更高、更快、更强）](https://blog.csdn.net/qq_38436214/article/details/107327779)<br>
+[Android 天气APP（二十）增加欢迎页及白屏黑屏处理、展示世界国家/地区的城市数据](https://blog.csdn.net/qq_38436214/article/details/107538839)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>

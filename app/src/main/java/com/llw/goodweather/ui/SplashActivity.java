@@ -35,6 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
+/**
+ * 欢迎页
+ */
 public class SplashActivity extends BaseActivity {
 
     private RxPermissions rxPermissions;//权限请求框架

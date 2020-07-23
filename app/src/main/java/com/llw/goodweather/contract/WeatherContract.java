@@ -49,55 +49,6 @@ public class WeatherContract {
             });
         }
 
-        /**
-         * 空气质量数据
-         * @param context
-         * @param location
-         */
-        public void airNowCity(final Context context,String location){
-            ApiService service = ServiceGenerator.createService(ApiService.class,0);
-            service.getAirNowCity(location).enqueue(new NetCallBack<AirNowCityResponse>() {
-                @Override
-                public void onSuccess(Call<AirNowCityResponse> call, Response<AirNowCityResponse> response) {
-                    if(getView() != null){
-                        getView().getAirNowCityResult(response);
-                    }
-                }
-
-                @Override
-                public void onFailed() {
-                    if(getView() != null){
-                        getView().getDataFailed();
-                    }
-                }
-            });
-        }
-
-        /**
-         * 天气所有数据
-         * @param context
-         * @param location
-         */
-        public void weatherData(final Context context,String location){
-            ApiService service = ServiceGenerator.createService(ApiService.class,0);
-            service.weatherData(location).enqueue(new NetCallBack<WeatherResponse>() {
-                @Override
-                public void onSuccess(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                    if(getView() != null){
-                        getView().getWeatherDataResult(response);
-                    }
-                }
-
-                @Override
-                public void onFailed() {
-                    if(getView() != null){
-                        getView().getWeatherDataFailed();
-                    }
-                }
-            });
-        }
-
-
         /***************** 以下为使用V7版本而新增的接口方法，后期将都会使用这些方法，请注意 ****************/
 
 
@@ -247,10 +198,6 @@ public class WeatherContract {
     public interface IWeatherView extends BaseView {
         //获取必应每日一图返回
         void getBiYingResult(Response<BiYingImgResponse> response);
-        //查询空气质量的数据返回
-        void getAirNowCityResult(Response<AirNowCityResponse> response);
-        //查询天气所有数据
-        void getWeatherDataResult(Response<WeatherResponse> response);
         //天气数据获取错误返回
         void getWeatherDataFailed();
 

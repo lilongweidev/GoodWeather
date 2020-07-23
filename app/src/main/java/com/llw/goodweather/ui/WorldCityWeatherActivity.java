@@ -14,7 +14,7 @@ import com.llw.goodweather.adapter.HourlyWorldCityAdapter;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.NowResponse;
-import com.llw.goodweather.contract.HotCityWeatherContract;
+import com.llw.goodweather.contract.WorldCityWeatherContract;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
@@ -26,14 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Response;
 
 /**
- * 热门城市天气
+ * 世界城市天气
  */
-public class WorldCityWeatherActivity extends MvpActivity<HotCityWeatherContract.HotCityPresenter>
-        implements HotCityWeatherContract.IHotCityView {
+public class WorldCityWeatherActivity extends MvpActivity<WorldCityWeatherContract.WorldCityWeatherPresenter>
+        implements WorldCityWeatherContract.IWorldCityWeatherView {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;//城市
@@ -48,35 +47,37 @@ public class WorldCityWeatherActivity extends MvpActivity<HotCityWeatherContract
     @BindView(R.id.tv_tem_min)
     TextView tvTemMin;//最低温
     @BindView(R.id.rv_hourly)
-    RecyclerView rvHourly;
-
-    List<HourlyResponse.HourlyBean> mList = new ArrayList<>();
-    HourlyWorldCityAdapter mAdapter;
+    RecyclerView rvHourly;//逐小时列表
     @BindView(R.id.tv_weather_state)
-    TextView tvWeatherState;
+    TextView tvWeatherState;//天气状态文字描述
     @BindView(R.id.tv_wind_state)
-    TextView tvWindState;
+    TextView tvWindState;//风状态文字描述
+
+    HourlyWorldCityAdapter mAdapter;//逐小时列表适配器
+    List<HourlyResponse.HourlyBean> mList = new ArrayList<>();//列表数据
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        showLoadingDialog();
+        initView();
+    }
+
+    /**
+     * 初始化页面
+     */
+    private void initView() {
         StatusBarUtil.transparencyBar(context);//设置状态栏背景颜色
         Back(toolbar);
+        showLoadingDialog();//加载弹窗
 
-        initList();
+        mAdapter = new HourlyWorldCityAdapter(R.layout.item_weather_hourly_world_list, mList);
+        rvHourly.setLayoutManager(new LinearLayoutManager(context));
+        rvHourly.setAdapter(mAdapter);
 
-        String locationId = getIntent().getStringExtra("locationId");
-        tvTitle.setText(getIntent().getStringExtra("name"));
-        showLoadingDialog();
+        String locationId = getIntent().getStringExtra("locationId");//获取上一个页面传递过来的城市id
+        tvTitle.setText(getIntent().getStringExtra("name"));//城市名称显示
         mPresent.nowWeather(locationId);//查询实况天气
         mPresent.dailyWeather(locationId);//查询天气预报
         mPresent.hourlyWeather(locationId);//查询逐小时天气预报
-    }
-
-    private void initList() {
-        mAdapter = new HourlyWorldCityAdapter(R.layout.item_weather_hourly_hot_list, mList);
-        rvHourly.setLayoutManager(new LinearLayoutManager(context));
-        rvHourly.setAdapter(mAdapter);
     }
 
     @Override
@@ -85,10 +86,9 @@ public class WorldCityWeatherActivity extends MvpActivity<HotCityWeatherContract
     }
 
     @Override
-    protected HotCityWeatherContract.HotCityPresenter createPresent() {
-        return new HotCityWeatherContract.HotCityPresenter();
+    protected WorldCityWeatherContract.WorldCityWeatherPresenter createPresent() {
+        return new WorldCityWeatherContract.WorldCityWeatherPresenter();
     }
-
 
     /**
      * 实况天气返回  V7
@@ -160,12 +160,5 @@ public class WorldCityWeatherActivity extends MvpActivity<HotCityWeatherContract
     public void getDataFailed() {
         dismissLoadingDialog();
         ToastUtils.showShortToast(context, "请求超时");
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

@@ -2,7 +2,7 @@ package com.llw.goodweather.bean;
 
 import java.util.List;
 /**
- * 天气预报数据实体
+ * 天气预报数据实体  V7
  */
 public class DailyResponse {
 

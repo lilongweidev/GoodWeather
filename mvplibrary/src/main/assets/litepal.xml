@@ -10,4 +10,5 @@
         <mapping class="com.llw.mvplibrary.bean.ResidentCity"/><!--常用城市-->
         <mapping class="com.llw.mvplibrary.bean.Country"/><!--世界国家-->
     </list>
+
 </litepal>

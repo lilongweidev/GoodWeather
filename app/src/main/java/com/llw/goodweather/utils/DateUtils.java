@@ -70,12 +70,9 @@ public class DateUtils {
 
         LocalDateTime date = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        System.out.println("dateString:"+dateString);
-
-        result = dateString.substring(11);
+        System.out.println("dateString:"+dateString);//到这一步，时间格式已经转换好了
+        result = dateString.substring(11);//进一步截取以达到我项目中的需求
         return result;
-
-
     }
 
     //获取今天是星期几

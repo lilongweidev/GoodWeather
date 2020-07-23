@@ -27,6 +27,6 @@
     <color name="line_gray">#E3E5E8</color><!--灰色分割线-->
     <color name="shallow_yellow">#E7C373</color><!--浅黄色-->
 
-    <color name="hot_city_color">#243440</color>
+    <color name="world_city_color">#243440</color>
 
 </resources>

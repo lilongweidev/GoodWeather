@@ -1,15 +1,12 @@
 package com.llw.goodweather.adapter;
 
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.utils.WeatherUtil;
-
 import java.util.List;
 
 /**

@@ -140,7 +140,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                         showLoadingDialog();
                         //添加数据
                         mRecordsDao.addRecords(location);
-//                        mPresent.searchCity(context, location);
+
                         mPresent.newSearchCity(location);//搜索城市  V7
                         //数据保存
                         saveHistory("history", editQuery);

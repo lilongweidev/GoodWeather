@@ -9,7 +9,7 @@ import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HotCityResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
-import com.llw.goodweather.bean.NewHotCityResponse;
+import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
@@ -143,14 +143,14 @@ public interface ApiService {
                                               @Query("mode") String mode);
 
     /**
-     * 热门城市
+     * 世界城市
      *
      * @param range cn表示国内  world 表示全世界
      * @return 返回热门城市数据 遗憾的是，现在最多只能返回20条，
      * 之前是有50条的，后面只能想别的办法来做海外热门城市了，目前就先这样了
      */
     @GET("/v2/city/top?key=3086e91d66c04ce588a7f538f917c7f4&number=20")
-    Call<NewHotCityResponse> newHotCity(@Query("range") String range);
+    Call<WorldCityResponse> worldCity(@Query("range") String range);
 
 
 }

@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.CountryAdapter;
 import com.llw.goodweather.adapter.WorldCityAdapter;
-import com.llw.goodweather.bean.HotCityResponse;
-import com.llw.goodweather.bean.NewHotCityResponse;
-import com.llw.goodweather.contract.HotCityContract;
+import com.llw.goodweather.bean.WorldCityResponse;
+import com.llw.goodweather.contract.WorldCityContract;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
@@ -24,22 +21,19 @@ import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.Country;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.LiWindow;
-
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import retrofit2.Response;
 
 /**
- * 世界城市  列举世界上两百多个国家其中包括地区，每个国家20个热门城市
+ * 世界城市  列举世界上两百多个国家其中包括地区，每个国家20个Top城市
  */
-public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresenter>
-        implements HotCityContract.IHotCityView {
+public class WorldCityActivity extends MvpActivity<WorldCityContract.WorldCityPresenter>
+        implements WorldCityContract.IWorldCityView {
 
-    CountryAdapter mAdapter;
-    List<Country> mList;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.toolbar)
@@ -47,9 +41,12 @@ public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresen
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    private String countryName;
+    CountryAdapter mAdapter;//国家/地区列表适配器
+    List<Country> mList = new ArrayList<>();
 
-    WorldCityAdapter mCityAdapter;
+    private String countryName;//国家名字
+    WorldCityAdapter mCityAdapter;//城市列表适配器
+
     @Override
     public void initData(Bundle savedInstanceState) {
         StatusBarUtil.setStatusBarColor(context, R.color.white);//白色底  状态栏
@@ -58,7 +55,19 @@ public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresen
         initList();
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_world_city;
+    }
 
+    @Override
+    protected WorldCityContract.WorldCityPresenter createPresent() {
+        return new WorldCityContract.WorldCityPresenter();
+    }
+
+    /**
+     * 初始化列表数据
+     */
     private void initList() {
         mList = LitePal.findAll(Country.class);
         mAdapter = new CountryAdapter(R.layout.item_country_list, mList);
@@ -68,26 +77,16 @@ public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 showLoadingDialog();
-                countryName = mList.get(position).getName();
-                mPresent.newHotCity(mList.get(position).getCode());
+                countryName = mList.get(position).getName();//获取国家名字
+                mPresent.worldCity(mList.get(position).getCode());
             }
         });
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_world_city;
-    }
-
-    @Override
-    protected HotCityContract.HotCityPresenter createPresent() {
-        return new HotCityContract.HotCityPresenter();
     }
 
     /**
      * 城市弹窗
      */
-    private void showCityWindow(String countryName,List<NewHotCityResponse.TopCityListBean> list) {
+    private void showCityWindow(String countryName,List<WorldCityResponse.TopCityListBean> list) {
         LiWindow liWindow = new LiWindow(context);
         final View view = LayoutInflater.from(context).inflate(R.layout.window_world_city_list, null);
         TextView windowTitle = (TextView) view.findViewById(R.id.tv_title);
@@ -111,18 +110,15 @@ public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresen
         });
     }
 
-
+    /**
+     * 世界城市返回
+     * @param response
+     */
     @Override
-    public void getHotCityResult(Response<HotCityResponse> response) {
-
-    }
-
-    @Override
-    public void getNewHotCityResult(Response<NewHotCityResponse> response) {
+    public void getWorldCityResult(Response<WorldCityResponse> response) {
         dismissLoadingDialog();
         if(response.body().getStatus().equals(Constant.SUCCESS_CODE)){
-
-            List<NewHotCityResponse.TopCityListBean> data = response.body().getTopCityList();
+            List<WorldCityResponse.TopCityListBean> data = response.body().getTopCityList();
             if(data != null && data.size()>0){
                 showCityWindow(countryName,data);
             }else {
@@ -133,6 +129,9 @@ public class WorldCityActivity extends MvpActivity<HotCityContract.HotCityPresen
         }
     }
 
+    /**
+     * 失败异常返回
+     */
     @Override
     public void getDataFailed() {
         dismissLoadingDialog();

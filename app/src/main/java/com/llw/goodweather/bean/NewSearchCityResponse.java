@@ -2,6 +2,9 @@ package com.llw.goodweather.bean;
 
 import java.util.List;
 
+/**
+ * 搜索城市天气  V7
+ */
 public class NewSearchCityResponse {
 
     /**

@@ -28,6 +28,18 @@ public class WeatherUtil {
             case 103://晴间多云
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_103);
                 break;
+            case 104://阴 V7
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_104);
+                break;
+            case 150://晴 晚上  V7
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_150);
+                break;
+            case 153://晴间多云 晚上  V7
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_153);
+                break;
+            case 154://阴 晚上  V7
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_154);
+                break;
             case 200://有风
             case 202://微风
             case 203://和风

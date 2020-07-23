@@ -1,19 +1,15 @@
 package com.llw.goodweather.contract;
 
-import android.content.Context;
-
 import com.llw.goodweather.api.ApiService;
 import com.llw.goodweather.bean.NewSearchCityResponse;
-import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
 import com.llw.mvplibrary.net.NetCallBack;
 import com.llw.mvplibrary.net.ServiceGenerator;
-
 import retrofit2.Call;
 import retrofit2.Response;
 /**
- * 搜索城市订阅器
+ * 搜索城市订阅器  V7
  */
 public class SearchCityContract {
 

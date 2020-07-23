@@ -2,17 +2,14 @@ package com.llw.goodweather.adapter;
 
 import android.os.Build;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.WeatherUtil;
-
 import java.util.List;
 
 /**
@@ -32,8 +29,6 @@ public class HourlyAdapter extends BaseQuickAdapter<HourlyResponse.HourlyBean, B
          * V7 API 涉及到时间的，都会返回 2020-07-16T09:39+08:00  这种格式
          * 所以最好写一个通用的返回进行处理 方法已经写好了使用可以了
          */
-
-
         String time = DateUtils.updateTime(item.getFxTime());
         helper.setText(R.id.tv_time, WeatherUtil.showTimeInfo(time) + time)//时间
                 .setText(R.id.tv_temperature, item.getTemp() + "℃");//温度

@@ -1,7 +1,6 @@
 # GoodWeather
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/hot_city.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
 <br>

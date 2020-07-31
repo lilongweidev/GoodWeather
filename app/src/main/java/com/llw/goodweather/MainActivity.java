@@ -1,6 +1,5 @@
 package com.llw.goodweather;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,9 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -66,25 +65,31 @@ import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.RoundProgressBar;
 import com.llw.mvplibrary.view.WhiteWindmills;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationRight;
 
-public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> implements WeatherContract.IWeatherView {
+@RequiresApi(api = Build.VERSION_CODES.M)
+public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
+        implements WeatherContract.IWeatherView,View.OnScrollChangeListener {
 
     @BindView(R.id.tv_info)
     TextView tvInfo;//天气状况
@@ -146,6 +151,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
     TextView tvO3;//臭氧
     @BindView(R.id.tv_co)
     TextView tvCo;//一氧化碳
+    @BindView(R.id.tv_title)
+    TextView tvTitle;//标题
+    @BindView(R.id.lay_slide_area)
+    LinearLayout laySlideArea;//当向上滑动超过这个布局的高度时，改变Toolbar中的TextView的显示文本
+    @BindView(R.id.scroll_view)
+    NestedScrollView scrollView;//滑动View
 
 
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
@@ -203,6 +214,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
         animUtil = new AnimationUtil();
 
         EventBus.getDefault().register(this);//注册
+
+        scrollView.setOnScrollChangeListener(this);//指定当前页面，不写则滑动监听无效
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -611,6 +624,37 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
 
     /**
+     * 滑动监听
+     * @param v 滑动视图本身
+     * @param scrollX 滑动后的X轴位置
+     * @param scrollY 滑动后的Y轴位置
+     * @param oldScrollX 之前的X轴位置
+     * @param oldScrollY 之前的Y轴位置
+     */
+    @Override
+    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY > oldScrollY) {
+            Log.e("onScroll", "上滑");
+            //laySlideArea.getMeasuredHeight() 表示控件的绘制高度
+            if(scrollY > laySlideArea.getMeasuredHeight()){
+                String tx = tvCity.getText().toString();
+                if(tx.contains("定位中")){//因为存在网络异常问题，总不能你没有城市，还给你改变UI吧
+                    tvTitle.setText("城市天气");
+                }else {
+                    tvTitle.setText(tx);//改变TextView的显示文本
+                }
+            }
+        }
+        if (scrollY < oldScrollY) {
+            Log.e("onScroll", "下滑");
+            if(scrollY < laySlideArea.getMeasuredHeight()){
+                tvTitle.setText("城市天气");//改回原来的
+            }
+        }
+    }
+
+
+    /**
      * 定位结果返回
      */
     private class MyLocationListener extends BDAbstractLocationListener {
@@ -747,7 +791,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 dailyListV7.clear();//添加数据之前先清除
                 dailyListV7.addAll(data);//添加数据
                 mAdapterDailyV7.notifyDataSetChanged();//刷新列表
-                Log.d("result-->",new Gson().toJson(dailyListV7));
+                Log.d("result-->", new Gson().toJson(dailyListV7));
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
@@ -758,33 +802,35 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
 
     /**
      * 逐小时天气数据返回  V7
+     *
      * @param response
      */
     @Override
     public void getHourlyResult(Response<HourlyResponse> response) {
-        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<HourlyResponse.HourlyBean> data = response.body().getHourly();
-            if(data != null && data.size()> 0){
+            if (data != null && data.size() > 0) {
                 hourlyListV7.clear();
                 hourlyListV7.addAll(data);
                 mAdapterHourlyV7.notifyDataSetChanged();
-            }else {
+            } else {
                 ToastUtils.showShortToast(context, "逐小时预报数据为空");
             }
-        }else {
+        } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 
     /**
      * 空气质量返回  V7
+     *
      * @param response
      */
     @Override
     public void getAirNowResult(Response<AirNowResponse> response) {
-        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             AirNowResponse.NowBean data = response.body().getNow();
-            if(response.body().getNow() !=null){
+            if (response.body().getNow() != null) {
                 rpbAqi.setMaxProgress(300);//最大进度，用于计算
                 rpbAqi.setMinText("0");//设置显示最小值
                 rpbAqi.setMinTextSize(32f);
@@ -806,21 +852,22 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                 tvSo2.setText(data.getSo2());//二氧化硫
                 tvO3.setText(data.getO3());//臭氧
                 tvCo.setText(data.getCo());//一氧化碳
-            }else {
-                ToastUtils.showShortToast(context,"空气质量数据为空");
+            } else {
+                ToastUtils.showShortToast(context, "空气质量数据为空");
             }
-        }else {
+        } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 
     /**
      * 生活数据返回 V7
+     *
      * @param response
      */
     @Override
     public void getLifestyleResult(Response<LifestyleResponse> response) {
-        if(response.body().getCode().equals(Constant.SUCCESS_CODE)){
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<LifestyleResponse.DailyBean> data = response.body().getDaily();
             for (int i = 0; i < data.size(); i++) {
                 switch (data.get(i).getType()) {
@@ -850,7 +897,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter> 
                         break;
                 }
             }
-        }else {
+        } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }

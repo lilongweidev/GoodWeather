@@ -1,8 +1,8 @@
 # GoodWeather
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/hot_city.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
 <br>
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
@@ -11,7 +11,7 @@
 http://d.firim.vip/h4sg<br>
 
 #### 扫码下载
-![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/img_code.png)<br>
+![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>
 
 ## 天气APP文章博客(一步一步开发天气APP)
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>
@@ -32,10 +32,8 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（十六）热门城市 - 海外城市](https://blog.csdn.net/qq_38436214/article/details/106645543)<br>
 [Android 天气APP（十七）热门城市 - 国内城市](https://blog.csdn.net/qq_38436214/article/details/106942710)<br>
 [Android 天气APP（十八）常用城市](https://blog.csdn.net/qq_38436214/article/details/106993550)<br>
-
-
-
-
+[Android 天气APP（十九）更换新版API接口（更高、更快、更强）](https://blog.csdn.net/qq_38436214/article/details/107327779)<br>
+[Android 天气APP（二十）增加欢迎页及白屏黑屏处理、展示世界国家/地区的城市数据](https://blog.csdn.net/qq_38436214/article/details/107538839)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -46,7 +44,9 @@ http://d.firim.vip/h4sg<br>
 
 ## 版本说明
 
-### V 1.7 (最新版本)<br>
+### V 1.8 (最新版本)<br>
+* 更新和风天气V7版API,删除热门城市、新增全球城市。启动页优化，黑白屏处理<br>
+### V 1.7 <br>
 * 增加常用城市列表<br>
 ### V 1.6 <br>
 * 增加国内热门城市<br>

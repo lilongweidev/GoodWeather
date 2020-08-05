@@ -1,6 +1,7 @@
 package com.llw.goodweather;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +51,9 @@ import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
 import com.llw.goodweather.ui.CommonlyUsedCityActivity;
+import com.llw.goodweather.ui.MoreAirActivity;
+import com.llw.goodweather.ui.MoreDailyActivity;
+import com.llw.goodweather.ui.MoreLifestyleActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.ui.WorldCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
@@ -85,11 +90,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
+import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationRight;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
-        implements WeatherContract.IWeatherView,View.OnScrollChangeListener {
+        implements WeatherContract.IWeatherView, View.OnScrollChangeListener {
 
     @BindView(R.id.tv_info)
     TextView tvInfo;//天气状况
@@ -157,6 +163,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     LinearLayout laySlideArea;//当向上滑动超过这个布局的高度时，改变Toolbar中的TextView的显示文本
     @BindView(R.id.scroll_view)
     NestedScrollView scrollView;//滑动View
+    @BindView(R.id.tv_more_daily)
+    TextView tvMoreDaily;//更多天气预报
+    @BindView(R.id.tv_more_air)
+    TextView tvMoreAir;//更多空气信息
+    @BindView(R.id.tv_more_lifestyle)
+    TextView tvMoreLifestyle;//更多生活建议
 
 
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
@@ -625,9 +637,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     /**
      * 滑动监听
-     * @param v 滑动视图本身
-     * @param scrollX 滑动后的X轴位置
-     * @param scrollY 滑动后的Y轴位置
+     *
+     * @param v          滑动视图本身
+     * @param scrollX    滑动后的X轴位置
+     * @param scrollY    滑动后的Y轴位置
      * @param oldScrollX 之前的X轴位置
      * @param oldScrollY 之前的Y轴位置
      */
@@ -636,23 +649,51 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (scrollY > oldScrollY) {
             Log.e("onScroll", "上滑");
             //laySlideArea.getMeasuredHeight() 表示控件的绘制高度
-            if(scrollY > laySlideArea.getMeasuredHeight()){
+            if (scrollY > laySlideArea.getMeasuredHeight()) {
                 String tx = tvCity.getText().toString();
-                if(tx.contains("定位中")){//因为存在网络异常问题，总不能你没有城市，还给你改变UI吧
+                if (tx.contains("定位中")) {//因为存在网络异常问题，总不能你没有城市，还给你改变UI吧
                     tvTitle.setText("城市天气");
-                }else {
+                } else {
                     tvTitle.setText(tx);//改变TextView的显示文本
                 }
             }
         }
         if (scrollY < oldScrollY) {
             Log.e("onScroll", "下滑");
-            if(scrollY < laySlideArea.getMeasuredHeight()){
+            if (scrollY < laySlideArea.getMeasuredHeight()) {
                 tvTitle.setText("城市天气");//改回原来的
             }
         }
     }
 
+    //添加点击事件
+    @OnClick({R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_more_daily://更多天气预报
+                goToMore(MoreDailyActivity.class);
+                break;
+            case R.id.tv_more_air://更多空气质量信息
+                goToMore(MoreAirActivity.class);
+                break;
+            case R.id.tv_more_lifestyle://更多生活建议
+                goToMore(MoreLifestyleActivity.class);
+                break;
+        }
+    }
+
+
+    private void goToMore(Class<?> clazz){
+        if(locationId == null){
+            ToastUtils.showShortToast(context,"很抱歉，为获取到相关更多信息");
+        }else {
+            Intent intent = new Intent(context, clazz);
+            intent.putExtra("locationId",locationId);
+            intent.putExtra("cityName",tvCity.getText().toString());
+            startActivity(intent);
+        }
+
+    }
 
     /**
      * 定位结果返回
@@ -791,6 +832,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 dailyListV7.clear();//添加数据之前先清除
                 dailyListV7.addAll(data);//添加数据
                 mAdapterDailyV7.notifyDataSetChanged();//刷新列表
+                runLayoutAnimation(rv);//底部动画展示
                 Log.d("result-->", new Gson().toJson(dailyListV7));
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
@@ -813,6 +855,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 hourlyListV7.clear();
                 hourlyListV7.addAll(data);
                 mAdapterHourlyV7.notifyDataSetChanged();
+                runLayoutAnimationRight(rvHourly);
             } else {
                 ToastUtils.showShortToast(context, "逐小时预报数据为空");
             }

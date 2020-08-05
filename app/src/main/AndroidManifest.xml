@@ -20,6 +20,9 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.MoreLifestyleActivity"></activity>
+        <activity android:name=".ui.MoreAirActivity" />
+        <activity android:name=".ui.MoreDailyActivity" />
         <activity android:name=".ui.WorldCityActivity" />
         <activity
             android:name=".ui.SplashActivity"
@@ -43,7 +46,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

@@ -207,19 +207,48 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp" />
 
+                        <!--查看更多天气预报-->
+                        <TextView
+                            android:id="@+id/tv_more_daily"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="@dimen/dp_12"
+                            android:text="更多天气预报"
+                            android:drawableRight="@mipmap/icon_more_blue"
+                            android:textColor="@color/blue_more" />
+
                         <!--空气质量-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="20dp">
-                            <!--标题-->
-                            <TextView
-                                android:layout_width="wrap_content"
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="空气质量"
-                                android:textColor="@color/white"
-                                android:textSize="18sp" />
+                                android:gravity="center_vertical">
+                                <!--标题-->
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="空气质量"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <!--更多空气质量信息-->
+                                <TextView
+                                    android:id="@+id/tv_more_air"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dp_4"
+                                    android:text="更多"
+                                    android:drawableRight="@mipmap/icon_more_blue"
+                                    android:textColor="@color/blue_more"
+                                    android:textSize="@dimen/sp_14" />
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -513,13 +542,30 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="20dp">
-                            <!--标题-->
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="生活建议"
-                                android:textColor="@color/white"
-                                android:textSize="18sp" />
+                                android:gravity="center_vertical">
+                                <!--标题-->
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="生活建议"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <!--更多生活建议-->
+                                <TextView
+                                    android:id="@+id/tv_more_lifestyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="@dimen/dp_4"
+                                    android:text="更多"
+                                    android:drawableRight="@mipmap/icon_more_blue"
+                                    android:textColor="@color/blue_more"
+                                    android:textSize="@dimen/sp_14" />
+                            </LinearLayout>
                             <!--紫外线-->
                             <TextView
                                 android:id="@+id/tv_uv"

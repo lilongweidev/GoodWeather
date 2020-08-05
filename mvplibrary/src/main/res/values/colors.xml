@@ -28,5 +28,11 @@
     <color name="shallow_yellow">#E7C373</color><!--浅黄色-->
 
     <color name="world_city_color">#243440</color>
+    <color name="blue_more">#C8DCFF</color><!--浅蓝色-->
+    <color name="gray_white">#F8F8F8</color><!--灰白-->
+    <color name="transparent_bg_2">#44000000</color><!--黑色半透明 二-->
+    <color name="transparent_bg_3">#66000000</color><!--黑色半透明 三-->
 
+    <color name="temp_max_tx">#FF7E45</color><!--高温文字颜色-->
+    <color name="temp_min_tx">#ACE0F9</color><!--低温文字颜色-->
 </resources>

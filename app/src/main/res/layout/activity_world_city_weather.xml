@@ -2,9 +2,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/world_city_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/world_city_color"
     tools:context=".ui.WorldCityWeatherActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,71 +12,76 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:background="@mipmap/icon_hot_city_bg_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentInsetStart="0dp"
+            android:background="@mipmap/icon_hot_city_bg_2"
             android:fitsSystemWindows="true"
+            app:contentInsetStart="0dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:padding="@dimen/dp_12"
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_12"
                     android:text="城市"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_18" />
 
                 <!--温度-->
                 <RelativeLayout
-                    android:padding="@dimen/dp_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="top"
                     android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:padding="@dimen/dp_12">
                     <!--气候图标-->
                     <ImageView
                         android:id="@+id/iv_weather_state"
                         android:layout_width="@dimen/dp_150"
                         android:layout_height="@dimen/dp_150" />
+
                     <LinearLayout
-                        android:layout_marginRight="@dimen/dp_20"
-                        android:layout_alignParentRight="true"
-                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal">
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/dp_20"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
                         <TextView
-                            android:layout_alignParentRight="true"
                             android:id="@+id/tv_temperature"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
                             android:text="0°"
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_48" />
 
                         <TextView
                             android:id="@+id/tv_weather_state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/tv_temperature"
                             android:text="天气状态"
-                            android:textColor="@color/white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/white" />
 
                         <!--最高温和最低温-->
                         <LinearLayout
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:id="@+id/tv_tem_max"
                                 android:layout_width="wrap_content"
@@ -97,12 +102,12 @@
 
                         <!--风信息-->
                         <TextView
-                            android:layout_marginTop="@dimen/dp_8"
-                            android:textSize="@dimen/sp_14"
                             android:id="@+id/tv_wind_state"
-                            android:textColor="@color/white"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_8"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_14" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>

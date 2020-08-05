@@ -155,6 +155,14 @@ public class DateUtils {
         return week;
     }
 
+    public static String dateSplit(String date){//2020-08-04
+        String result = null;
+
+        String[] array = date.split("-");
+        result = array[1]+"/"+array[2];
+        return result; //08/04
+    }
+
     //将时间戳转化为对应的时间(10位或者13位都可以)
     public static String formatTime(long time) {
         String times = null;

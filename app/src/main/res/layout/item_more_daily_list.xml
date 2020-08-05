@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="30dp"
+    android:clickable="true"
+    android:padding="@dimen/dp_12">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_transparent_12"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_4">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_12">
+
+                <TextView
+                    android:id="@+id/tv_date_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+
+
+            <!--最高温和最低温-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_temp_max"
+                    android:typeface="sans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高温"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_36" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" / "
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18" />
+
+                <TextView
+                    android:id="@+id/tv_temp_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最高温"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_margin="@dimen/dp_12"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_8"
+                android:text="白天天气状况"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <!--白天-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <!--气候图标描述-->
+                    <ImageView
+                        android:id="@+id/iv_weather_state_d"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_80"
+                        android:scaleType="fitXY" />
+                    <!--气候文字描述-->
+                    <TextView
+                        android:id="@+id/tv_weather_state_d"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <!--风向360角度-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_360" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_360_d"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                        <!--风向-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_dir" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_dir_d"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12">
+                        <!--风力-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:padding="@dimen/dp_2"
+                                android:src="@mipmap/icon_wind_scale" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_scale_d"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                        <!--风速-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_speed" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_speed_d"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_margin="@dimen/dp_12"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_8"
+                android:text="夜间天气状况"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <!--夜间-->
+            <!--白天-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <!--气候图标描述-->
+                    <ImageView
+                        android:id="@+id/iv_weather_state_n"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_80"
+                        android:scaleType="fitXY" />
+                    <!--气候文字描述-->
+                    <TextView
+                        android:id="@+id/tv_weather_state_n"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <!--风向360角度-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_360" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_360_n"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                        <!--风向-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_dir" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_dir_n"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12">
+                        <!--风力-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:padding="@dimen/dp_2"
+                                android:src="@mipmap/icon_wind_scale" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_scale_n"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                        <!--风速-->
+                        <LinearLayout
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/dp_12"
+                            android:paddingRight="@dimen/dp_12">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_24"
+                                android:layout_height="@dimen/dp_24"
+                                android:src="@mipmap/icon_wind_speed" />
+
+                            <TextView
+                                android:id="@+id/tv_wind_speed_n"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_margin="@dimen/dp_12"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_12">
+                <!--云量-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="云量"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_cloud" />
+
+                    <TextView
+                        android:id="@+id/tv_cloud"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                <!--紫外线强度-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="紫外线"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_uv_index" />
+
+                    <TextView
+                        android:id="@+id/tv_uvIndex"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                <!--能见度-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="20dp"
+                        android:gravity="center_vertical"
+                        android:text="能见度"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_vis" />
+
+                    <TextView
+                        android:id="@+id/tv_vis"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                <!--降水量-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="降水量"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_precip" />
+
+                    <TextView
+                        android:id="@+id/tv_precip"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                <!--相对湿度-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="相对湿度"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_humidity" />
+
+                    <TextView
+                        android:id="@+id/tv_humidity"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+                <!--大气压强-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="大气压强"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_pressure" />
+
+                    <TextView
+                        android:id="@+id/tv_pressure"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

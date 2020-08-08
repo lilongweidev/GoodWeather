@@ -2,28 +2,24 @@ package com.llw.goodweather.ui;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.MoreDailyAdapter;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.contract.MoreDailyContract;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
+import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.RecyclerViewScrollHelper;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Response;
 
 /**
@@ -31,16 +27,15 @@ import retrofit2.Response;
  */
 public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPresenter> implements MoreDailyContract.IMoreDailyView {
 
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    List<DailyResponse.DailyBean> mList = new ArrayList<>();
-    MoreDailyAdapter mAdapter;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    List<DailyResponse.DailyBean> mList = new ArrayList<>();//数据实体
+    MoreDailyAdapter mAdapter;//适配器
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -50,6 +45,9 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
         Back(toolbar);
     }
 
+    /**
+     * 初始化列表
+     */
     private void initList() {
         mAdapter = new MoreDailyAdapter(R.layout.item_more_daily_list, mList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -86,7 +84,12 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
                 mList.clear();//添加数据之前先清除
                 mList.addAll(data);//添加数据
                 mAdapter.notifyDataSetChanged();//刷新列表
-                RecyclerViewScrollHelper.scrollToPosition(rv,1);//渲染完成后，指定滑动到某一个item,1的位置就是今天
+
+                for (int i = 0; i < data.size(); i++) {
+                    if(data.get(i).getFxDate().equals(DateUtils.getNowDate())){
+                        RecyclerViewScrollHelper.scrollToPosition(rv,i);//渲染完成后，定位到今天，因为和风天气预报有时候包括了昨天，有时候又不包括，搞得我很被动
+                    }
+                }
 
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
@@ -102,7 +105,7 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
     @Override
     public void getDataFailed() {
         dismissLoadingDialog();
-        ToastUtils.showShortToast(context, "天气数据获取异常");
+        ToastUtils.showShortToast(context, "更多天气数据获取异常");
     }
 
 }

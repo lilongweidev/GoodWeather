@@ -45,7 +45,7 @@ public class MoreDailyContract {
 
     public interface IMoreDailyView extends BaseView {
 
-        //热门城市返回数据 V7
+        //更多天气预报返回数据 V7
         void getMoreDailyResult(Response<DailyResponse> response);
 
         //错误返回

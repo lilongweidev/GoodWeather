@@ -107,4 +107,10 @@
         <attr name="textSize" format="dimension"/>
     </declare-styleable>
 
+    <!--线性进度条-->
+    <declare-styleable name="LineProgressbar">
+        <attr name="progressbar_width" format="dimension"/>
+        <attr name="progressbar_height" format="dimension"/>
+    </declare-styleable>
+
 </resources>

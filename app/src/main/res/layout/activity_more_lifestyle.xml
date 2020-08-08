@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_white"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/more_lifestyle"
     tools:context=".ui.MoreLifestyleActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
         app:contentInsetLeft="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@mipmap/icon_return"
+        app:navigationIcon="@mipmap/icon_return_white"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <TextView
@@ -25,9 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="更多空气质量"
-            android:textColor="@color/black"
+            android:text="更多生活建议"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_16" />
 
     </androidx.appcompat.widget.Toolbar>
+
+
 </LinearLayout>

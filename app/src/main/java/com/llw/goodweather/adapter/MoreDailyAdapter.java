@@ -1,20 +1,12 @@
 package com.llw.goodweather.adapter;
 
-import android.graphics.Typeface;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.WeatherUtil;
-
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -27,14 +19,6 @@ public class MoreDailyAdapter extends BaseQuickAdapter<DailyResponse.DailyBean, 
 
     @Override
     protected void convert(BaseViewHolder helper, DailyResponse.DailyBean item) {
-//        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/GenJyuuGothic-ExtraLight.ttf");
-//        TextView tvTempMax = helper.getView(R.id.tv_temp_max);
-//        TextView tvTempMin = helper.getView(R.id.tv_temp_min);
-//        tvTempMax.setText(item.getTempMax()+"°");
-//        tvTempMin.setText(item.getTempMin()+"°");
-//        tvTempMax.setTypeface(typeface);
-//        tvTempMin.setTypeface(typeface);
-
         helper.setText(R.id.tv_temp_max,item.getTempMax()+"°")
                 .setText(R.id.tv_temp_min,item.getTempMin()+"°");
 

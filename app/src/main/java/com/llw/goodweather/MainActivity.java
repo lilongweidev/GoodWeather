@@ -1,9 +1,9 @@
 package com.llw.goodweather;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,7 +20,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,6 +82,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -97,12 +97,18 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationR
 public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         implements WeatherContract.IWeatherView, View.OnScrollChangeListener {
 
+    @BindView(R.id.tv_week)
+    TextView tvWeek;//星期
+    @BindView(R.id.tv_air_info)
+    TextView tvAirInfo;//空气质量
     @BindView(R.id.tv_info)
     TextView tvInfo;//天气状况
     @BindView(R.id.tv_temperature)
     TextView tvTemperature;//温度
-    @BindView(R.id.tv_low_height)
-    TextView tvLowHeight;//最高温和最低温
+    @BindView(R.id.tv_temp_height)
+    TextView tvTempHeight;//最高温
+    @BindView(R.id.tv_temp_low)
+    TextView tvTempLow;//最低温
     @BindView(R.id.tv_city)
     TextView tvCity;//城市
     @BindView(R.id.tv_old_time)
@@ -197,6 +203,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     private String city;//市 国控站点数据  用于请求空气质量
 
     private String locationId = null;//城市id，用于查询城市数据  V7版本 中 才有
+    private String stationName = null;//空气质量站点 查询空气质量站点才需要
 
     //右上角的弹窗
     private PopupWindow mPopupWindow;
@@ -682,15 +689,20 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
     }
 
-
-    private void goToMore(Class<?> clazz){
-        if(locationId == null){
-            ToastUtils.showShortToast(context,"很抱歉，为获取到相关更多信息");
-        }else {
+    /**
+     * 进入更多数据页面
+     * @param clazz  要进入的页面
+     */
+    private void goToMore(Class<?> clazz) {
+        if (locationId == null) {
+            ToastUtils.showShortToast(context, "很抱歉，未获取到相关更多信息");
+        } else {
             Intent intent = new Intent(context, clazz);
-            intent.putExtra("locationId",locationId);
-            intent.putExtra("cityName",tvCity.getText().toString());
+            intent.putExtra("locationId", locationId);
+            intent.putExtra("stationName", stationName);//只要locationId不为空，则cityName不会为空,只判断一次即可
+            intent.putExtra("cityName", tvCity.getText().toString());
             startActivity(intent);
+
         }
 
     }
@@ -766,6 +778,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 tvCity.setText(response.body().getLocation().get(0).getName());//城市
                 locationId = response.body().getLocation().get(0).getId();//城市Id
+                stationName = response.body().getLocation().get(0).getAdm2();//上级城市 也是空气质量站点
 
                 showLoadingDialog();
                 mPresent.nowWeather(locationId);//查询实况天气
@@ -795,17 +808,20 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             //根据V7版本的原则，只要是200就一定有数据，我们可以不用做判空处理，但是，为了使程序不ANR，还是要做的，信自己得永生
             NowResponse data = response.body();
             if (data != null) {
-                tvTemperature.setText(data.getNow().getTemp());//温度
+                Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+                tvTemperature.setText(response.body().getNow().getTemp());//温度
+                tvTemperature.setTypeface(typeface);//使用字体
                 if (flag) {
                     ivLocation.setVisibility(View.VISIBLE);//显示定位图标
                 } else {
                     ivLocation.setVisibility(View.GONE);//显示定位图标
                 }
+                tvWeek.setText(DateUtils.getWeekOfDate(new Date()));//星期
                 tvInfo.setText(data.getNow().getText());//天气状况
 
                 String time = DateUtils.updateTime(data.getUpdateTime());//截去前面的字符，保留后面所有的字符，就剩下 22:00
 
-                tvOldTime.setText("上次更新时间：" + WeatherUtil.showTimeInfo(time) + time);
+                tvOldTime.setText("最近更新时间：" + WeatherUtil.showTimeInfo(time) + time);
                 tvWindDirection.setText("风向     " + data.getNow().getWindDir());//风向
                 tvWindPower.setText("风力     " + data.getNow().getWindScale() + "级");//风力
                 wwBig.startRotate();//大风车开始转动
@@ -828,12 +844,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<DailyResponse.DailyBean> data = response.body().getDaily();
             if (data != null && data.size() > 0) {//判空处理
-                tvLowHeight.setText(data.get(0).getTempMin() + " / " + data.get(0).getTempMax() + "℃");
+                tvTempHeight.setText(data.get(0).getTempMax() + "℃");
+                tvTempLow.setText(" / " + data.get(0).getTempMin() + "℃");
                 dailyListV7.clear();//添加数据之前先清除
                 dailyListV7.addAll(data);//添加数据
                 mAdapterDailyV7.notifyDataSetChanged();//刷新列表
                 runLayoutAnimation(rv);//底部动画展示
-                Log.d("result-->", new Gson().toJson(dailyListV7));
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
@@ -888,6 +904,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 rpbAqi.setSecondTextSize(64f);//第二行文本的字体大小
                 rpbAqi.setMinText("0");
                 rpbAqi.setMinTextColor(getResources().getColor(R.color.arc_progress_color));
+
+                tvAirInfo.setText("空气"+data.getCategory());
 
                 tvPm10.setText(data.getPm10());//PM10
                 tvPm25.setText(data.getPm10());//PM2.5

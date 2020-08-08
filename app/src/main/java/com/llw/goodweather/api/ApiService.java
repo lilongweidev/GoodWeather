@@ -1,19 +1,15 @@
 package com.llw.goodweather.api;
 
 
-import com.llw.goodweather.bean.AirFiveDayResponse;
-import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.AirNowResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.DailyResponse;
-import com.llw.goodweather.bean.HotCityResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
+import com.llw.goodweather.bean.MoreAirFiveResponse;
 import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
-import com.llw.goodweather.bean.SearchCityResponse;
-import com.llw.goodweather.bean.WeatherResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -40,32 +36,32 @@ public interface ApiService {
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Call<BiYingImgResponse> biying();
 
-    /**
-     * 空气质量数据  这个的location要传入市的参数，不再是区/县，否则会提示 permission denied  无访问权限
-     */
-    @GET("/s6/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
-    Call<AirNowCityResponse> getAirNowCity(@Query("location") String location);
-
-    /**
-     * 获取所有天气数据，在返回值中再做处理
-     *
-     * @param location
-     * @return
-     */
-    @GET("/s6/weather?key=3086e91d66c04ce588a7f538f917c7f4&lang=zh")
-    Call<WeatherResponse> weatherData(@Query("location") String location);
-
-    /**
-     * 搜索城市
-     */
-    @GET("/find?key=3086e91d66c04ce588a7f538f917c7f4&group=cn&number=10")
-    Call<SearchCityResponse> searchCity(@Query("location") String location);
-
-    /**
-     * 热门城市(包含海外和国内)
-     */
-    @GET("/top?key=3086e91d66c04ce588a7f538f917c7f4&number=50&lang=zh")
-    Call<HotCityResponse> hotCity(@Query("group") String group);
+//    /**
+//     * 空气质量数据  这个的location要传入市的参数，不再是区/县，否则会提示 permission denied  无访问权限
+//     */
+//    @GET("/s6/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
+//    Call<AirNowCityResponse> getAirNowCity(@Query("location") String location);
+//
+//    /**
+//     * 获取所有天气数据，在返回值中再做处理
+//     *
+//     * @param location
+//     * @return
+//     */
+//    @GET("/s6/weather?key=3086e91d66c04ce588a7f538f917c7f4&lang=zh")
+//    Call<WeatherResponse> weatherData(@Query("location") String location);
+//
+//    /**
+//     * 搜索城市
+//     */
+//    @GET("/find?key=3086e91d66c04ce588a7f538f917c7f4&group=cn&number=10")
+//    Call<SearchCityResponse> searchCity(@Query("location") String location);
+//
+//    /**
+//     * 热门城市(包含海外和国内)
+//     */
+//    @GET("/top?key=3086e91d66c04ce588a7f538f917c7f4&number=50&lang=zh")
+//    Call<HotCityResponse> hotCity(@Query("group") String group);
 
 
     /**********       以下为 V7版本API使用     **************/
@@ -115,7 +111,7 @@ public interface ApiService {
      * @return 返回空气质量5天预报数据
      */
     @GET("/v7/air/5d?key=3086e91d66c04ce588a7f538f917c7f4")
-    Call<AirFiveDayResponse> airFiveDayWeather(@Query("location") String location);
+    Call<MoreAirFiveResponse> airFiveWeather(@Query("location") String location);
 
     /**
      * 生活指数

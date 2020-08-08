@@ -2,16 +2,13 @@ package com.llw.goodweather.bean;
 
 import java.util.List;
 
-/**
- * 空气质量未来五天数据实体
- */
-public class AirFiveDayResponse {
+public class MoreAirFiveResponse {
 
     /**
      * code : 200
-     * updateTime : 2020-07-15T08:28+08:00
+     * updateTime : 2020-08-06T09:28+08:00
      * fxLink : http://hfx.link/2ax4
-     * daily : [{"fxDate":"2020-07-15","aqi":"34","level":"1","category":"优","primary":"NA"},{"fxDate":"2020-07-16","aqi":"35","level":"1","category":"优","primary":"NA"},{"fxDate":"2020-07-17","aqi":"39","level":"1","category":"优","primary":"NA"},{"fxDate":"2020-07-18","aqi":"18","level":"1","category":"优","primary":"NA"},{"fxDate":"2020-07-19","aqi":"12","level":"1","category":"优","primary":"NA"}]
+     * daily : [{"fxDate":"2020-08-06","aqi":"60","level":"2","category":"良","primary":"NA"},{"fxDate":"2020-08-07","aqi":"90","level":"2","category":"良","primary":"NA"},{"fxDate":"2020-08-08","aqi":"100","level":"2","category":"良","primary":"NA"},{"fxDate":"2020-08-09","aqi":"110","level":"3","category":"轻度污染","primary":"NA"},{"fxDate":"2020-08-10","aqi":"90","level":"2","category":"良","primary":"NA"}]
      * refer : {"sources":["cnemc"],"license":["no commercial use"]}
      */
 
@@ -84,10 +81,10 @@ public class AirFiveDayResponse {
 
     public static class DailyBean {
         /**
-         * fxDate : 2020-07-15
-         * aqi : 34
-         * level : 1
-         * category : 优
+         * fxDate : 2020-08-06
+         * aqi : 60
+         * level : 2
+         * category : 良
          * primary : NA
          */
 

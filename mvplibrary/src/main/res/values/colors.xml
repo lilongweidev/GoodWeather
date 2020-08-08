@@ -34,5 +34,5 @@
     <color name="transparent_bg_3">#66000000</color><!--黑色半透明 三-->
 
     <color name="temp_max_tx">#FF7E45</color><!--高温文字颜色-->
-    <color name="temp_min_tx">#ACE0F9</color><!--低温文字颜色-->
+    <color name="temp_min_tx">#B3BCCA</color><!--低温文字颜色-->
 </resources>

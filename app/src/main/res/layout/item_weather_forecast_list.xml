@@ -38,13 +38,25 @@
             android:layout_height="30dp"/>
 
         <!--最低温、最高温-->
-        <TextView
+        <LinearLayout
             android:gravity="right"
-            android:id="@+id/tv_low_and_height"
-            android:textSize="@dimen/sp_14"
-            android:textColor="#FFF"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_temp_height"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#FFF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_temp_low"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/temp_min_tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

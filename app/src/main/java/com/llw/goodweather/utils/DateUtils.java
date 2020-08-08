@@ -70,7 +70,7 @@ public class DateUtils {
 
         LocalDateTime date = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        System.out.println("dateString:"+dateString);//到这一步，时间格式已经转换好了
+        System.out.println("dateString:" + dateString);//到这一步，时间格式已经转换好了
         result = dateString.substring(11);//进一步截取以达到我项目中的需求
         return result;
     }
@@ -155,12 +155,21 @@ public class DateUtils {
         return week;
     }
 
-    public static String dateSplit(String date){//2020-08-04
+    //时间截取
+    public static String dateSplit(String date) {//2020-08-04
         String result = null;
 
         String[] array = date.split("-");
-        result = array[1]+"/"+array[2];
+        result = array[1] + "/" + array[2];
         return result; //08/04
+    }
+    //时间截取plus
+    public static String dateSplitPlus(String date) {//2020-08-07
+        String result = null;
+
+        String[] array = date.split("-");
+        result = Integer.parseInt(array[1]) + "月" + Integer.parseInt(array[2]) + "号";
+        return result; // 8月7号
     }
 
     //将时间戳转化为对应的时间(10位或者13位都可以)

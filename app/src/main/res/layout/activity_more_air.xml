@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_white"
+    android:background="@drawable/more_air_bg"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.MoreAirActivity">
 
@@ -12,12 +13,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
         app:contentInsetLeft="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@mipmap/icon_return"
+        app:navigationIcon="@mipmap/icon_return_white"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <TextView
@@ -26,8 +26,344 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="更多空气质量"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_16" />
-
     </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--实时空气质量-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_12"
+                android:background="@drawable/shape_transparent_12"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_12">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="实时空气质量"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_16" />
+
+                    <TextView
+                        android:id="@+id/tv_old_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="上次更新时间："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12">
+                    <!--污染指数 动画展示-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="污染指数"
+                            android:textColor="#DAEBEE"
+                            android:textSize="14sp" />
+                        <!--显示污染指数进度值-->
+                        <com.llw.mvplibrary.view.RoundProgressBar
+                            android:id="@+id/rpb_aqi"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center"
+                            app:round_bg_color="#C6D7F4"
+                            app:round_progress_color="#FBFEF7" />
+                    </LinearLayout>
+
+                    <!--其他指数-->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <!--PM10-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="PM10"
+                                android:textColor="@color/blue_one"
+                                android:textSize="12sp" />
+
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_pm10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_pm10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!--PM2.5-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <TextView
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="PM2.5"
+                                android:textColor="@color/blue_one"
+                                android:textSize="12sp" />
+
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_pm25"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_pm25"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!--NO2 二氧化氮-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="NO"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="8sp" />
+                            </LinearLayout>
+
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_no2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_no2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!--SO2 二氧化硫-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="SO"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="2"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="8sp" />
+                            </LinearLayout>
+
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_so2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_so2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!--O3 臭氧-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="O"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="3"
+                                    android:textColor="@color/blue_one"
+                                    android:textSize="8sp" />
+                            </LinearLayout>
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_o3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_o3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <!--CO 一氧化碳-->
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <TextView
+                                android:layout_width="@dimen/dp_44"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="CO"
+                                android:textColor="@color/blue_one"
+                                android:textSize="12sp" />
+
+                            <com.llw.mvplibrary.view.LineProgressbar
+                                android:id="@+id/progress_co"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:progressbar_width="@dimen/dp_80"
+                                app:progressbar_height="@dimen/dp_10"/>
+
+                            <TextView
+                                android:id="@+id/tv_co"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_12"
+                android:text="监测站空气质量"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <!--国控站点空气质量列表-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_station"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/dp_12"
+                android:text="未来5天空气质量预报"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_five_air"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:overScrollMode="never" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

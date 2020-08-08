@@ -3,7 +3,6 @@ package com.llw.goodweather.contract;
 import android.content.Context;
 
 import com.llw.goodweather.api.ApiService;
-import com.llw.goodweather.bean.AirNowCityResponse;
 import com.llw.goodweather.bean.AirNowResponse;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.DailyResponse;
@@ -11,7 +10,6 @@ import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
-import com.llw.goodweather.bean.WeatherResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
 import com.llw.mvplibrary.net.NetCallBack;

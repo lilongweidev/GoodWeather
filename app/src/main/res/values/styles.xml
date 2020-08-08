@@ -18,4 +18,6 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item><!--透明背景-->
     </style>
+
+
 </resources>

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="@dimen/sp_16"
+            android:textSize="@dimen/sp_18"
             android:textColor="@color/white"
             android:text="更多天气预报" />
 

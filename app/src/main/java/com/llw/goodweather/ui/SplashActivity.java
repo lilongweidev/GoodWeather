@@ -45,7 +45,6 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         StatusBarUtil.transparencyBar(context);//透明状态栏
-        rxPermissions = new RxPermissions(this);//实例化这个权限请求框架，否则会报错
         permissionVersion();//权限判断
     }
 
@@ -67,6 +66,7 @@ public class SplashActivity extends BaseActivity {
 
     //动态权限申请
     private void permissionsRequest() {//使用这个框架需要制定JDK版本，建议用1.8
+        rxPermissions = new RxPermissions(this);//实例化这个权限请求框架，否则会报错
         rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(granted -> {
                     if (granted) {//申请成功

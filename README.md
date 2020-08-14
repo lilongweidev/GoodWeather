@@ -6,6 +6,7 @@
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
+![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
 <br>
 
 [APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
@@ -39,6 +40,7 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（二十）增加欢迎页及白屏黑屏处理、展示世界国家/地区的城市数据](https://blog.csdn.net/qq_38436214/article/details/107538839)<br>
 [Android 天气APP（二十一）滑动改变UI、增加更多天气数据展示，最多未来15天天气预报](https://blog.csdn.net/qq_38436214/article/details/107705898)<br>
 [Android 天气APP（二十二）改动些许UI、增加更多空气质量数据和生活建议数据展示](https://blog.csdn.net/qq_38436214/article/details/107867980)<br>
+[Android 天气APP（二十三）增加灾害预警、优化主页面UI](https://blog.csdn.net/qq_38436214/article/details/108005938)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -49,8 +51,10 @@ http://d.firim.vip/h4sg<br>
 
 ## 版本说明
 
-### V 1.9 (最新版本)<br>
-* 1.优化主页UI 2.新增更多天气预报、空气质量、生活建议的数据<br>
+### V 2.0 (最新版本)<br>
+* 新增灾害预警功能，主页面UI优化<br>
+### V 1.9 <br>
+* 新增更多天气预报、空气质量、生活建议的数据、优化主页UI <br>
 ### V 1.8 <br>
 * 更新和风天气V7版API,删除热门城市、新增全球城市。启动页优化，黑白屏处理<br>
 ### V 1.7 <br>

@@ -7,6 +7,7 @@ import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.MoreAirFiveResponse;
+import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
@@ -147,6 +148,14 @@ public interface ApiService {
      */
     @GET("/v2/city/top?key=3086e91d66c04ce588a7f538f917c7f4&number=20")
     Call<WorldCityResponse> worldCity(@Query("range") String range);
+
+    /**
+     * 当前城市灾害预警
+     * @param location  城市id ，通过搜索城市获得
+     * @return
+     */
+    @GET("/v7/warning/now?key=3086e91d66c04ce588a7f538f917c7f4")
+    Call<WarningResponse> nowWarn(@Query("location") String location);
 
 
 }

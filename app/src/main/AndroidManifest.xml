@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MoreLifestyleActivity"></activity>
+        <activity android:name=".ui.WarnActivity"></activity>
+        <activity android:name=".ui.MoreLifestyleActivity" />
         <activity android:name=".ui.MoreAirActivity" />
         <activity android:name=".ui.MoreDailyActivity" />
         <activity android:name=".ui.WorldCityActivity" />

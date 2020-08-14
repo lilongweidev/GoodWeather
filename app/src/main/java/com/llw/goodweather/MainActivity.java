@@ -47,6 +47,7 @@ import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
+import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
@@ -55,6 +56,7 @@ import com.llw.goodweather.ui.MoreAirActivity;
 import com.llw.goodweather.ui.MoreDailyActivity;
 import com.llw.goodweather.ui.MoreLifestyleActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
+import com.llw.goodweather.ui.WarnActivity;
 import com.llw.goodweather.ui.WorldCityActivity;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
@@ -98,6 +100,8 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationR
 public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         implements WeatherContract.IWeatherView, View.OnScrollChangeListener {
 
+    @BindView(R.id.tv_warn)
+    TextView tvWarn;//灾害预警跑马灯
     @BindView(R.id.tv_week)
     TextView tvWeek;//星期
     @BindView(R.id.tv_air_info)
@@ -143,7 +147,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     @BindView(R.id.iv_add)
     ImageView ivAdd;//更多功能
     @BindView(R.id.bg)
-    LinearLayout bg;//背景图
+    ImageView bg;//背景图
     @BindView(R.id.refresh)
     SmartRefreshLayout refresh;//刷新布局
     @BindView(R.id.iv_location)
@@ -176,7 +180,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     TextView tvMoreAir;//更多空气信息
     @BindView(R.id.tv_more_lifestyle)
     TextView tvMoreLifestyle;//更多生活建议
-
 
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
 
@@ -217,6 +220,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     public boolean flagOther = false;//跳转其他页面时才为true
     public boolean searchCityData = false;//搜索城市是否传递数据回来
+    private String warnBodyString = null;//灾害预警数据字符串
 
 
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
@@ -302,16 +306,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 }
             } else if (isCustomImg != false) {
                 String imgPath = SPUtils.getString(Constant.CUSTOM_IMG_PATH, "", context);
-                Glide.with(context)
-                        .asBitmap()
-                        .load(imgPath)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                Drawable drawable = new BitmapDrawable(context.getResources(), resource);
-                                bg.setBackground(drawable);
-                            }
-                        });
+                Glide.with(context).load(imgPath).into(bg);
             }
         }
     }
@@ -638,8 +633,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     //点击事件  图标的ID也做了更换，点击之后的弹窗也更换了
     @OnClick(R.id.iv_add)
     public void onViewClicked() {
-        showAddWindow();//更多功能弹窗
-        toggleBright();//计算动画时间
+
     }
 
 
@@ -675,9 +669,18 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     //添加点击事件
-    @OnClick({R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
+    @OnClick({R.id.iv_add, R.id.tv_warn, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_add://更多功能弹窗
+                showAddWindow();//更多功能弹窗
+                toggleBright();//计算动画时间
+                break;
+            case R.id.tv_warn://灾害预警，不一定当前城市就有这个预警，如果有预警的话就可以进入查看详情
+                Intent intent = new Intent(context, WarnActivity.class);
+                intent.putExtra("warnBodyString",warnBodyString);
+                startActivity(intent);
+                break;
             case R.id.tv_more_daily://更多天气预报
                 goToMore(MoreDailyActivity.class);
                 break;
@@ -692,7 +695,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     /**
      * 进入更多数据页面
-     * @param clazz  要进入的页面
+     *
+     * @param clazz 要进入的页面
      */
     private void goToMore(Class<?> clazz) {
         if (locationId == null) {
@@ -741,16 +745,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (response.body().getImages() != null) {
             //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
             String imgUrl = "http://cn.bing.com" + response.body().getImages().get(0).getUrl();
-            Glide.with(context)
-                    .asBitmap()
-                    .load(imgUrl)
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            Drawable drawable = new BitmapDrawable(context.getResources(), resource);
-                            bg.setBackground(drawable);
-                        }
-                    });
+            Glide.with(context).load(imgUrl).into(bg);
         } else {
             ToastUtils.showShortToast(context, "数据为空");
         }
@@ -780,13 +775,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 tvCity.setText(response.body().getLocation().get(0).getName());//城市
                 locationId = response.body().getLocation().get(0).getId();//城市Id
                 stationName = response.body().getLocation().get(0).getAdm2();//上级城市 也是空气质量站点
-
                 showLoadingDialog();
                 mPresent.nowWeather(locationId);//查询实况天气
                 mPresent.dailyWeather(locationId);//查询天气预报
                 mPresent.hourlyWeather(locationId);//查询逐小时天气预报
                 mPresent.airNowWeather(locationId);//空气质量
                 mPresent.lifestyle(locationId);//生活指数
+                mPresent.nowWarn(locationId);//灾害预警
             } else {
                 ToastUtils.showShortToast(context, "数据为空");
             }
@@ -906,7 +901,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 rpbAqi.setMinText("0");
                 rpbAqi.setMinTextColor(getResources().getColor(R.color.arc_progress_color));
 
-                tvAirInfo.setText("空气"+data.getCategory());
+                tvAirInfo.setText("空气" + data.getCategory());
 
                 tvPm10.setText(data.getPm10());//PM10
                 tvPm25.setText(data.getPm10());//PM2.5
@@ -958,6 +953,26 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                         tvAir.setText("空气指数：" + data.get(i).getText());
                         break;
                 }
+            }
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
+    }
+
+    /**
+     * 灾害预警返回
+     *
+     * @param response
+     */
+    @Override
+    public void getNowWarnResult(Response<WarningResponse> response) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+            List<WarningResponse.WarningBean> data = response.body().getWarning();
+            if (data != null && data.size() > 0) {
+                warnBodyString = new Gson().toJson(response.body());
+                tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());//设置滚动标题和内容
+            } else {//没有该城市预警有隐藏掉这个TextView
+                tvWarn.setVisibility(View.GONE);
             }
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
@@ -1086,6 +1101,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     /**
      * 增加一个退出应用的提示
+     *
      * @param keyCode
      * @param event
      * @return

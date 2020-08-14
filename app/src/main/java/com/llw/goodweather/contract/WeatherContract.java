@@ -10,6 +10,7 @@ import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
+import com.llw.goodweather.bean.WarningResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
 import com.llw.mvplibrary.net.NetCallBack;
@@ -189,6 +190,29 @@ public class WeatherContract {
             });
         }
 
+        /**
+         * 城市灾害预警
+         * @param location  城市id
+         */
+        public void nowWarn(String location){
+            ApiService service = ServiceGenerator.createService(ApiService.class,3);
+            service.nowWarn(location).enqueue(new NetCallBack<WarningResponse>() {
+                @Override
+                public void onSuccess(Call<WarningResponse> call, Response<WarningResponse> response) {
+                    if(getView() != null){
+                        getView().getNowWarnResult(response);
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+                    if(getView() != null){
+                        getView().getWeatherDataFailed();
+                    }
+                }
+            });
+        }
+
 
 
     }
@@ -215,7 +239,12 @@ public class WeatherContract {
         //生活指数
         void getLifestyleResult(Response<LifestyleResponse> response);
 
+        //灾害预警
+        void getNowWarnResult(Response<WarningResponse> response);
+
         //错误返回
         void getDataFailed();
+
+
     }
 }

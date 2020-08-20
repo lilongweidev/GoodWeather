@@ -8,8 +8,8 @@
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
 <br>
-
-[APP演示视频地址](https://v.qq.com/x/page/q0958h5wyew.html?url_from=share&second_share=0&share_from=copy)<br>
+GIF看不了的，打开下面的视频地址
+[APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
 #### 网址下载
 http://d.firim.vip/h4sg<br>

@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.WarnActivity"></activity>
+        <activity android:name=".ui.MapWeatherActivity"></activity>
+        <activity android:name=".ui.WarnActivity" />
         <activity android:name=".ui.MoreLifestyleActivity" />
         <activity android:name=".ui.MoreAirActivity" />
         <activity android:name=".ui.MoreDailyActivity" />
@@ -35,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".ui.CommonlyUsedCityActivity" />
         <activity android:name=".ui.WorldCityWeatherActivity" />
         <activity android:name=".ui.SearchCityActivity" />
@@ -46,8 +48,6 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

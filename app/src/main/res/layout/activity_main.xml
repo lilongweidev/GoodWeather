@@ -25,8 +25,19 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:contentInsetLeft="16dp"
+            app:contentInsetStart="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <!--地图天气-->
+            <ImageView
+                android:id="@+id/iv_map"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/selector_bg_img"
+                android:padding="@dimen/dp_12"
+                android:src="@mipmap/icon_map" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -36,17 +47,19 @@
                 android:text="城市天气"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_18" />
+
             <!--更多功能-->
             <ImageView
                 android:id="@+id/iv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_4"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="right"
+                android:padding="14dp"
                 android:background="@drawable/selector_bg_img"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
                 android:src="@mipmap/icon_add" />
+
         </androidx.appcompat.widget.Toolbar>
 
         <!--下拉刷新布局-->

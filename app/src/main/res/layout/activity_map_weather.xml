@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MapWeatherActivity">
+
+    <!--地图控件-->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:fitsSystemWindows="true" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_auto_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="@dimen/dp_50"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:clickable="true"
+        android:src="@mipmap/icon_auto_location"
+        app:backgroundTint="@color/transparent_bg_3"
+        app:backgroundTintMode="screen"
+        app:borderWidth="@dimen/dp_0"
+        app:fabSize="mini"
+        app:hoveredFocusedTranslationZ="@dimen/dp_18"
+        app:pressedTranslationZ="@dimen/dp_18"
+        app:rippleColor="@color/blue_one" />
+</FrameLayout>

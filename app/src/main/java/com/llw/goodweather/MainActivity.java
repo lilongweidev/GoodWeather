@@ -52,6 +52,7 @@ import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
 import com.llw.goodweather.ui.CommonlyUsedCityActivity;
+import com.llw.goodweather.ui.MapWeatherActivity;
 import com.llw.goodweather.ui.MoreAirActivity;
 import com.llw.goodweather.ui.MoreDailyActivity;
 import com.llw.goodweather.ui.MoreLifestyleActivity;
@@ -144,6 +145,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     TextView tvWindDirection;//风向
     @BindView(R.id.tv_wind_power)
     TextView tvWindPower;//风力
+    @BindView(R.id.iv_map)
+    ImageView ivMap;//地图天气
     @BindView(R.id.iv_add)
     ImageView ivAdd;//更多功能
     @BindView(R.id.bg)
@@ -630,12 +633,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     }
 
-    //点击事件  图标的ID也做了更换，点击之后的弹窗也更换了
-    @OnClick(R.id.iv_add)
-    public void onViewClicked() {
-
-    }
-
 
     /**
      * 滑动监听
@@ -669,14 +666,18 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     //添加点击事件
-    @OnClick({R.id.iv_add, R.id.tv_warn, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
+    @OnClick({R.id.iv_map,R.id.iv_add, R.id.tv_warn, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.iv_map://地图天气
+                startActivity(new Intent(context, MapWeatherActivity.class));
+                break;
             case R.id.iv_add://更多功能弹窗
                 showAddWindow();//更多功能弹窗
                 toggleBright();//计算动画时间
                 break;
             case R.id.tv_warn://灾害预警，不一定当前城市就有这个预警，如果有预警的话就可以进入查看详情
+                SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, false, context);//缓存标识
                 Intent intent = new Intent(context, WarnActivity.class);
                 intent.putExtra("warnBodyString",warnBodyString);
                 startActivity(intent);
@@ -1034,7 +1035,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         });
         changeBg.setOnClickListener(view -> {//切换背景
             //放入缓存
-            SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, true, context);//缓存标识
+            SPUtils.putBoolean(Constant.FLAG_OTHER_RETURN, false, context);//缓存标识
             SPUtils.putString(Constant.DISTRICT, district, context);
             SPUtils.putString(Constant.CITY, city, context);
             startActivity(new Intent(context, BackgroundManagerActivity.class));

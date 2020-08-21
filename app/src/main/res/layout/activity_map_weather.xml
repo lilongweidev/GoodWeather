@@ -15,6 +15,7 @@
         android:fitsSystemWindows="true" />
 
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_auto_location"
         android:layout_width="wrap_content"

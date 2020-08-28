@@ -1,12 +1,18 @@
 # GoodWeather
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
+![地图天气GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif)
+![灾害预警GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
+![更多天气预报GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif)
+![更多空气质量GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif)
+![更多生活指数GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
+![世界城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
+![常用城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
+
+
+
+
+
 <br>
 GIF看不了的，打开下面的视频地址
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
@@ -41,6 +47,8 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（二十一）滑动改变UI、增加更多天气数据展示，最多未来15天天气预报](https://blog.csdn.net/qq_38436214/article/details/107705898)<br>
 [Android 天气APP（二十二）改动些许UI、增加更多空气质量数据和生活建议数据展示](https://blog.csdn.net/qq_38436214/article/details/107867980)<br>
 [Android 天气APP（二十三）增加灾害预警、优化主页面UI](https://blog.csdn.net/qq_38436214/article/details/108005938)<br>
+[Android 天气APP（二十四）地图天气（上）自动定位和地图点击定位](https://blog.csdn.net/qq_38436214/article/details/108274437)<br>
+[Android 天气APP（二十五）地图天气（下）嵌套滑动布局渲染天气数据](https://blog.csdn.net/qq_38436214/article/details/108274498)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -51,7 +59,9 @@ http://d.firim.vip/h4sg<br>
 
 ## 版本说明
 
-### V 2.0 (最新版本)<br>
+### V 2.1 (最新版本)<br>
+* 新增地图天气<br>
+### V 2.0 <br>
 * 新增灾害预警功能，主页面UI优化<br>
 ### V 1.9 <br>
 * 新增更多天气预报、空气质量、生活建议的数据、优化主页UI <br>

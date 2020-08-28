@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +61,8 @@ import com.llw.goodweather.ui.MoreLifestyleActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
 import com.llw.goodweather.ui.WarnActivity;
 import com.llw.goodweather.ui.WorldCityActivity;
+import com.llw.goodweather.utils.APKVersionInfoUtils;
+import com.llw.goodweather.utils.AppStartUpUtils;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
@@ -67,12 +70,14 @@ import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
+import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.AnimationUtil;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.RoundProgressBar;
 import com.llw.mvplibrary.view.WhiteWindmills;
+import com.llw.mvplibrary.view.dialog.AlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -81,6 +86,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.LitePal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -244,6 +250,39 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         EventBus.getDefault().register(this);//注册
 
         scrollView.setOnScrollChangeListener(this);//指定当前页面，不写则滑动监听无效
+    }
+
+    /**
+     * 检查APP版本
+     */
+    private void checkAppVersion() {
+        AppVersion appVersion = LitePal.find(AppVersion.class,1);
+        if(!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))){//提示更新
+            if(AppStartUpUtils.isTodayFirstStartApp(context)){//今天第一次打开APP
+                showUpdateAppDialog(appVersion.getInstall_url(),appVersion.getChangelog());
+            }
+        }
+    }
+
+    AlertDialog updateAppDialog = null;
+
+    //更新弹窗
+    private void showUpdateAppDialog(String downloadUrl,String updateLog) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .addDefaultAnimation()//默认弹窗动画
+                .setCancelable(true)
+                .setText(R.id.tv_update_info,updateLog)
+                .setContentView(R.layout.dialog_update_app_tip)//载入布局文件
+                .setWidthAndHeight(SizeUtils.dp2px(context, 270), ViewGroup.LayoutParams.WRAP_CONTENT)//设置弹窗宽高
+                .setOnClickListener(R.id.tv_cancel, v -> {//取消
+                    updateAppDialog.dismiss();
+                }).setOnClickListener(R.id.tv_fast_update, v -> {//立即更新
+                    startActivity(new Intent(Intent.ACTION_VIEW, (Uri.parse(downloadUrl)))
+                            .addCategory(Intent.CATEGORY_BROWSABLE)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                });
+        updateAppDialog = builder.create();
+        updateAppDialog.show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -801,7 +840,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void getNowResult(Response<NowResponse> response) {
-        dismissLoadingDialog();
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {//200则成功返回数据
             //根据V7版本的原则，只要是200就一定有数据，我们可以不用做判空处理，但是，为了使程序不ANR，还是要做的，信自己得永生
             NowResponse data = response.body();
@@ -973,9 +1011,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             if (data != null && data.size() > 0) {
                 warnBodyString = new Gson().toJson(response.body());
                 tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());//设置滚动标题和内容
+                dismissLoadingDialog();
+                checkAppVersion();
             } else {//没有该城市预警有隐藏掉这个TextView
                 tvWarn.setVisibility(View.GONE);
             }
+
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
@@ -1122,5 +1163,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 
 }

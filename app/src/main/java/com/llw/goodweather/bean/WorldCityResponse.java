@@ -2,6 +2,9 @@ package com.llw.goodweather.bean;
 
 import java.util.List;
 
+/**
+ * 世界城市返回实体
+ */
 public class WorldCityResponse {
 
     /**

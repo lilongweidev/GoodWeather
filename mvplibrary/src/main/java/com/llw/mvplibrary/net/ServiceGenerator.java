@@ -29,6 +29,9 @@ public class ServiceGenerator {
             case 4://搜索城市  新增
                 BASE_URL = "https://geoapi.heweather.net";//V7版本下的搜索城市地址
                 break;
+            case 5://APP更新
+                BASE_URL = "http://api.bq04.com";//Fr.im更新
+                break;
         }
         return BASE_URL;
     }

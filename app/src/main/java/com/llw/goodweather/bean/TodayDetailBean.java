@@ -1,5 +1,8 @@
 package com.llw.goodweather.bean;
 
+/**
+ * 地图天气 今日详情返回实体
+ */
 public class TodayDetailBean {
     private int icon;
     private String value;

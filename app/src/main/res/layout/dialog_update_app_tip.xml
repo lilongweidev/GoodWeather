@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_270"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="@dimen/dp_270"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/pic_update" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_26">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="发现新版本"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/tv_update_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:text="再也不会错过更多精彩啦!" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50">
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_left_bg"
+            android:foreground="@drawable/bg_white"
+            android:gravity="center"
+            android:text="下次再说"
+            android:textColor="#597EF7"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/tv_fast_update"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_right_bg"
+            android:foreground="@drawable/bg_white"
+            android:gravity="center"
+            android:text="立即更新"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+</LinearLayout>

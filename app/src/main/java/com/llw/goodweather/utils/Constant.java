@@ -17,6 +17,9 @@ public class Constant {
     public final static String CUSTOM_IMG_PATH = "custom_img_path";//手动上传图片地址
     public final static String FLAG_OTHER_RETURN="flag_other_return";//跳转页面的标识
     public final static String LOCATION="location";
+    public final static String APP_FIRST_START = "appFirstStart";//App首次启动
+    public final static String TODAY_FIRST_START = "appFirstStart";//今日首次启动
+    public final static String START_UP_APP_TIME = "startAppTime";//今日启动APP的时间
 
 
 }

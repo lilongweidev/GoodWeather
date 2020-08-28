@@ -19,6 +19,7 @@ import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.base.BaseActivity;
+import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.bean.Country;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -29,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +40,7 @@ import retrofit2.Response;
 /**
  * 欢迎页
  */
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> implements SplashContract.ISplashView {
 
     private RxPermissions rxPermissions;//权限请求框架
 
@@ -75,7 +77,7 @@ public class SplashActivity extends BaseActivity {
                         //得到权限可以进入APP
                         //加载世界国家数据到本地数据库,已有则不加载
                         initCountryData();
-
+                        mPresent.getAppInfo();
                     } else {//申请失败
                         finish();
                         ToastUtils.showShortToast(this, "权限未开启");
@@ -85,6 +87,9 @@ public class SplashActivity extends BaseActivity {
 
     private List<Country> list;
 
+    /**
+     * 初始化世界国家及地区数据
+     */
     private void initCountryData() {
         list = LitePal.findAll(Country.class);
         if (list.size() > 0) {//有数据了
@@ -126,5 +131,32 @@ public class SplashActivity extends BaseActivity {
         }, 1000);
     }
 
+    /**
+     * 获取APP最新版本信息返回
+     * @param response
+     */
+    @Override
+    public void getAppInfoResult(Response<AppVersion> response) {
+        if(response.body() != null){
+            AppVersion appVersion = new AppVersion();
+            appVersion.setName(response.body().getName());//应用名称
+            appVersion.setVersion(response.body().getVersion());//应用版本 对应code
+            appVersion.setVersionShort(response.body().getVersionShort());//应用版本名
+            appVersion.setChangelog(response.body().getChangelog());//更新日志
+            appVersion.setUpdate_url(response.body().getUpdate_url());//更新地址
+            appVersion.setInstall_url(response.body().getInstall_url());//安装地址
+            appVersion.setAppSize(String.valueOf(response.body().getBinary().getFsize()));//APK大小
+            appVersion.save();//保存数据
+        }
+    }
 
+    @Override
+    public void getDataFailed() {
+        Log.d("Network Error","网络异常");
+    }
+
+    @Override
+    protected SplashContract.SplashPresenter createPresent() {
+        return new SplashContract.SplashPresenter();
+    }
 }

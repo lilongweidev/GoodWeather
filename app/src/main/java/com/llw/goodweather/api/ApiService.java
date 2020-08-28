@@ -11,6 +11,7 @@ import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
+import com.llw.mvplibrary.bean.AppVersion;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -36,34 +37,6 @@ public interface ApiService {
      */
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Call<BiYingImgResponse> biying();
-
-//    /**
-//     * 空气质量数据  这个的location要传入市的参数，不再是区/县，否则会提示 permission denied  无访问权限
-//     */
-//    @GET("/s6/air/now?key=3086e91d66c04ce588a7f538f917c7f4")
-//    Call<AirNowCityResponse> getAirNowCity(@Query("location") String location);
-//
-//    /**
-//     * 获取所有天气数据，在返回值中再做处理
-//     *
-//     * @param location
-//     * @return
-//     */
-//    @GET("/s6/weather?key=3086e91d66c04ce588a7f538f917c7f4&lang=zh")
-//    Call<WeatherResponse> weatherData(@Query("location") String location);
-//
-//    /**
-//     * 搜索城市
-//     */
-//    @GET("/find?key=3086e91d66c04ce588a7f538f917c7f4&group=cn&number=10")
-//    Call<SearchCityResponse> searchCity(@Query("location") String location);
-//
-//    /**
-//     * 热门城市(包含海外和国内)
-//     */
-//    @GET("/top?key=3086e91d66c04ce588a7f538f917c7f4&number=50&lang=zh")
-//    Call<HotCityResponse> hotCity(@Query("group") String group);
-
 
     /**********       以下为 V7版本API使用     **************/
 
@@ -157,5 +130,10 @@ public interface ApiService {
     @GET("/v7/warning/now?key=3086e91d66c04ce588a7f538f917c7f4")
     Call<WarningResponse> nowWarn(@Query("location") String location);
 
+    /**
+     * APP版本更新
+     */
+    @GET("/apps/latest/5e8c37e90d81cc0db2645c1c?api_token=468e4653ca9e1d34e7a73b8f2d7191da")
+    Call<AppVersion> getAppInfo();
 
 }

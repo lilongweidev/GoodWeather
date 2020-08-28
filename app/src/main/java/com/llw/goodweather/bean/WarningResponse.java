@@ -1,7 +1,9 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
-
+/**
+ * 灾害预警返回实体
+ */
 public class WarningResponse {
 
     /**

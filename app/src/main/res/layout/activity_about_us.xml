@@ -54,9 +54,12 @@
             android:textSize="@dimen/sp_18" />
 
         <LinearLayout
+            android:id="@+id/lay_app_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:gravity="center_vertical"
+            android:foreground="?android:attr/selectableItemBackground"
             android:padding="@dimen/dp_12">
 
             <TextView
@@ -75,6 +78,14 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/black_4"
                 android:textSize="@dimen/sp_16" />
+
+            <View
+                android:id="@+id/v_red"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:background="@drawable/message_red"
+               />
         </LinearLayout>
 
         <View

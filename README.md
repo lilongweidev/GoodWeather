@@ -7,13 +7,7 @@
 ![更多空气质量GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif)
 ![更多生活指数GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
 ![世界城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
-![常用城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)
-
-
-
-
-
-<br>
+![常用城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)<br>
 GIF看不了的，打开下面的视频地址
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 

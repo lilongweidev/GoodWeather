@@ -67,7 +67,9 @@ public class SplashActivity extends BaseActivity {
     //动态权限申请
     private void permissionsRequest() {//使用这个框架需要制定JDK版本，建议用1.8
         rxPermissions = new RxPermissions(this);//实例化这个权限请求框架，否则会报错
-        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
                 .subscribe(granted -> {
                     if (granted) {//申请成功
                         //得到权限可以进入APP
@@ -85,9 +87,9 @@ public class SplashActivity extends BaseActivity {
 
     private void initCountryData() {
         list = LitePal.findAll(Country.class);
-        if (list.size() > 0){//有数据了
+        if (list.size() > 0) {//有数据了
             goToMain();
-        }else {//第一次加载
+        } else {//第一次加载
             InputStreamReader is = null;
             try {
                 is = new InputStreamReader(getAssets().open("world_country.csv"), "UTF-8");

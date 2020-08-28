@@ -11,11 +11,12 @@ public class WeatherUtil {
 
     /**
      * 根据传入的状态码修改填入的天气图标
+     *
      * @param weatherStateIcon 显示的ImageView
-     * @param code 天气状态码
+     * @param code             天气状态码
      */
-    public static void changeIcon(ImageView weatherStateIcon,int code){
-        switch (code){
+    public static void changeIcon(ImageView weatherStateIcon, int code) {
+        switch (code) {
             case 100://晴
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_100);
                 break;
@@ -205,20 +206,21 @@ public class WeatherUtil {
 
     /**
      * 根据传入的时间显示时间段描述信息
+     *
      * @param timeData
      * @return
      */
-    public static String showTimeInfo(String timeData){
+    public static String showTimeInfo(String timeData) {
         String timeInfo = null;
         int time = 0;
-        time = Integer.parseInt(timeData.trim().substring(0,2));
+        time = Integer.parseInt(timeData.trim().substring(0, 2));
         if (time >= 0 && time <= 6) {
             timeInfo = "凌晨";
-        }else if (time > 6 && time <= 12) {
+        } else if (time > 6 && time <= 12) {
             timeInfo = "上午";
-        }else if (time > 12 && time <= 13) {
+        } else if (time > 12 && time <= 13) {
             timeInfo = "中午";
-        }else if (time > 13 && time <= 18) {
+        } else if (time > 13 && time <= 18) {
             timeInfo = "下午";
         } else if (time > 18 && time <= 24) {
             timeInfo = "晚上";
@@ -226,5 +228,66 @@ public class WeatherUtil {
             timeInfo = "未知";
         }
         return timeInfo;
+    }
+
+    public static String uvIndexInfo(String uvIndex) {
+        String result = null;
+        switch (uvIndex) {//最弱(1)、弱(2)、中等(3)、强(4)、很强(5)
+            case "1":
+                result = "最弱";
+                break;
+            case "2":
+                result = "弱";
+                break;
+            case "3":
+                result = "中等";
+                break;
+            case "4":
+                result = "强";
+                break;
+            case "5":
+                result = "很强";
+                break;
+            default:
+                result = "弱";
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * 根据api的提示转为更为人性化的提醒
+     * @param apiInfo
+     * @return
+     */
+    public static String apiToTip(String apiInfo){
+        String result = null;
+        String str = null;
+        if(apiInfo.contains("AQI ")){
+            str = apiInfo.replace("AQI ", " ");
+        }else {
+            str = apiInfo;
+        }
+        switch (str){//优，良，轻度污染，中度污染，重度污染，严重污染
+            case "优":
+                result = "♪(^∇^*) 空气很好。";
+                break;
+            case "良":
+                result = "ヽ(✿ﾟ▽ﾟ)ノ 空气不错。";
+                break;
+            case "轻度污染":
+                result = "(⊙﹏⊙) 空气有些糟糕。";
+                break;
+            case "中度污染":
+                result = " ε=(´ο｀*)))唉 空气污染较为严重，注意防护。";
+                break;
+            case "重度污染":
+                result = "o(≧口≦)o 空气污染很严重，记得戴口罩哦！";
+                break;
+            case "严重污染":
+                result = "ヽ(*。>Д<)o゜ 完犊子了!空气污染非常严重，要减少出门，定期检查身体，能搬家就搬家吧！";
+                break;
+        }
+        return result;
     }
 }

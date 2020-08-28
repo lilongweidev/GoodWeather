@@ -35,4 +35,26 @@
 
     <color name="temp_max_tx">#FF7E45</color><!--高温文字颜色-->
     <color name="temp_min_tx">#B3BCCA</color><!--低温文字颜色-->
+
+    <color name="white_2">#22FFFFFF</color><!--白色透明度22%-->
+    <color name="white_4">#44FFFFFF</color><!--白色透明度44%-->
+    <color name="white_6">#66FFFFFF</color><!--白色透明度66%-->
+    <color name="white_8">#88FFFFFF</color><!--白色透明度88%-->
+    <color name="purple">#56004f</color><!--紫色-->
+    <color name="gray_white_2">#F6F6F6</color><!--灰白2-->
+    <color name="gray_2">#626262</color><!--灰色2-->
+    <color name="black_4">#141414</color><!--黑色4-->
+    <color name="line">#DEDEE1</color><!--分割线-->
+    <color name="point_color">#D9D9D9</color><!--点分割颜色-->
+    <color name="gray_3">#818181</color><!--灰色3-->
+    <color name="back_white">#f7f8fa</color>
+    <color name="attention_text_light">#E9EAEF</color>
+    <color name="dark_text_color">#B9C0CA</color>
+    <color name="line_back_dark">#3f8DA0BA</color>
+    <color name="line_color">#919191</color>
+    <color name="search_light_un_color">#666666</color>
+    <color name="slategray">#708090</color><!--灰石色 -->
+
+    <color name="about_bg_color">#50A0FF</color>
+    <color name="about_bg_color_2">#002C46</color>
 </resources>

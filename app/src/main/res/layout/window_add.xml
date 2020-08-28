@@ -66,11 +66,11 @@
             android:textSize="@dimen/sp_16"/>
 
         <TextView
-            android:id="@+id/tv_more"
+            android:id="@+id/tv_about_us"
             android:gravity="center"
             android:layout_width="@dimen/dp_140"
             android:layout_height="@dimen/dp_48"
-            android:text="更多功能"
+            android:text="关于我们"
             android:foreground="@drawable/bg_white"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_16"/>

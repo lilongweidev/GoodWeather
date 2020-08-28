@@ -19,5 +19,13 @@
         <item name="android:windowBackground">@android:color/transparent</item><!--透明背景-->
     </style>
 
+    <declare-styleable name="SunAnimationView">
+        <attr name="sun_circle_color" format="color"/>
+        <attr name="sun_font_color" format="color"/>
+        <attr name="sun_font_size" format="dimension"/>
+        <attr name="sun_circle_radius" format="integer"/>
+        <attr name="type" format="boolean"/>
+    </declare-styleable>
+
 
 </resources>

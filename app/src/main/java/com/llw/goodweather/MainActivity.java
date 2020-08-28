@@ -50,6 +50,7 @@ import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.contract.WeatherContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
+import com.llw.goodweather.ui.AboutUsActivity;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
 import com.llw.goodweather.ui.CommonlyUsedCityActivity;
 import com.llw.goodweather.ui.MapWeatherActivity;
@@ -1028,7 +1029,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
         TextView worldCity = mPopupWindow.getContentView().findViewById(R.id.tv_world_city);//世界城市  V7
         TextView residentCity = mPopupWindow.getContentView().findViewById(R.id.tv_resident_city);//常用城市
-        TextView more = mPopupWindow.getContentView().findViewById(R.id.tv_more);
+        TextView aboutUs = mPopupWindow.getContentView().findViewById(R.id.tv_about_us);
         changeCity.setOnClickListener(view -> {//切换城市
             showCityWindow();
             mPopupWindow.dismiss();
@@ -1055,8 +1056,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             startActivity(new Intent(context, CommonlyUsedCityActivity.class));
             mPopupWindow.dismiss();
         });
-        more.setOnClickListener(view -> {//更多功能
-            ToastUtils.showShortToast(context, "如果你有什么好的建议，可以博客留言哦！");
+        aboutUs.setOnClickListener(view -> {//关于我们
+            startActivity(new Intent(context, AboutUsActivity.class));
             mPopupWindow.dismiss();
         });
     }

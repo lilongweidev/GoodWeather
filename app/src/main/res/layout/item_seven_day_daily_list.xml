@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--日期-->
+        <TextView
+            android:id="@+id/tv_date"
+            android:text="1234"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <!--天气描述  图标-->
+        <ImageView
+            android:id="@+id/iv_weather_state"
+            android:background="@mipmap/icon_100"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+
+        <!--最低温、最高温-->
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_temp_height"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_temp_low"
+                android:textSize="@dimen/sp_14"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:background="@color/gray_white_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"/>
+</LinearLayout>

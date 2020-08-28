@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.AboutUsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/about_bg_color"
+        app:contentInsetLeft="@dimen/dp_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@mipmap/icon_return_white"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="关于我们"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/gray_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp_98"
+            android:layout_height="@dimen/dp_98"
+            android:layout_marginTop="@dimen/dp_80"
+            android:src="@mipmap/icon_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_80"
+            android:text="Good Weather"
+            android:textColor="@color/black_4"
+            android:textSize="@dimen/sp_18" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="@dimen/dp_12">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="当前版本"
+                android:textColor="@color/black_4"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:textColor="@color/black_4"
+                android:textSize="@dimen/sp_16" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line" />
+
+        <TextView
+            android:id="@+id/tv_blog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableRight="@mipmap/icon_open_black_2"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="博客地址"
+            android:textColor="@color/black_4"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line" />
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:drawableRight="@mipmap/icon_open_black_2"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12"
+            android:text="源码地址"
+            android:textColor="@color/black_4"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_12">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="联系邮箱"
+                android:textColor="@color/black_4"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_copy_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="lonelyholiday@qq.com"
+                android:textColor="@color/black_4"
+                android:textSize="@dimen/sp_16" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:gravity="center"
+        android:text="初学者-Study"
+        android:background="@color/gray_white"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/black_4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"/>
+</LinearLayout>

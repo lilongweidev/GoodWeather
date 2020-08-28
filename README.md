@@ -8,7 +8,9 @@
 ![更多生活指数GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
 ![世界城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
 ![常用城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)<br>
-GIF看不了的，打开下面的视频地址
+
+
+GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
 #### 网址下载
@@ -76,7 +78,7 @@ http://d.firim.vip/h4sg<br>
 ### V 1.1
 * 七天天气预报、逐小时天气预报、界面UI优化<br>
 ### V 1.0
-* 初始版本<br>
+* 初始版本、三天天气预报、空气质量、城市切换、生活指数<br>
 
 
 

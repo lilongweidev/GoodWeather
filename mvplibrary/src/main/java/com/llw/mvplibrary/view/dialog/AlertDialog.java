@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleRes;
 
@@ -24,23 +25,22 @@ public class AlertDialog extends Dialog {
         mAlert = new AlertController(this, getWindow());
     }
 
-    public void setText(int viewId, CharSequence text){
-        mAlert.setText(viewId,text);
+    public void setText(int viewId, CharSequence text) {
+        mAlert.setText(viewId, text);
     }
 
-    public <T extends View>T getView(int viewId){
+    public <T extends View> T getView(int viewId) {
         return mAlert.getView(viewId);
     }
 
-    public void setOnClickListener(int viewId, View.OnClickListener onClickListener){
-        mAlert.setOnClickListener(viewId,onClickListener);
+    public void setOnClickListener(int viewId, View.OnClickListener onClickListener) {
+        mAlert.setOnClickListener(viewId, onClickListener);
     }
-
 
 
 //----------------------------------------------------------------------------------------------
 
-    public static class Builder{
+    public static class Builder {
         private final AlertController.AlertParams P;
 
         public Builder(Context context) {
@@ -49,165 +49,179 @@ public class AlertDialog extends Dialog {
 
 
         public Builder(Context context, int themeResId) {
-            P = new AlertController.AlertParams(context,themeResId);
+            P = new AlertController.AlertParams(context, themeResId);
         }
 
         /**
          * 设置对话框布局
+         *
          * @param view
          * @return
          */
-        public Builder setContentView(View view){
-            P.mView=view;
-            P.mLayoutResId=0;
+        public Builder setContentView(View view) {
+            P.mView = view;
+            P.mLayoutResId = 0;
             return this;
         }
 
         /**
-         *
          * @param layoutId
          * @return
          */
-        public Builder setContentView(int layoutId){
-            P.mView=null;
-            P.mLayoutResId=layoutId;
+        public Builder setContentView(int layoutId) {
+            P.mView = null;
+            P.mLayoutResId = layoutId;
             return this;
         }
 
         /**
          * 设置文本
+         *
          * @param viewId
          * @param text
          * @return
          */
         public Builder setText(int viewId, CharSequence text) {
-            P.mTextArray.put(viewId,text);
+            P.mTextArray.put(viewId, text);
             return this;
         }
+
         /**
          * 设置文本颜色
+         *
          * @param viewId
          * @param color
          * @return
          */
-        public Builder setTextColor(int viewId,int color){
-            P.mTextColorArray.put(viewId,color);
+        public Builder setTextColor(int viewId, int color) {
+            P.mTextColorArray.put(viewId, color);
             return this;
         }
 
         /**
          * 设置图标
+         *
          * @param iconId
          * @return
          */
-        public Builder setIcon(int iconId,int resId) {
-            P.mIconArray.put(iconId,resId);
+        public Builder setIcon(int iconId, int resId) {
+            P.mIconArray.put(iconId, resId);
             return this;
         }
 
         /**
          * 设置图片
+         *
          * @param viewId
          * @return
          */
         public Builder setBitmap(int viewId, Bitmap bitmap) {
-            P.mBitmapArray.put(viewId,bitmap);
+            P.mBitmapArray.put(viewId, bitmap);
             return this;
         }
 
         /**
          * 设置对话框宽度占满屏幕
+         *
          * @return
          */
-        public Builder fullWidth(){
-            P.mWidth= ViewGroup.LayoutParams.MATCH_PARENT;
+        public Builder fullWidth() {
+            P.mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
             return this;
         }
 
         /**
          * 对话框底部弹出
+         *
          * @param isAnimation
          * @return
          */
-        public Builder fromBottom(boolean isAnimation){
-            if (isAnimation){
-                P.mAnimation= R.style.dialog_from_bottom_anim;
+        public Builder fromBottom(boolean isAnimation) {
+            if (isAnimation) {
+                P.mAnimation = R.style.dialog_from_bottom_anim;
             }
-            P.mGravity= Gravity.BOTTOM;
+            P.mGravity = Gravity.BOTTOM;
             return this;
         }
 
         /**
          * 对话框右部弹出
+         *
          * @param isAnimation
          * @return
          */
-        public Builder fromRight(boolean isAnimation){
-            if (isAnimation){
-                P.mAnimation= R.style.dialog_from_bottom_anim;
+        public Builder fromRight(boolean isAnimation) {
+            if (isAnimation) {
+                P.mAnimation = R.style.dialog_from_bottom_anim;
             }
-            P.mGravity= Gravity.RIGHT;
+            P.mGravity = Gravity.RIGHT;
             return this;
         }
 
 
         /**
          * 设置对话框宽高
+         *
          * @param width
          * @param heigth
          * @return
          */
-        public Builder setWidthAndHeight(int width,int heigth){
-            P.mWidth=width;
-            P.mHeight=heigth;
+        public Builder setWidthAndHeight(int width, int heigth) {
+            P.mWidth = width;
+            P.mHeight = heigth;
             return this;
         }
 
         /**
          * 设置对话框宽高
+         *
          * @param width
          * @param heigth
          * @return
          */
-        public Builder setWidthAndHeightMargin(int width,int heigth,int heightMargin,int widthMargin){
-            P.mWidth=width;
-            P.mHeight=heigth;
-            P.mHeightMargin=heightMargin;
-            P.mWidthMargin=widthMargin;
+        public Builder setWidthAndHeightMargin(int width, int heigth, int heightMargin, int widthMargin) {
+            P.mWidth = width;
+            P.mHeight = heigth;
+            P.mHeightMargin = heightMargin;
+            P.mWidthMargin = widthMargin;
             return this;
         }
 
         /**
          * 添加默认动画
+         *
          * @return
          */
-        public Builder addDefaultAnimation(){
-            P.mAnimation=R.style.dialog_scale_anim;
+        public Builder addDefaultAnimation() {
+            P.mAnimation = R.style.dialog_scale_anim;
             return this;
         }
 
         /**
          * 设置动画
+         *
          * @param styleAnimation
          * @return
          */
-        public Builder setAnimation(int styleAnimation){
-            P.mAnimation=styleAnimation;
+        public Builder setAnimation(int styleAnimation) {
+            P.mAnimation = styleAnimation;
             return this;
         }
+
         /**
          * 设置点击事件
+         *
          * @param viewId
          * @param onClickListener
          * @return
          */
-        public Builder setOnClickListener(int viewId, View.OnClickListener onClickListener){
-            P.mClickArray.put(viewId,onClickListener);
+        public Builder setOnClickListener(int viewId, View.OnClickListener onClickListener) {
+            P.mClickArray.put(viewId, onClickListener);
             return this;
         }
 
-        public Builder setOnLongClickListener(int viewId, View.OnLongClickListener onLongClickListener){
-            P.mLondClickArray.put(viewId,onLongClickListener);
+        public Builder setOnLongClickListener(int viewId, View.OnLongClickListener onLongClickListener) {
+            P.mLondClickArray.put(viewId, onLongClickListener);
             return this;
         }
 

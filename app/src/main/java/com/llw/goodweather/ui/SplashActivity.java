@@ -6,35 +6,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Button;
-
-import com.google.gson.Gson;
 import com.llw.goodweather.MainActivity;
 import com.llw.goodweather.R;
-import com.llw.goodweather.bean.NewSearchCityResponse;
-import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.contract.SplashContract;
-import com.llw.goodweather.utils.CodeToStringUtils;
-import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
-import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.bean.Country;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-
 import org.litepal.LitePal;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.logging.Logger;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Response;
 
 /**
@@ -77,7 +62,7 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
                         //得到权限可以进入APP
                         //加载世界国家数据到本地数据库,已有则不加载
                         initCountryData();
-                        mPresent.getAppInfo();
+                        mPresent.getAppInfo();//请求版本更新
                     } else {//申请失败
                         finish();
                         ToastUtils.showShortToast(this, "权限未开启");
@@ -131,6 +116,11 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
         }, 1000);
     }
 
+    @Override
+    protected SplashContract.SplashPresenter createPresent() {
+        return new SplashContract.SplashPresenter();
+    }
+
     /**
      * 获取APP最新版本信息返回
      * @param response
@@ -155,8 +145,5 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
         Log.d("Network Error","网络异常");
     }
 
-    @Override
-    protected SplashContract.SplashPresenter createPresent() {
-        return new SplashContract.SplashPresenter();
-    }
+
 }

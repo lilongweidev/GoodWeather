@@ -1,20 +1,34 @@
 package com.llw.goodweather.ui;
 
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import com.llw.goodweather.R;
 import com.llw.goodweather.utils.APKVersionInfoUtils;
+import com.llw.goodweather.utils.AppStartUpUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.base.BaseActivity;
@@ -25,16 +39,20 @@ import com.llw.mvplibrary.view.dialog.AlertDialog;
 import org.litepal.LitePal;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.OkHttpClient;
 
 /**
  * 关于 Good Weather
  */
 public class AboutUsActivity extends BaseActivity {
 
+    private static final int INSTALL_APK_CODE = 3472;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.lay_app_version)
@@ -59,6 +77,7 @@ public class AboutUsActivity extends BaseActivity {
     private AppVersion appVersion;
     private static String path = "/sdcard/GoodWeatherAPK/GoodWeather.apk";
 
+
     @Override
     public void initData(Bundle savedInstanceState) {
         Back(toolbar);
@@ -74,6 +93,8 @@ public class AboutUsActivity extends BaseActivity {
         if (!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))) {//提示更新
             is_update = true;
             vRed.setVisibility(View.VISIBLE);//显示红点
+            updateUrl = appVersion.getInstall_url();
+            updateLog = appVersion.getChangelog();
         } else {
             vRed.setVisibility(View.GONE);//隐藏红点
             is_update = false;
@@ -133,7 +154,6 @@ public class AboutUsActivity extends BaseActivity {
 
     /**
      * 更新弹窗
-     *
      * @param downloadUrl 下载地址
      * @param updateLog   更新内容
      */
@@ -147,12 +167,52 @@ public class AboutUsActivity extends BaseActivity {
                 .setOnClickListener(R.id.tv_cancel, v -> {//取消
                     updateAppDialog.dismiss();
                 }).setOnClickListener(R.id.tv_fast_update, v -> {//立即更新
-                    startActivity(new Intent(Intent.ACTION_VIEW, (Uri.parse(downloadUrl)))
-                            .addCategory(Intent.CATEGORY_BROWSABLE)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    ToastUtils.showShortToast(context, "正在后台下载，下载后会自动安装");
+                    downloadApk(downloadUrl);
+                    updateAppDialog.dismiss();
                 });
         updateAppDialog = builder.create();
         updateAppDialog.show();
+    }
+
+    /**
+     * 清除APK
+     * @param apkName
+     * @return
+     */
+    public static File clearApk(String apkName) {
+        File apkFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), apkName);
+        if (apkFile.exists()) {
+            apkFile.delete();
+        }
+        return apkFile;
+    }
+
+    /**
+     * 下载APK
+     * @param downloadUrl
+     */
+    private void downloadApk(String downloadUrl) {
+        clearApk("GoodWeather.apk");
+        //下载管理器 获取系统下载服务
+        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+        //设置运行使用的网络类型，移动网络或者Wifi都可以
+        request.setAllowedNetworkTypes(request.NETWORK_MOBILE | request.NETWORK_WIFI);
+        //设置是否允许漫游
+        request.setAllowedOverRoaming(true);
+        //设置文件类型
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(downloadUrl));
+        request.setMimeType(mimeString);
+        //设置下载时或者下载完成时，通知栏是否显示
+        request.setNotificationVisibility(request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setTitle("下载新版本");
+        request.setVisibleInDownloadsUi(true);//下载UI
+        //sdcard目录下的download文件夹
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "GoodWeather.apk");
+        //将下载请求放入队列
+        downloadManager.enqueue(request);
     }
 
 }

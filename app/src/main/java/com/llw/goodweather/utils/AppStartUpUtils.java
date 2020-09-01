@@ -4,6 +4,9 @@ import android.content.Context;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * APP启动判断工具类
+ */
 public class AppStartUpUtils {
     /**
      * 判断是否是首次启动

@@ -5,9 +5,11 @@ import android.content.pm.PackageManager;
 
 /**
  * Created by chenxi on 2019/4/29.
+ * APP版本信息获取工具类
  */
 
 public class APKVersionInfoUtils {
+
     /**
      * 获取当前本地apk的版本
      *

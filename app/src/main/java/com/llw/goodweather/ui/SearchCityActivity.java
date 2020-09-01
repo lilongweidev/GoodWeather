@@ -372,13 +372,13 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
         dismissLoadingDialog();
-        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             mList.clear();
             mList.addAll(response.body().getLocation());
             mAdapter.notifyDataSetChanged();
             runLayoutAnimation(rv);
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 

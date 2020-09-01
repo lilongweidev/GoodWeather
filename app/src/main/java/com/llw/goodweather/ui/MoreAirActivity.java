@@ -98,7 +98,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
     @Override
     public void getSearchCityIdResult(Response<NewSearchCityResponse> response) {
         dismissLoadingDialog();
-        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             showLoadingDialog();
             List<NewSearchCityResponse.LocationBean> data = response.body().getLocation();
             if (data != null && data.size() > 0) {
@@ -109,7 +109,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
             }
 
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 

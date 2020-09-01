@@ -1,6 +1,7 @@
 package com.llw.goodweather;
 
 import android.animation.Animator;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -10,12 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -89,6 +92,7 @@ import org.json.JSONObject;
 import org.litepal.LitePal;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -232,6 +236,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     public boolean searchCityData = false;//搜索城市是否传递数据回来
     private String warnBodyString = null;//灾害预警数据字符串
 
+    private AlertDialog updateAppDialog = null;//应用更新提示弹窗
+
 
     //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
     @Override
@@ -259,14 +265,18 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         AppVersion appVersion = LitePal.find(AppVersion.class,1);
         if(!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))){//提示更新
             if(AppStartUpUtils.isTodayFirstStartApp(context)){//今天第一次打开APP
+                //更新提示弹窗
                 showUpdateAppDialog(appVersion.getInstall_url(),appVersion.getChangelog());
             }
         }
     }
 
-    AlertDialog updateAppDialog = null;
 
-    //更新弹窗
+    /**
+     * 应用更新提示弹窗
+     * @param downloadUrl 下载地址
+     * @param updateLog  更新日志
+     */
     private void showUpdateAppDialog(String downloadUrl,String updateLog) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .addDefaultAnimation()//默认弹窗动画
@@ -277,12 +287,53 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 .setOnClickListener(R.id.tv_cancel, v -> {//取消
                     updateAppDialog.dismiss();
                 }).setOnClickListener(R.id.tv_fast_update, v -> {//立即更新
-                    startActivity(new Intent(Intent.ACTION_VIEW, (Uri.parse(downloadUrl)))
-                            .addCategory(Intent.CATEGORY_BROWSABLE)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    //下载Apk
+                    ToastUtils.showShortToast(context, "正在后台下载，下载后会自动安装");
+                    downloadApk(downloadUrl);
+                    updateAppDialog.dismiss();
                 });
         updateAppDialog = builder.create();
         updateAppDialog.show();
+    }
+
+    /**
+     * 清除APK
+     * @param apkName
+     * @return
+     */
+    public static File clearApk(String apkName) {
+        File apkFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), apkName);
+        if (apkFile.exists()) {
+            apkFile.delete();
+        }
+        return apkFile;
+    }
+
+    /**
+     * 下载APK
+     * @param downloadUrl
+     */
+    private void downloadApk(String downloadUrl) {
+        clearApk("GoodWeather.apk");
+        //下载管理器 获取系统下载服务
+        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+        //设置运行使用的网络类型，移动网络或者Wifi都可以
+        request.setAllowedNetworkTypes(request.NETWORK_MOBILE | request.NETWORK_WIFI);
+        //设置是否允许漫游
+        request.setAllowedOverRoaming(true);
+        //设置文件类型
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(downloadUrl));
+        request.setMimeType(mimeString);
+        //设置下载时或者下载完成时，通知栏是否显示
+        request.setNotificationVisibility(request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setTitle("下载新版本");
+        request.setVisibleInDownloadsUi(true);//下载UI
+        //sdcard目录下的download文件夹
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "GoodWeather.apk");
+        //将下载请求放入队列
+        downloadManager.enqueue(request);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -809,14 +860,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
         refresh.finishRefresh();//关闭刷新
-        dismissLoadingDialog();//关闭弹窗
         mLocationClient.stop();//数据返回后关闭定位
-        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 tvCity.setText(response.body().getLocation().get(0).getName());//城市
                 locationId = response.body().getLocation().get(0).getId();//城市Id
                 stationName = response.body().getLocation().get(0).getAdm2();//上级城市 也是空气质量站点
-                showLoadingDialog();
                 mPresent.nowWeather(locationId);//查询实况天气
                 mPresent.dailyWeather(locationId);//查询天气预报
                 mPresent.hourlyWeather(locationId);//查询逐小时天气预报
@@ -828,7 +877,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             }
         } else {
             tvCity.setText("查询城市失败");
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 
@@ -1006,13 +1055,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      */
     @Override
     public void getNowWarnResult(Response<WarningResponse> response) {
+        dismissLoadingDialog();//关闭加载弹窗
+        checkAppVersion();//检查版本信息
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<WarningResponse.WarningBean> data = response.body().getWarning();
             if (data != null && data.size() > 0) {
                 warnBodyString = new Gson().toJson(response.body());
                 tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());//设置滚动标题和内容
-                dismissLoadingDialog();
-                checkAppVersion();
             } else {//没有该城市预警有隐藏掉这个TextView
                 tvWarn.setVisibility(View.GONE);
             }

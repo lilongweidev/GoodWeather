@@ -355,7 +355,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      */
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
-        if (response.body().getStatus().equals(Constant.SUCCESS_CODE)) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 tvCity.setText(response.body().getLocation().get(0).getName());//城市
                 locationId = response.body().getLocation().get(0).getId();//城市Id
@@ -368,7 +368,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             }
         } else {
             tvCity.setText("查询城市失败");
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getStatus()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 

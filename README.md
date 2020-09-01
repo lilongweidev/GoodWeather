@@ -1,6 +1,7 @@
 # GoodWeather
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
+![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
 ![地图天气GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif)
 ![灾害预警GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
 ![更多天气预报GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif)

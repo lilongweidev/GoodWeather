@@ -1,8 +1,8 @@
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
 <br>
 
-#### APP功能描述
-******
+## APP功能描述
+--------
 * 15天气预报
 * 空气质量
 * 生活建议
@@ -16,7 +16,7 @@
 * 地图天气
 * 应用自动更新
 
-#### 运行效果图
+## 运行效果图
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
@@ -32,14 +32,15 @@
 GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
-#### 网址下载
+## 网址下载
 
 [下载地址](http://d.firim.vip/h4sg)<br>
 
-#### 扫码下载
+## 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>
 
 ## 天气APP文章博客(一步一步开发天气APP)
+-------
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>
 [Android 天气APP（二）获取定位信息](https://blog.csdn.net/qq_38436214/article/details/105328603)<br>
 [Android 天气APP（三）访问天气API与数据请求](https://blog.csdn.net/qq_38436214/article/details/105328657)<br>

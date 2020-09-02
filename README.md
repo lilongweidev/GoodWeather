@@ -64,6 +64,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（二十三）增加灾害预警、优化主页面UI](https://blog.csdn.net/qq_38436214/article/details/108005938)<br>
 [Android 天气APP（二十四）地图天气（上）自动定位和地图点击定位](https://blog.csdn.net/qq_38436214/article/details/108274437)<br>
 [Android 天气APP（二十五）地图天气（下）嵌套滑动布局渲染天气数据](https://blog.csdn.net/qq_38436214/article/details/108274498)<br>
+[Android 天气APP（二十六）增加自动更新（检查版本、通知栏下载、自动安装）](https://blog.csdn.net/qq_38436214/article/details/108335485)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -74,7 +75,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 版本说明
 
-### V 2.1 (最新版本)<br>
+### V 2.2 (最新版本)<br>
+* 新增应用自动更新<br>
+### V 2.1 <br>
 * 新增地图天气<br>
 ### V 2.0 <br>
 * 新增灾害预警功能，主页面UI优化<br>

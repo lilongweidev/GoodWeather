@@ -1,4 +1,4 @@
-# GoodWeather
+![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/good_weather.png)<br>
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)

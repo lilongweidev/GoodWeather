@@ -1,4 +1,9 @@
+<div align=center><img width="424" height="55" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png"/></div>
+
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
+
+
+#### 运行效果图
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
@@ -15,7 +20,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
 #### 网址下载
-http://d.firim.vip/h4sg<br>
+[下载地址]http://d.firim.vip/h4sg<br>
 
 #### 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>

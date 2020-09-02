@@ -1,7 +1,20 @@
-<div align=center><img width="424" height="55" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png"/></div>
-
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
+<br>
 
+#### APP功能描述
+******
+* 1.15天气预报
+* 2.空气质量
+* 3.生活建议
+* 4.灾害预警
+* 5.出行建议
+* 6.城市切换
+* 7.城市搜索
+* 8.常用城市
+* 9.世界国家/地区的城市
+* 10.背景更换
+* 11.地图天气
+* 12.应用自动更新
 
 #### 运行效果图
 
@@ -20,7 +33,8 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
 #### 网址下载
-[下载地址]http://d.firim.vip/h4sg<br>
+
+[下载地址](http://d.firim.vip/h4sg)<br>
 
 #### 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>

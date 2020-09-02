@@ -35,7 +35,7 @@ public class LoadingView extends androidx.appcompat.widget.AppCompatImageView {
 
     private void init() {
         setScaleType(ScaleType.MATRIX);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.loading);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icon_loading);
         setImageBitmap(bitmap);
         mCenterRotateX = bitmap.getWidth() / 2;
         mCenterRotateY = bitmap.getHeight() / 2;

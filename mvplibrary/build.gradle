@@ -83,6 +83,8 @@ dependencies {
     api 'org.litepal.guolindev:core:3.1.1'
     //列表item侧滑删除
     api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    //View的预加载占位效果
+    api 'me.samlss:broccoli:1.0.0'
 
 
 }

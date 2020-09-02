@@ -13,6 +13,7 @@ import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
 import com.llw.mvplibrary.kit.KnifeKit;
 import butterknife.Unbinder;
+import me.samlss.broccoli.Broccoli;
 
 /**
  * 用于不需要请求网络接口的Activity
@@ -23,6 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
     protected Activity context;
     private Unbinder unbinder;
     private Dialog mDialog;//加载弹窗
+    protected Broccoli broccoli;//View 预加载占位
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
             setContentView(getLayoutId());
             unbinder = KnifeKit.bind(this);
         }
+        broccoli = new Broccoli();
         initData(savedInstanceState);
     }
 

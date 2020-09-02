@@ -132,6 +132,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        showLoadingDialog();
         initView();//初始化控件
         initLocation();//初始化定位
         initMapOnClick();//初始化地图点击

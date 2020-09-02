@@ -53,7 +53,7 @@ public class LoadingTextView extends AppCompatTextView {
             }
             mGradientMatrix.setTranslate(mTranslate, 0);
             mLinearGradient.setLocalMatrix(mGradientMatrix);
-            postInvalidateDelayed(50);
+            postInvalidateDelayed(20);
         }
     }
 }

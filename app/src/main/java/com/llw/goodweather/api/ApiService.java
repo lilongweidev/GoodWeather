@@ -7,6 +7,7 @@ import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.MoreAirFiveResponse;
+import com.llw.goodweather.bean.SunMoonResponse;
 import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
@@ -135,5 +136,11 @@ public interface ApiService {
      */
     @GET("/apps/latest/5e8c37e90d81cc0db2645c1c?api_token=468e4653ca9e1d34e7a73b8f2d7191da")
     Call<AppVersion> getAppInfo();
+
+    /**
+     * 太阳和月亮  日出日落、月升月落
+     */
+    @GET("/v7/astronomy/sunmoon?")
+    Call<SunMoonResponse> getSunMoon(@Query("location") String location, @Query("date") String date);
 
 }

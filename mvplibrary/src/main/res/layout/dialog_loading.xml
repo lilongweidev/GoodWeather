@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout_loading"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/dp_120"
+    android:layout_height="@dimen/dp_120"
     android:layout_gravity="center"
-    android:background="@drawable/ic_loading_bg"
+    android:background="@drawable/shape_loading_bg"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
     <!--旋转的图-->
     <com.llw.mvplibrary.view.LoadingView
@@ -18,8 +17,8 @@
     <com.llw.mvplibrary.view.LoadingTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="加载中......"
+        android:layout_marginTop="12dp"
+        android:text="Loading"
         android:textColor="#fff"
-        android:textSize="16sp" />
+        android:textSize="@dimen/sp_14" />
 </LinearLayout>

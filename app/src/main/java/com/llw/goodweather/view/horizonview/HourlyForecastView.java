@@ -17,24 +17,20 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.utils.DisplayUtil;
 import com.llw.goodweather.utils.IconUtils;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 
 /**
- * Created by niu on 18/11/22.
+ * 24小时天气预报自定义View
  */
-
 public class HourlyForecastView extends View implements ScrollWatcher {
 
 
@@ -200,7 +196,8 @@ public class HourlyForecastView extends View implements ScrollWatcher {
         foldLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         foldLinePaint.setStyle(Paint.Style.STROKE);
         foldLinePaint.setStrokeWidth(5);
-        foldLinePaint.setColor(mContext.getResources().getColor(R.color.line_color));
+        //折线颜色
+        foldLinePaint.setColor(mContext.getResources().getColor(R.color.line_color_2));
 
         backPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backPaint.setStrokeWidth(2);
@@ -223,6 +220,7 @@ public class HourlyForecastView extends View implements ScrollWatcher {
         textLinePaint.setAntiAlias(true);
 
         textLinePaint.setColor(mContext.getResources().getColor(R.color.black));
+        //底部时间文字颜色
         textPaint.setColor(mContext.getResources().getColor(R.color.search_light_un_color));
 
         baseLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -499,7 +497,8 @@ public class HourlyForecastView extends View implements ScrollWatcher {
         path.lineTo(paddingL, baseLineHeight);
         //画阴影
         int[] shadeColors = new int[]{
-                Color.argb(100, 145, 145, 145), Color.argb(30, 145, 145, 145),
+                Color.argb(100, 60, 174, 242),
+                Color.argb(30, 60, 174, 242),
                 Color.argb(18, 237, 238, 240)};
 
         Shader mShader = new LinearGradient(0, 0, 0, getHeight(), shadeColors, null, Shader.TileMode.CLAMP);

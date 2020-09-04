@@ -167,4 +167,5 @@ public final class SizeUtils {
     public interface onGetSizeListener {
         void onGetSize(View view);
     }
+
 }

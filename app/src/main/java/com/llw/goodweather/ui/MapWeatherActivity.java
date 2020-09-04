@@ -1,15 +1,28 @@
 package com.llw.goodweather.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +43,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
@@ -38,17 +52,15 @@ import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.llw.goodweather.R;
-import com.llw.goodweather.adapter.DailyAdapter;
 import com.llw.goodweather.adapter.SevenDailyAdapter;
 import com.llw.goodweather.adapter.TodayDetailAdapter;
 import com.llw.goodweather.bean.AirNowResponse;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
-import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
+import com.llw.goodweather.bean.SunMoonResponse;
 import com.llw.goodweather.bean.TodayDetailBean;
-import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.contract.MapWeatherContract;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
@@ -56,6 +68,11 @@ import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
+import com.llw.goodweather.view.horizonview.HourlyForecastView;
+import com.llw.goodweather.view.horizonview.IndexHorizontalScrollView;
+import com.llw.goodweather.view.horizonview.ScrollWatched;
+import com.llw.goodweather.view.horizonview.ScrollWatcher;
+import com.llw.goodweather.view.skyview.SunView;
 import com.llw.mvplibrary.mvp.MvpActivity;
 
 import java.util.ArrayList;
@@ -65,6 +82,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
+
+import static com.llw.goodweather.utils.DateUtils.getCurrentTime;
+import static com.llw.goodweather.utils.DateUtils.getNowDateNoLimiter;
 
 /**
  * 地图天气
@@ -104,6 +124,28 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     TextView tvAir;//空气质量
     @BindView(R.id.bottom_sheet_ray)
     RelativeLayout bottomSheetRay;//底部拖动布局
+    @BindView(R.id.tv_line_max_tmp)
+    TextView tvLineMaxTmp;//今日最高温
+    @BindView(R.id.tv_line_min_tmp)
+    TextView tvLineMinTmp;//今日最低温
+    @BindView(R.id.hourly)
+    HourlyForecastView hourly;//和风自定义逐小时天气渲染控件
+    @BindView(R.id.hsv)
+    IndexHorizontalScrollView hsv;//和风自定义滚动条
+    @BindView(R.id.sun_view)
+    SunView sunView;//太阳
+    @BindView(R.id.moon_view)
+    SunView moonView;//月亮
+    @BindView(R.id.tv_moon_state)
+    TextView tvMoonState;//月亮状态
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;//搜索图标
+    @BindView(R.id.ed_search)
+    EditText edSearch;//搜索输入框
+    @BindView(R.id.iv_close)
+    ImageView ivClose;//关闭图标
+    @BindView(R.id.lay_search)
+    RelativeLayout laySearch;//搜索布局
 
 
     private LocationClient mLocationClient;//定位
@@ -124,10 +166,15 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
 
     private SevenDailyAdapter mSevenDailyAdapter;//七天天气预报适配器
 
-    private String dayInfo;//今天白天天气描述
-    private String nightInfo;//今天晚上天气描述
+    private String dayInfo = " ";//今天白天天气描述
+    private String nightInfo = " ";//今天晚上天气描述
 
     private BottomSheetBehavior bottomSheetBehavior;//底部控件
+
+    List<ScrollWatcher> watcherList;//滑动监听列表
+    private ScrollWatched watched;//滑动监听对象
+
+    private boolean isOpen = false;//顶部搜索布局的状态
 
 
     @Override
@@ -163,12 +210,32 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                         //手动定位时,收缩就要显示浮动按钮,因为这时候你可以操作地图了
                         if (markerLatitude != 0) {//自动定位
                             btnAutoLocation.show();//显示自动定位按钮
+
                         }
+                        scaleAnimation(laySearch,"show");//显示顶部搜索布局
+                        Log.d("anim","直接显示");
+
                         break;
                     case BottomSheetBehavior.STATE_EXPANDED://展开
                         //手动定位时,展开就要隐藏浮动按钮,因为这时候你是没有办法操作地图的
                         if (markerLatitude != 0) {//自动定位
                             btnAutoLocation.hide();//隐藏自动定位按钮
+                        }
+
+                        if(isOpen){//顶部搜索为展开状态时
+                            Log.d("anim","等待隐藏");
+                            //先收缩
+                            initClose();
+                            //再起一个线程 500毫秒后隐藏这个按钮
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scaleAnimation(laySearch, "hide");
+                                }
+                            },500);
+                        }else {//直接隐藏
+                            Log.d("anim","直接隐藏");
+                            scaleAnimation(laySearch, "hide");
                         }
                         break;
                 }
@@ -180,6 +247,67 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             }
         });
 
+        initScrollListener();//先初始化
+
+        //24小时天气
+        hsv.setToday24HourView(hourly);//设置内容View
+        watched.addWatcher(hourly);
+
+        //横向滚动监听
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            hsv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    watched.notifyWatcher(scrollX);
+                }
+            });
+        }
+
+        /**
+         * 输入法键盘的搜索监听
+         */
+        edSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    String city = edSearch.getText().toString();
+                    if (!TextUtils.isEmpty(city)) {
+                        geoCoder.geocode(new GeoCodeOption()
+                                .city(city)
+                                .address(city));
+//                        ToastUtils.showShortToast(context,"正在定位中");
+                    } else {
+                        ToastUtils.showShortToast(context,"输入城市名称");
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 初始化横向滚动条的监听
+     */
+    private void initScrollListener() {
+        watcherList = new ArrayList<>();
+        watched = new ScrollWatched() {
+            @Override
+            public void addWatcher(ScrollWatcher watcher) {
+                watcherList.add(watcher);
+            }
+
+            @Override
+            public void removeWatcher(ScrollWatcher watcher) {
+                watcherList.remove(watcher);
+            }
+
+            @Override
+            public void notifyWatcher(int x) {
+                for (ScrollWatcher watcher : watcherList) {
+                    watcher.update(x);
+                }
+            }
+        };
     }
 
     /**
@@ -218,21 +346,29 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             //地图单击事件回调函数
             @Override
             public void onMapClick(LatLng latLng) {
-                bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.icon_marka);// 设置marker图标
-                //通过LatLng获取经纬度
-                markerLatitude = latLng.latitude;//获取纬度
-                markerLongitude = latLng.longitude;//获取经度
-                mBaiduMap.clear();//清除之前的图层
-
-                MarkerOptions options = new MarkerOptions()//创建标点marker设置对象
-                        .position(latLng)//设置标点的定位
-                        .icon(bitmap);//设置标点图标
-
-                marker = (Marker) mBaiduMap.addOverlay(options);//在地图上显示标点
-                //点击地图之后重新定位
-                initLocation();
+                resetLocation(latLng);
             }
         });
+    }
+
+    /**
+     * 重新定位
+     * @param latLng  坐标
+     */
+    private void resetLocation(LatLng latLng) {
+        bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.icon_marka);// 设置marker图标
+        //通过LatLng获取经纬度
+        markerLatitude = latLng.latitude;//获取纬度
+        markerLongitude = latLng.longitude;//获取经度
+        mBaiduMap.clear();//清除之前的图层
+
+        MarkerOptions options = new MarkerOptions()//创建标点marker设置对象
+                .position(latLng)//设置标点的定位
+                .icon(bitmap);//设置标点图标
+
+        marker = (Marker) mBaiduMap.addOverlay(options);//在地图上显示标点
+        //点击地图之后重新定位
+        initLocation();
     }
 
     @Override
@@ -248,14 +384,20 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     /**
      * 点击事件
      */
-    @OnClick({R.id.btn_auto_location,R.id.tv_more_daily})
+    @OnClick({R.id.btn_auto_location, R.id.iv_search,R.id.iv_close,R.id.tv_more_daily})
     public void onViewClicked(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_auto_location://重新定位
                 markerLatitude = 0;
                 markerLongitude = 0;
                 marker.remove();//清除标点
                 initLocation();
+                break;
+            case R.id.iv_search://点击展开
+                initExpand();
+                break;
+            case R.id.iv_close://点击收缩
+                initClose();
                 break;
             case R.id.tv_more_daily://15日天气预报详情
                 Intent intent = new Intent(context, MoreDailyActivity.class);
@@ -265,6 +407,62 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                 break;
         }
 
+    }
+
+    /*设置伸展状态时的布局*/
+    public void initExpand() {
+        isOpen = true;
+        edSearch.setVisibility(View.VISIBLE);
+        ivClose.setVisibility(View.VISIBLE);
+        LinearLayout.LayoutParams LayoutParams = (LinearLayout.LayoutParams) laySearch.getLayoutParams();
+        LayoutParams.width = dip2px(px2dip(width)-24);
+        LayoutParams.setMargins(dip2px(0), dip2px(0), dip2px(0), dip2px(0));
+        laySearch.setPadding(14,0,14,0);
+        laySearch.setLayoutParams(LayoutParams);
+
+        edSearch.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                edSearch.setFocusable(true);
+                edSearch.setFocusableInTouchMode(true);
+                return false;
+            }
+        });
+        //开始动画
+        beginDelayedTransition(laySearch);
+        if (markerLatitude != 0) {//自动定位
+            btnAutoLocation.hide();//隐藏自动定位按钮
+        }
+
+    }
+
+    /*设置收缩状态时的布局*/
+    private void initClose() {
+        isOpen = false;
+        edSearch.setVisibility(View.GONE);
+        edSearch.setText("");
+        ivClose.setVisibility(View.GONE);
+
+        LinearLayout.LayoutParams LayoutParams = (LinearLayout.LayoutParams) laySearch.getLayoutParams();
+        LayoutParams.width = dip2px(48);
+        LayoutParams.height = dip2px(48);
+        LayoutParams.setMargins(dip2px(0), dip2px(0), dip2px(0), dip2px(0));
+        laySearch.setLayoutParams(LayoutParams);
+
+        //隐藏键盘
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getWindow().getDecorView().getWindowToken(), 0);
+        edSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edSearch.setCursorVisible(true);
+            }
+        });
+        //开始动画
+        beginDelayedTransition(laySearch);
+        if (markerLatitude != 0) {//自动定位
+            btnAutoLocation.show();//隐藏自动定位按钮
+        }
     }
 
     /**
@@ -327,7 +525,17 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
          */
         @Override
         public void onGetGeoCodeResult(GeoCodeResult geoCodeResult) {
-
+            if(geoCodeResult == null || geoCodeResult.error != SearchResult.ERRORNO.NO_ERROR){
+                Log.d("address-->","没有检测到结果");
+                ToastUtils.showShortToast(context,"请输入区/县");
+                edSearch.setText("");
+                return;
+            }
+            LatLng latLng = geoCodeResult.getLocation();
+            Log.d("latlng-->",geoCodeResult.getAddress());
+            Log.d("latlng-->","纬度："+latLng.latitude+"，经度"+latLng.longitude);
+            initClose();//当输入城市之后，获取到数据时，收缩搜索布局，因为这个时候重新定位左边就出现了，为了使用户体验好一点，就收缩一下
+            resetLocation(latLng);//重新定位
         }
 
         /**
@@ -343,7 +551,19 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             }
             //需要的地址信息就在AddressComponent 里
             ReverseGeoCodeResult.AddressComponent addressDetail = reverseGeoCodeResult.getAddressDetail();
-            mPresent.searchCity(addressDetail.district);//搜索城市的id
+
+            if(addressDetail.district == null){
+                ToastUtils.showShortToast(context,"未查询到详细地址，请重新定位");
+            }else {
+                Log.d("address-->",addressDetail.province+addressDetail.city+addressDetail.district);
+                if(addressDetail.district.contains("市辖区")){
+                    //点击某些地区只要多了市辖区这几个字，和风的搜索城市API就查询不到数据，直接给我返回404，所以处理一下
+                    mPresent.searchCity(addressDetail.district.replace("市辖区",""));//搜索城市的id
+                }else {
+                    mPresent.searchCity(addressDetail.district);//搜索城市的id
+                }
+
+            }
 
         }
     };
@@ -362,8 +582,10 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                 locationId = response.body().getLocation().get(0).getId();//城市Id
                 showLoadingDialog();
                 mPresent.nowWeather(locationId);//查询实况天气
-                mPresent.dailyWeather(locationId);//查询天气预报
                 mPresent.airNowWeather(locationId);//空气质量
+                mPresent.weatherHourly(locationId);//24小时天气预报
+                mPresent.dailyWeather(locationId);//查询天气预报
+                mPresent.getSunMoon(locationId, getNowDateNoLimiter());//查询太阳和月亮数据
             } else {
                 ToastUtils.showShortToast(context, "数据为空");
             }
@@ -416,6 +638,65 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     }
 
     /**
+     * 24小时天气预报数据返回
+     *
+     * @param response
+     */
+    @Override
+    public void getWeatherHourlyResult(Response<HourlyResponse> response) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+            List<HourlyResponse.HourlyBean> hourlyWeatherList = response.body().getHourly();
+            List<HourlyResponse.HourlyBean> data = new ArrayList<>();
+            if (hourlyWeatherList.size() > 23) {
+                for (int i = 0; i < 24; i++) {
+                    data.add(hourlyWeatherList.get(i));
+                    String condCode = data.get(i).getIcon();
+                    String time = data.get(i).getFxTime();
+                    time = time.substring(time.length() - 11, time.length() - 9);
+                    int hourNow = Integer.parseInt(time);
+                    if (hourNow >= 6 && hourNow <= 19) {
+                        data.get(i).setIcon(condCode + "d");
+                    } else {
+                        data.get(i).setIcon(condCode + "n");
+                    }
+                }
+            } else {
+                for (int i = 0; i < hourlyWeatherList.size(); i++) {
+                    data.add(hourlyWeatherList.get(i));
+                    String condCode = data.get(i).getIcon();
+                    String time = data.get(i).getFxTime();
+                    time = time.substring(time.length() - 11, time.length() - 9);
+                    int hourNow = Integer.parseInt(time);
+                    if (hourNow >= 6 && hourNow <= 19) {
+                        data.get(i).setIcon(condCode + "d");
+                    } else {
+                        data.get(i).setIcon(condCode + "n");
+                    }
+                }
+            }
+
+            int minTmp = Integer.parseInt(data.get(0).getTemp());
+            int maxTmp = minTmp;
+            for (int i = 0; i < data.size(); i++) {
+                int tmp = Integer.parseInt(data.get(i).getTemp());
+                minTmp = Math.min(tmp, minTmp);
+                maxTmp = Math.max(tmp, maxTmp);
+            }
+            //设置当天的最高最低温度
+            hourly.setHighestTemp(maxTmp);
+            hourly.setLowestTemp(minTmp);
+            if (maxTmp == minTmp) {
+                hourly.setLowestTemp(minTmp - 1);
+            }
+            hourly.initData(data);
+            tvLineMaxTmp.setText(maxTmp + "°");
+            tvLineMinTmp.setText(minTmp + "°");
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
+    }
+
+    /**
      * 未来七天天气预报数据返回
      *
      * @param response
@@ -451,15 +732,52 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      */
     @Override
     public void getAirNowResult(Response<AirNowResponse> response) {
-        dismissLoadingDialog();
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             AirNowResponse.NowBean data = response.body().getNow();
             if (response.body().getNow() != null) {
+                dismissLoadingDialog();
                 tvAir.setText("AQI " + data.getCategory());
-                tvTodayInfo.setText("今天白天" + dayInfo + ",晚上" + nightInfo + "，现在" + tvTemperature.getText().toString() + "," + WeatherUtil.apiToTip(data.getCategory()));
+                tvTodayInfo.setText("今天，白天" + dayInfo + "，晚上" + nightInfo +
+                        "，现在" + tvTemperature.getText().toString() + "，" +
+                        WeatherUtil.apiToTip(data.getCategory()) + WeatherUtil.uvIndexToTip(tvUvIndex.getText().toString()));
             } else {
                 ToastUtils.showShortToast(context, "空气质量数据为空");
             }
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
+    }
+
+    /**
+     * 太阳和月亮
+     *
+     * @param response
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void getSunMoonResult(Response<SunMoonResponse> response) {
+
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+
+            SunMoonResponse data = response.body();
+            if (data != null) {
+                String sunRise = getCurrentTime(data.getSunrise());
+                String moonRise = getCurrentTime(data.getMoonrise());
+                String sunSet = getCurrentTime(data.getSunset());
+                String moonSet = getCurrentTime(data.getMoonset());
+                String currentTime = getCurrentTime(null);
+
+                sunView.setTimes(sunRise, sunSet, currentTime);
+                moonView.setTimes(moonRise, moonSet, currentTime);
+                if (data.getMoonPhase() != null && data.getMoonPhase().size() > 0) {
+                    tvMoonState.setText(data.getMoonPhase().get(0).getName());
+                }
+
+            } else {
+                ToastUtils.showShortToast(context, "日出日落数据为空");
+            }
+        } else {
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
 
@@ -483,7 +801,6 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
         super.onPause();
         mapView.onPause();//生命周期管理
     }
-
 
 
     @Override

@@ -8,7 +8,7 @@ import android.widget.HorizontalScrollView;
 import com.llw.goodweather.utils.DisplayUtil;
 
 /**
- * Created by niu on 2018/11/22.
+ * 横向滑动条
  */
 public class IndexHorizontalScrollView extends HorizontalScrollView {
 
@@ -26,6 +26,10 @@ public class IndexHorizontalScrollView extends HorizontalScrollView {
         super(context, attrs, defStyleAttr);
     }
 
+    /**
+     * 绘制
+     * @param canvas
+     */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -36,6 +40,10 @@ public class IndexHorizontalScrollView extends HorizontalScrollView {
         }
     }
 
+    /**
+     * 设置24小时的View
+     * @param today24HourView
+     */
     public void setToday24HourView(HourlyForecastView today24HourView){
         this.hourlyForecastView = today24HourView;
     }

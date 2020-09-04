@@ -1,4 +1,21 @@
-# GoodWeather
+![Good Weather](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
+<br>
+
+## APP功能描述
+* 15天气预报
+* 空气质量
+* 生活建议
+* 灾害预警
+* 出行建议
+* 城市切换
+* 城市搜索
+* 常用城市
+* 世界国家/地区的城市
+* 背景更换
+* 地图天气
+* 应用自动更新
+
+## 运行效果图
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
@@ -14,10 +31,11 @@
 GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 
-#### 网址下载
-http://d.firim.vip/h4sg<br>
+## 网址下载
 
-#### 扫码下载
+[下载地址](http://d.firim.vip/h4sg)<br>
+
+## 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>
 
 ## 天气APP文章博客(一步一步开发天气APP)
@@ -46,6 +64,7 @@ http://d.firim.vip/h4sg<br>
 [Android 天气APP（二十三）增加灾害预警、优化主页面UI](https://blog.csdn.net/qq_38436214/article/details/108005938)<br>
 [Android 天气APP（二十四）地图天气（上）自动定位和地图点击定位](https://blog.csdn.net/qq_38436214/article/details/108274437)<br>
 [Android 天气APP（二十五）地图天气（下）嵌套滑动布局渲染天气数据](https://blog.csdn.net/qq_38436214/article/details/108274498)<br>
+[Android 天气APP（二十六）增加自动更新（检查版本、通知栏下载、自动安装）](https://blog.csdn.net/qq_38436214/article/details/108335485)<br>
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -56,35 +75,29 @@ http://d.firim.vip/h4sg<br>
 
 ## 版本说明
 
-### V 2.1 (最新版本)<br>
+### V 2.2 (最新版本)
+* 新增应用自动更新<br>
+### V 2.1
 * 新增地图天气<br>
-### V 2.0 <br>
+### V 2.0
 * 新增灾害预警功能，主页面UI优化<br>
-### V 1.9 <br>
+### V 1.9
 * 新增更多天气预报、空气质量、生活建议的数据、优化主页UI <br>
-### V 1.8 <br>
+### V 1.8
 * 更新和风天气V7版API,删除热门城市、新增全球城市。启动页优化，黑白屏处理<br>
-### V 1.7 <br>
+### V 1.7
 * 增加常用城市列表<br>
-### V 1.6 <br>
+### V 1.6 
 * 增加国内热门城市<br>
-### V 1.5<br>
+### V 1.5
 * 增加海外热门城市、新的天气UI效果<br>
-### V 1.4<br>
+### V 1.4
 * 增加搜索城市功能、历史搜索记录<br>
-### V 1.3<br>
+### V 1.3
 * 修复相关异常BUG,增加天气详情数据<br>
-### V 1.2<br>
+### V 1.2
 * 增加用户体验，允许自己修改背景<br>
 ### V 1.1
 * 七天天气预报、逐小时天气预报、界面UI优化<br>
 ### V 1.0
 * 初始版本、三天天气预报、空气质量、城市切换、生活指数<br>
-
-
-
-
-
-
-
-

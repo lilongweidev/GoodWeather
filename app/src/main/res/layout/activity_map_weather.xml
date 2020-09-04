@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_32"
         android:clickable="true"
         android:src="@mipmap/icon_auto_location"
         app:backgroundTint="@color/transparent_bg_3"
@@ -29,6 +29,62 @@
         app:hoveredFocusedTranslationZ="@dimen/dp_18"
         app:pressedTranslationZ="@dimen/dp_18"
         app:rippleColor="@color/blue_one" />
+
+    <!--顶部搜索布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_28"
+        android:paddingRight="@dimen/dp_12">
+
+        <RelativeLayout
+            android:id="@+id/lay_search"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:background="@drawable/shape_search_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="6dp"
+                    android:src="@mipmap/icon_search" />
+
+                <EditText
+                    android:id="@+id/ed_search"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:ems="8"
+                    android:hint="输入城市名"
+                    android:imeOptions="actionSearch"
+                    android:padding="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@drawable/cursor_style"
+                    android:textSize="@dimen/sp_14"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_close"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:src="@mipmap/icon_close"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
     <!--天气数据渲染布局-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -87,7 +143,7 @@
                         <!--分割线-->
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_3"
+                            android:layout_height="@dimen/dp_2"
                             android:background="@color/line" />
                         <!--今日详情-->
                         <TextView
@@ -96,13 +152,13 @@
                             android:layout_margin="@dimen/dp_12"
                             android:text="今日详情"
                             android:textColor="@color/black_4"
-                            android:textSize="@dimen/sp_18" />
+                            android:textSize="@dimen/sp_16" />
                         <!--点分割线-->
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_height="@dimen/dp_2"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
                             android:background="@drawable/shape_dash_line" />
                         <!--今日天气详情数据列表-->
                         <androidx.recyclerview.widget.RecyclerView
@@ -116,10 +172,75 @@
                         <!--点分割线-->
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="2dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
+                            android:layout_height="@dimen/dp_2"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
                             android:background="@drawable/shape_dash_line" />
+
+                        <!--24小时预报-->
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_12"
+                            android:text="24小时预报"
+                            android:textColor="@color/black_4"
+                            android:textSize="@dimen/sp_16" />
+                        <!--24小时预报布局-->
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_12">
+                            <!--当天最高温-->
+                            <TextView
+                                android:id="@+id/tv_line_max_tmp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:layout_marginTop="@dimen/dp_16"
+                                android:text="21°"
+                                android:textColor="@color/black_4"
+                                android:textSize="@dimen/sp_16" />
+                            <!--当天最低温-->
+                            <TextView
+                                android:id="@+id/tv_line_min_tmp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_12"
+                                android:layout_marginTop="@dimen/dp_66"
+                                android:text="11°"
+                                android:textColor="@color/black_4"
+                                android:textSize="@dimen/dp_16" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/dp_98"
+                                android:layout_marginLeft="@dimen/dp_40"
+                                android:orientation="horizontal"
+                                android:paddingRight="@dimen/dp_12">
+
+                                <com.llw.goodweather.view.horizonview.IndexHorizontalScrollView
+                                    android:id="@+id/hsv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <com.llw.goodweather.view.horizonview.HourlyForecastView
+                                        android:id="@+id/hourly"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content" />
+
+                                </com.llw.goodweather.view.horizonview.IndexHorizontalScrollView>
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        <!--点分割线-->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_2"
+                            android:layout_marginLeft="@dimen/dp_12"
+                            android:layout_marginRight="@dimen/dp_12"
+                            android:background="@drawable/shape_dash_line" />
+
                         <!--未来预报-->
                         <TextView
                             android:layout_width="match_parent"
@@ -127,7 +248,7 @@
                             android:layout_margin="@dimen/dp_12"
                             android:text="未来预报"
                             android:textColor="@color/black_4"
-                            android:textSize="@dimen/sp_18" />
+                            android:textSize="@dimen/sp_16" />
                         <!--未来七天天气预报-->
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv_seven_day_daily"
@@ -149,10 +270,66 @@
                         <!--分割线-->
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_3"
+                            android:layout_height="@dimen/dp_2"
                             android:background="@color/line" />
 
                         <!--未完待续。。。-->
+
+                        <!--太阳和月亮-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/dp_12"
+                                android:text="太阳和月亮"
+                                android:textColor="@color/black_4"
+                                android:textSize="@dimen/sp_16" />
+                            <!--月相描述-->
+                            <TextView
+                                android:id="@+id/tv_moon_state"
+                                android:layout_width="@dimen/dp_0"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:paddingRight="@dimen/dp_12"
+                                android:textColor="@color/moon_tv_color"
+                                android:textSize="@dimen/sp_14" />
+                        </LinearLayout>
+                        <!--太阳、月亮的View-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_160"
+                            android:layout_marginTop="@dimen/dp_24"
+                            android:orientation="horizontal">
+
+                            <!--太阳视图-->
+                            <com.llw.goodweather.view.skyview.SunView
+                                android:id="@+id/sun_view"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/dp_240"
+                                android:layout_weight="1"
+                                app:sun_circle_color="@color/sun_light_circle"
+                                app:sun_circle_radius="70"
+                                app:sun_font_color="@color/color_a4a4a4"
+                                app:sun_font_size="12px" />
+                            <!--月亮视图-->
+                            <com.llw.goodweather.view.skyview.SunView
+                                android:id="@+id/moon_view"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/dp_240"
+                                android:layout_weight="1"
+                                app:sun_circle_color="@color/moon_light_circle"
+                                app:sun_circle_radius="70"
+                                app:sun_font_color="@color/color_a4a4a4"
+                                app:sun_font_size="12px"
+                                app:type="false" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

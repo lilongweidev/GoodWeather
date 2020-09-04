@@ -108,9 +108,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.samlss.broccoli.PlaceholderParameter;
 import retrofit2.Response;
 
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
@@ -245,18 +243,21 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     private String warnBodyString = null;//灾害预警数据字符串
 
     private AlertDialog updateAppDialog = null;//应用更新提示弹窗
+
     private int OPEN_LOCATION = 9527;//进入手机定位设置页面标识
 
 
-    //数据初始化  主线程，onCreate方法可以删除了，把里面的代码移动这个initData下面
+    //数据初始化
     @Override
     public void initData(Bundle savedInstanceState) {
         StatusBarUtil.transparencyBar(context);//透明状态栏
         initList();//天气预报列表初始化
 
-        if (isOpenLocationServiceEnable(context)) {
+        if (isOpenLocationServiceEnable()) {
+            tvCity.setEnabled(false);//不可点击
             startLocation();//开始定位
         } else {
+            tvCity.setEnabled(true);//可以点击
             ToastUtils.showShortToast(context, "(((φ(◎ロ◎;)φ)))，你好像忘记打开定位功能了");
             tvCity.setText("打开定位");
         }
@@ -273,18 +274,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
 
-    private void initView(){
-        //View预加载占位
-        broccoli.addPlaceholders(new PlaceholderParameter.Builder()
-                .setView(findViewById(R.id.tv_temperature))
-                .setDrawable(DrawableUtils.createRectangleDrawable(R.color.transparent_bg_4, 0))
-                .build());
-//                tvTemperature,tvTempHeight,tvTempLow,tvInfo,tvAirInfo);
-        broccoli.show();
-    }
-
-
-
     /**
      * 检查APP版本
      */
@@ -299,10 +288,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     /**
-     * 手机是否开启位置服务，如果没有开启那么所有app将不能使用定位功能
+     * 手机是否开启位置服务，如果没有开启那么App将不能使用定位功能
      */
-    public static boolean isOpenLocationServiceEnable(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    private boolean isOpenLocationServiceEnable() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if (gps || network) {
@@ -404,10 +393,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
         isOpenChangeBg();//是否开启了切换背景
 
-        //是否开启了定位
-        if (isOpenLocationServiceEnable(context)) {
-            tvCity.setText("重新定位");
-        }
     }
 
     //判断是否开启了切换背景，没有开启则用默认的背景
@@ -820,12 +805,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 startActivity(intent);
                 break;
             case R.id.tv_city://当用户没有打开GPS定位时，则可以点击这个TextView进行重新定位
-                if (isOpenLocationServiceEnable(context)) {//已开启定位
+                if (isOpenLocationServiceEnable()) {//已开启定位
                     tvCity.setText("定位中");
                     startLocation();//开始定位
                 } else {//未开启
                     //跳转到系统定位设置
-                    startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),OPEN_LOCATION);
+                    startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), OPEN_LOCATION);
                 }
                 break;
             case R.id.tv_more_daily://更多天气预报
@@ -867,8 +852,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             district = location.getDistrict();//获取区/县
             city = location.getCity();//获取市
 
-
-            if (district == null) {//未获取到定位信息，说明没有打开GPS,提醒用户打开手机定位
+            if (district == null) {//未获取到定位信息，请重新定位
                 ToastUtils.showShortToast(context, "未获取到定位信息，请重新定位");
                 tvCity.setText("重新定位");
                 tvCity.setEnabled(true);//可点击
@@ -1144,6 +1128,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     /**
      * 返回Activity的结果
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -1151,9 +1136,14 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-        if(requestCode == OPEN_LOCATION){//则是从手机定位页面返回
-            if(isOpenLocationServiceEnable(context)){//已打开
+        if (requestCode == OPEN_LOCATION) {//则是从手机定位页面返回
+            if (isOpenLocationServiceEnable()) {//已打开
                 tvCity.setText("重新定位");
+                tvCity.setEnabled(true);//可以点击
+            }else {
+                ToastUtils.showShortToast(context,"有意思吗？你跳过去又不打开定位，玩呢？嗯？我也是有脾气的好伐！");
+                tvCity.setText("打开定位");
+                tvCity.setEnabled(false);//不可点击
             }
         }
 

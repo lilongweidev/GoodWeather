@@ -139,4 +139,6 @@
         <item name="android:windowExitAnimation">@anim/dialog_scale_anim_out</item>
     </style>
 
+
+
 </resources>

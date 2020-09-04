@@ -1,9 +1,8 @@
 package com.llw.goodweather.view.horizonview;
 
 /**
- * Created by dongua on 17-9-11.
+ * 更新滑动
  */
-
 public interface ScrollWatcher {
     void update(int scrollX);
 }

@@ -3,8 +3,6 @@ package com.llw.goodweather.utils;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -24,6 +22,12 @@ public class DateUtils {
     //获取当前日期
     public static String getNowDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date());
+    }
+
+    //获取当前日期  没有分隔符
+    public static String getNowDateNoLimiter() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return sdf.format(new Date());
     }
 
@@ -55,6 +59,24 @@ public class DateUtils {
     public static String getNowTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(new Date());
+    }
+
+    /**
+     * 获取当前时间转换成时和分
+     * @param data
+     * @return
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getCurrentTime(String data) {
+        String result = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        if (data == null) {//获取当前时间的时和分
+            result = sdf.format(new Date());
+        } else {
+            LocalDateTime date = LocalDateTime.parse(data, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            result = date.format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+        return result;
     }
 
     //获取当前日期(精确到毫秒)
@@ -163,6 +185,7 @@ public class DateUtils {
         result = array[1] + "/" + array[2];
         return result; //08/04
     }
+
     //时间截取plus
     public static String dateSplitPlus(String date) {//2020-08-07
         String result = null;

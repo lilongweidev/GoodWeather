@@ -6,7 +6,9 @@ import android.graphics.Matrix;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-
+/**
+ * 测量工具类
+ */
 public class DisplayUtil {
 
     public static int dip2px(Context context, int dp){

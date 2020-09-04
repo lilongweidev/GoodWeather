@@ -1,5 +1,6 @@
 package com.llw.goodweather.utils;
 
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.llw.goodweather.R;
@@ -232,60 +233,76 @@ public class WeatherUtil {
 
     public static String uvIndexInfo(String uvIndex) {
         String result = null;
-        switch (uvIndex) {//最弱(1)、弱(2)、中等(3)、强(4)、很强(5)
-            case "1":
-                result = "最弱";
-                break;
-            case "2":
-                result = "弱";
-                break;
-            case "3":
-                result = "中等";
-                break;
-            case "4":
-                result = "强";
-                break;
-            case "5":
-                result = "很强";
-                break;
-            default:
-                result = "弱";
-                break;
+        Log.d("uvIndex-->", uvIndex);
+        int level = Integer.parseInt(uvIndex);
+        if (level <= 2) {
+            result = "较弱";
+        } else if (level <= 5) {
+            result = "弱";
+        } else if (level <= 7) {
+            result = "中等";
+        } else if (level <= 10) {
+            result = "强";
+        } else if (level <= 15) {
+            result = "很强";
         }
         return result;
     }
 
     /**
      * 根据api的提示转为更为人性化的提醒
+     *
      * @param apiInfo
      * @return
      */
-    public static String apiToTip(String apiInfo){
+    public static String apiToTip(String apiInfo) {
         String result = null;
         String str = null;
-        if(apiInfo.contains("AQI ")){
+        if (apiInfo.contains("AQI ")) {
             str = apiInfo.replace("AQI ", " ");
-        }else {
+        } else {
             str = apiInfo;
         }
-        switch (str){//优，良，轻度污染，中度污染，重度污染，严重污染
+        switch (str) {//优，良，轻度污染，中度污染，重度污染，严重污染
             case "优":
-                result = "♪(^∇^*) 空气很好。";
+                result = "♪(^∇^*)  空气很好。";
                 break;
             case "良":
-                result = "ヽ(✿ﾟ▽ﾟ)ノ 空气不错。";
+                result = "ヽ(✿ﾟ▽ﾟ)ノ  空气不错。";
                 break;
             case "轻度污染":
-                result = "(⊙﹏⊙) 空气有些糟糕。";
+                result = "(⊙﹏⊙)  空气有些糟糕。";
                 break;
             case "中度污染":
-                result = " ε=(´ο｀*)))唉 空气污染较为严重，注意防护。";
+                result = " ε=(´ο｀*)))  唉 空气污染较为严重，注意防护。";
                 break;
             case "重度污染":
-                result = "o(≧口≦)o 空气污染很严重，记得戴口罩哦！";
+                result = "o(≧口≦)o  空气污染很严重，记得戴口罩哦！";
                 break;
             case "严重污染":
-                result = "ヽ(*。>Д<)o゜ 完犊子了!空气污染非常严重，要减少出门，定期检查身体，能搬家就搬家吧！";
+                result = "ヽ(*。>Д<)o゜  完犊子了!空气污染非常严重，要减少出门，定期检查身体，能搬家就搬家吧！";
+                break;
+        }
+        return result;
+    }
+
+    public static String uvIndexToTip(String uvIndexInfo) {
+        String result = null;
+        switch (uvIndexInfo) {
+            case "较弱":
+                result = "紫外线较弱，不需要采取防护措施；若长期在户外，建议涂擦SPF在8-12之间的防晒护肤品。";
+                break;
+            case "弱":
+                result = "紫外线弱，可以适当采取一些防护措施，涂擦SPF在12-15之间、PA+的防晒护肤品。";
+                break;
+            case "中等":
+                result = "紫外线中等，外出时戴好遮阳帽、太阳镜和太阳伞等；涂擦SPF高于15、PA+的防晒护肤品。";
+                break;
+            case "强":
+                result = "紫外线较强，避免在10点至14点暴露于日光下.外出时戴好遮阳帽、太阳镜和太阳伞等，涂擦SPF20左右、PA++的防晒护肤品。";
+                break;
+            case "很强":
+                result = "紫外线很强，尽可能不在室外活动，必须外出时，要采取各种有效的防护措施。";
                 break;
         }
         return result;

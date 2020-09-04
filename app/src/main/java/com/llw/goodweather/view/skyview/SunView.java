@@ -21,6 +21,9 @@ import com.llw.goodweather.utils.DisplayUtil;
 
 import java.text.DecimalFormat;
 
+/**
+ * 太阳、月亮自定义View
+ */
 public class SunView extends View {
 
     private int mWidth; //屏幕宽度

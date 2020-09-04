@@ -60,4 +60,14 @@
     <color name="about_bg_color">#50A0FF</color>
     <color name="about_bg_color_2">#002C46</color>
     <color name="blue">#597EF7</color>
+
+    <color name="sun_light_circle">#33F2BE55</color>
+    <color name="moon_light_circle">#33446FF2</color>
+    <color name="sun_dark_circle">#33AD9442</color>
+    <color name="moon_dark_circle">#334A5CC4</color>
+    <color name="color_a4a4a4">#A4A4A4</color>
+    <color name="line_color_2">#3C91F2</color>
+    <color name="moon_tv_color">#595959</color>
+
+
 </resources>

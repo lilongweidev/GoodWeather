@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:clickable="true"
         android:fitsSystemWindows="true" />
+
     <!--浮动按钮-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_auto_location"

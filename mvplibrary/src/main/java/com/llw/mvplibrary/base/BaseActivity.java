@@ -33,10 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
     protected Activity context;
     private Unbinder unbinder;
     private Dialog mDialog;//加载弹窗
-    private AutoTransition autoTransition;//过渡动画
-    private Animation bigShowAnim, smallHideAnim;
-    protected int width;//屏幕宽度
-    protected int height;//屏幕高度
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,19 +46,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
             setContentView(getLayoutId());
             unbinder = KnifeKit.bind(this);
         }
-
-
-        //获取屏幕宽高
-        WindowManager manager = getWindowManager();
-        DisplayMetrics metrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(metrics);
-        width = metrics.widthPixels;  //获取屏幕的宽度 像素
-        height = metrics.heightPixels; //获取屏幕的高度 像素
-
-        //放大
-        bigShowAnim = AnimationUtils.loadAnimation(context, R.anim.scale_big_expand);
-        //缩小
-        smallHideAnim = AnimationUtils.loadAnimation(context, R.anim.scale_small_close);
 
         initData(savedInstanceState);
 
@@ -121,57 +105,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
         lastClickTime = currentClickTime;
 
         return flag;
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    protected void beginDelayedTransition(ViewGroup view) {
-        autoTransition = new AutoTransition();
-        autoTransition.setDuration(500);
-        TransitionManager.beginDelayedTransition(view,autoTransition);
-    }
-
-    //缩放动画
-    protected void scaleAnimation(View view,String state) {
-
-
-        switch (state){
-            case "show":
-                view.startAnimation(bigShowAnim);
-                view.setVisibility(View.VISIBLE);
-                break;
-            case "hide":
-                view.startAnimation(smallHideAnim);
-                smallHideAnim.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        view.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-
-                    }
-                });
-                break;
-        }
-
-    }
-
-    // dp 转成 px
-    protected int dip2px(float dpVale) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dpVale * scale + 0.5f);
-    }
-
-    // px 转成 dp
-    protected int px2dip(float pxValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
     }
 
 }

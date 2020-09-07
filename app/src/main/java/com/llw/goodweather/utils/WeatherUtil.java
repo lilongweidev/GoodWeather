@@ -231,6 +231,12 @@ public class WeatherUtil {
         return timeInfo;
     }
 
+
+    /**
+     * 紫外线等级描述
+     * @param uvIndex
+     * @return
+     */
     public static String uvIndexInfo(String uvIndex) {
         String result = null;
         Log.d("uvIndex-->", uvIndex);
@@ -286,6 +292,11 @@ public class WeatherUtil {
         return result;
     }
 
+    /**
+     * 紫外线详细描述
+     * @param uvIndexInfo
+     * @return
+     */
     public static String uvIndexToTip(String uvIndexInfo) {
         String result = null;
         switch (uvIndexInfo) {

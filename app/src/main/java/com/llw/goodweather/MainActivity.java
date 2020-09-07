@@ -106,6 +106,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -278,7 +279,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      * 检查APP版本
      */
     private void checkAppVersion() {
-        AppVersion appVersion = LitePal.find(AppVersion.class, 1);
+        AppVersion appVersion = LitePal.find(AppVersion.class,1);//读取第一条数据
+        Log.d("appVersion",new Gson().toJson(appVersion.getVersionShort()));
         if (!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))) {//提示更新
             if (AppStartUpUtils.isTodayFirstStartApp(context)) {//今天第一次打开APP
                 //更新提示弹窗

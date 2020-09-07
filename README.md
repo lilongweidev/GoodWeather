@@ -18,6 +18,7 @@
 ## 运行效果图
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
+![地图搜索定位GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
 ![地图天气GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif)
 ![灾害预警GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
@@ -65,6 +66,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（二十四）地图天气（上）自动定位和地图点击定位](https://blog.csdn.net/qq_38436214/article/details/108274437)<br>
 [Android 天气APP（二十五）地图天气（下）嵌套滑动布局渲染天气数据](https://blog.csdn.net/qq_38436214/article/details/108274498)<br>
 [Android 天气APP（二十六）增加自动更新（检查版本、通知栏下载、自动安装）](https://blog.csdn.net/qq_38436214/article/details/108335485)<br>
+[Android 天气APP（二十七）增加地图天气的逐小时天气、太阳和月亮数据](https://blog.csdn.net/qq_38436214/article/details/108397121)<br>
+[Android 天气APP（二十八）地图搜索定位](https://blog.csdn.net/qq_38436214/article/details/108407945)<br>
+
 
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
@@ -75,7 +79,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 版本说明
 
-### V 2.2 (最新版本)
+### V 2.3 (最新版本)
+* 新增地图逐小时天气、日出日落、月升月落、地图搜索定位<br>
+### V 2.2
 * 新增应用自动更新<br>
 ### V 2.1
 * 新增地图天气<br>

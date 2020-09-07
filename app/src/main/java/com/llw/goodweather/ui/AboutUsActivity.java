@@ -75,7 +75,6 @@ public class AboutUsActivity extends BaseActivity {
     private String updateLog = null;
     private boolean is_update = false;
     private AppVersion appVersion;
-    private static String path = "/sdcard/GoodWeatherAPK/GoodWeather.apk";
 
 
     @Override

@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
+import com.google.gson.Gson;
 import com.llw.goodweather.MainActivity;
 import com.llw.goodweather.R;
 import com.llw.goodweather.contract.SplashContract;
@@ -15,11 +17,14 @@ import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.bean.Country;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import org.litepal.LitePal;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+
 import retrofit2.Response;
 
 /**
@@ -123,11 +128,12 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
 
     /**
      * 获取APP最新版本信息返回
+     *
      * @param response
      */
     @Override
     public void getAppInfoResult(Response<AppVersion> response) {
-        if(response.body() != null){
+        if (response.body() != null) {
             AppVersion appVersion = new AppVersion();
             appVersion.setName(response.body().getName());//应用名称
             appVersion.setVersion(response.body().getVersion());//应用版本 对应code
@@ -136,13 +142,20 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
             appVersion.setUpdate_url(response.body().getUpdate_url());//更新地址
             appVersion.setInstall_url(response.body().getInstall_url());//安装地址
             appVersion.setAppSize(String.valueOf(response.body().getBinary().getFsize()));//APK大小
-            appVersion.save();//保存数据
+
+            //添加数据前先判断是否已经有数据了
+            if (LitePal.find(AppVersion.class, 1) != null){
+                appVersion.update(1);
+            }else {
+                appVersion.save();//保存添加数据
+            }
+
         }
     }
 
     @Override
     public void getDataFailed() {
-        Log.d("Network Error","网络异常");
+        Log.d("Network Error", "网络异常");
     }
 
 

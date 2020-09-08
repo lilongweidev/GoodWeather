@@ -17,17 +17,16 @@
 
 ## 运行效果图
 
-![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "300" height = "600" alt="支付宝小程序"/>
-![地图搜索定位GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif)
-![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
-![地图天气GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif)
-![灾害预警GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif)
-![更多天气预报GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif)
-![更多空气质量GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif)
-![更多生活指数GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif)
-![世界城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif)
-![常用城市GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif)<br>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "252" height = "546" alt="演示GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "252" height = "546" alt="地图搜索定位GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "252" height = "546" alt="自动更新GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "252" height = "546" alt="地图天气GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif" width = "252" height = "546" alt="灾害预警GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif" width = "252" height = "546" alt="更多天气预报GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif" width = "252" height = "546" alt="更多空气质量GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "252" height = "546" alt="更多生活指数GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "252" height = "546" alt="世界城市GIF"/>
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "252" height = "546" alt="常用城市GIF"/>
 
 
 GIF看不了的，打开下面的视频地址进行观看<br>

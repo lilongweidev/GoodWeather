@@ -18,6 +18,7 @@
 ## 运行效果图
 
 ![演示GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif)
+<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "300" height = "715" alt="支付宝小程序"/>
 ![地图搜索定位GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif)
 ![自动更新GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif)
 ![地图天气GIF](https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif)

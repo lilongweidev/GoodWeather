@@ -22,15 +22,15 @@
     align-items: flex-start;
     flex-wrap: wrap;">
 <img title="演示GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "25%" height = "546" alt="演示GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "25%" height = "546" alt="地图搜索定位GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "25%" height = "546" alt="自动更新GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "25%" height = "546" alt="地图天气GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif" width = "25%" height = "546" alt="灾害预警GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif" width = "25%" height = "546" alt="更多天气预报GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif" width = "25%" height = "546" alt="更多空气质量GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "25%" height = "546" alt="更多生活指数GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "25%" height = "546" alt="世界城市GIF"/>
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "25%" height = "546" alt="常用城市GIF"/>
+<img title="地图搜索定位GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "25%" height = "546" alt="地图搜索定位GIF"/>
+<img title="自动更新GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "25%" height = "546" alt="自动更新GIF"/>
+<img title="地图天气GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "25%" height = "546" alt="地图天气GIF"/>
+<img title="灾害预警GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif" width = "25%" height = "546" alt="灾害预警GIF"/>
+<img title="更多天气预报GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif" width = "25%" height = "546" alt="更多天气预报GIF"/>
+<img title="更多空气质量GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif" width = "25%" height = "546" alt="更多空气质量GIF"/>
+<img title="更多生活指数GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "25%" height = "546" alt="更多生活指数GIF"/>
+<img title="世界城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "25%" height = "546" alt="世界城市GIF"/>
+<img title="常用城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "25%" height = "546" alt="常用城市GIF"/>
 </div>
 
 GIF看不了的，打开下面的视频地址进行观看<br>

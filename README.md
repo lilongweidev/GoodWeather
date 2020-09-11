@@ -16,8 +16,12 @@
 * 应用自动更新
 
 ## 运行效果图
-<div style="display: flex;justify-content: space-between; align-items: center;">
-<img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "252" height = "546" alt="演示GIF"/>
+<div style="width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;">
+<img title="演示GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "252" height = "546" alt="演示GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "252" height = "546" alt="地图搜索定位GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "252" height = "546" alt="自动更新GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "252" height = "546" alt="地图天气GIF"/>

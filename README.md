@@ -16,7 +16,7 @@
 * 应用自动更新
 
 ## 运行效果图
-
+<div style="display: flex;justify-content: space-between; align-items: center;">
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "252" height = "546" alt="演示GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "252" height = "546" alt="地图搜索定位GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "252" height = "546" alt="自动更新GIF"/>
@@ -27,7 +27,7 @@
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "252" height = "546" alt="更多生活指数GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "252" height = "546" alt="世界城市GIF"/>
 <img src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "252" height = "546" alt="常用城市GIF"/>
-
+</div>
 
 GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>

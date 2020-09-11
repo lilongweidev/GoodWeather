@@ -68,6 +68,7 @@ import com.llw.goodweather.ui.MoreAirActivity;
 import com.llw.goodweather.ui.MoreDailyActivity;
 import com.llw.goodweather.ui.MoreLifestyleActivity;
 import com.llw.goodweather.ui.SearchCityActivity;
+import com.llw.goodweather.ui.WallPaperActivity;
 import com.llw.goodweather.ui.WarnActivity;
 import com.llw.goodweather.ui.WorldCityActivity;
 import com.llw.goodweather.utils.APKVersionInfoUtils;
@@ -279,8 +280,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      * 检查APP版本
      */
     private void checkAppVersion() {
-        AppVersion appVersion = LitePal.find(AppVersion.class,1);//读取第一条数据
-        Log.d("appVersion",new Gson().toJson(appVersion.getVersionShort()));
+        AppVersion appVersion = LitePal.find(AppVersion.class, 1);//读取第一条数据
+        Log.d("appVersion", new Gson().toJson(appVersion.getVersionShort()));
         if (!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))) {//提示更新
             if (AppStartUpUtils.isTodayFirstStartApp(context)) {//今天第一次打开APP
                 //更新提示弹窗
@@ -1142,8 +1143,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             if (isOpenLocationServiceEnable()) {//已打开
                 tvCity.setText("重新定位");
                 tvCity.setEnabled(true);//可以点击
-            }else {
-                ToastUtils.showShortToast(context,"有意思吗？你跳过去又不打开定位，玩呢？嗯？我也是有脾气的好伐！");
+            } else {
+                ToastUtils.showShortToast(context, "有意思吗？你跳过去又不打开定位，玩呢？嗯？我也是有脾气的好伐！");
                 tvCity.setText("打开定位");
                 tvCity.setEnabled(false);//不可点击
             }
@@ -1187,6 +1188,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         //绑定布局中的控件
         TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);//切换城市
         TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景
+        TextView wallpaper = mPopupWindow.getContentView().findViewById(R.id.tv_wallpaper);//壁纸管理
         TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
         TextView worldCity = mPopupWindow.getContentView().findViewById(R.id.tv_world_city);//世界城市  V7
         TextView residentCity = mPopupWindow.getContentView().findViewById(R.id.tv_resident_city);//常用城市
@@ -1201,6 +1203,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             SPUtils.putString(Constant.DISTRICT, district, context);
             SPUtils.putString(Constant.CITY, city, context);
             startActivity(new Intent(context, BackgroundManagerActivity.class));
+            mPopupWindow.dismiss();
+        });
+        wallpaper.setOnClickListener(view -> {//壁纸管理
+            startActivity(new Intent(context, WallPaperActivity.class));
             mPopupWindow.dismiss();
         });
         searchCity.setOnClickListener(view -> {//城市搜索

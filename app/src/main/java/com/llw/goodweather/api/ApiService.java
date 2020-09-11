@@ -8,11 +8,13 @@ import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
 import com.llw.goodweather.bean.MoreAirFiveResponse;
 import com.llw.goodweather.bean.SunMoonResponse;
+import com.llw.goodweather.bean.WallPaperResponse;
 import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.mvplibrary.bean.AppVersion;
+import com.llw.mvplibrary.bean.WallPaper;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -147,6 +149,13 @@ public interface ApiService {
      */
     @GET("/v7/astronomy/sunmoon?key="+ API_KEY)
     Call<SunMoonResponse> getSunMoon(@Query("location") String location, @Query("date") String date);
+
+    /**
+     * 手机壁纸API
+     */
+    @GET("/v1/vertical/vertical?limit=30&skip=180&adult=false&first=0&order=hot")
+    Call<WallPaperResponse> getWallPaper();
+
 
 
 }

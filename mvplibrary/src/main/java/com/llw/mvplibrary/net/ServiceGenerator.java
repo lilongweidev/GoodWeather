@@ -32,6 +32,9 @@ public class ServiceGenerator {
             case 5://APP更新
                 BASE_URL = "http://api.bq04.com";//Fr.im更新
                 break;
+            case 6://随机手机壁纸
+                BASE_URL = "http://service.picasso.adesk.com";//
+                break;
         }
         return BASE_URL;
     }

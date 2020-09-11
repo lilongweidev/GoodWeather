@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.llw.goodweather">
-
     <!-- 以下权限与application标签是平级的，放在manifest标签里面 -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
@@ -23,8 +22,10 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
+        <activity android:name=".ui.ImageActivity"></activity>
+        <activity
+            android:name=".ui.WallPaperActivity"
+            android:theme="@style/WallPaperTheme" />
         <activity android:name=".ui.AboutUsActivity" />
         <activity android:name=".ui.MapWeatherActivity" />
         <activity android:name=".ui.WarnActivity" />
@@ -53,23 +54,22 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-        <!--下载APK广播-->
+            android:process=":remote" /> <!-- 下载APK广播 -->
         <receiver
             android:name=".receiver.DownloadApkReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
-        </receiver>
-        <!--Android7.0以后读取文件需要配置Provider-->
+        </receiver> <!-- Android7.0以后读取文件需要配置Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.llw.goodweather.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <!--元数据-->
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <!-- 元数据 -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

@@ -22,6 +22,7 @@ public class Constant {
     public static final String LOCATION="location";
     public static final String APP_FIRST_START = "appFirstStart";//App首次启动
     public static final String START_UP_APP_TIME = "startAppTime";//今日启动APP的时间
-
+    public static final String WALLPAPER_URL = "wallpaperUrl";//壁纸地址
+    public static final String WALLPAPER_TYPE = "wallpaperType";//壁纸类型
 
 }

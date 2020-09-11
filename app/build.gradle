@@ -49,7 +49,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    //butterknife  这个部分比较特殊，所以不管是模块还是项目里都要引入依赖，否则你的控件回报空对象
+    //butterknife  这个部分比较特殊，所以不管是模块还是项目里都要引入依赖，否则你的控件会报空对象
     implementation 'com.jakewharton:butterknife:10.1.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation project(':mvplibrary')//引入模块  然后将项目里的依赖移动到模块的build.gradle里

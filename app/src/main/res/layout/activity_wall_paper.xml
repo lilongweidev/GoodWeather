@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
+        android:padding="@dimen/dp_5"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <!--浮动按钮-->
@@ -54,10 +55,11 @@
         android:layout_margin="@dimen/dp_20"
         android:clickable="true"
         android:src="@mipmap/icon_setting"
-        app:backgroundTint="@color/transparent_bg_3"
+        app:backgroundTint="@color/white"
         app:backgroundTintMode="screen"
         app:borderWidth="@dimen/dp_0"
         app:hoveredFocusedTranslationZ="@dimen/dp_18"
+
         app:pressedTranslationZ="@dimen/dp_18"
         app:rippleColor="@color/blue_one" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

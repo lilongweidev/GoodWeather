@@ -26,6 +26,7 @@
             android:textSize="@dimen/sp_16"/>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_change_bg"
             android:gravity="center"
             android:layout_width="@dimen/dp_140"

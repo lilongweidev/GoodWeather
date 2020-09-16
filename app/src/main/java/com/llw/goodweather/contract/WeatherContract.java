@@ -25,31 +25,7 @@ public class WeatherContract {
 
     public static class WeatherPresenter extends BasePresenter<IWeatherView> {
 
-        /**
-         * 必应  每日一图
-         * @param context
-         */
-        public void biying(final Context context){
-            ApiService service = ServiceGenerator.createService(ApiService.class,1);
-            service.biying().enqueue(new NetCallBack<BiYingImgResponse>() {
-                @Override
-                public void onSuccess(Call<BiYingImgResponse> call, Response<BiYingImgResponse> response) {
-                    if(getView() != null){
-                        getView().getBiYingResult(response);
-                    }
-                }
-
-                @Override
-                public void onFailed() {
-                    if(getView() != null){
-                        getView().getDataFailed();
-                    }
-                }
-            });
-        }
-
         /***************** 以下为使用V7版本而新增的接口方法，后期将都会使用这些方法，请注意 ****************/
-
 
         /**
          * 搜索城市  V7版本中  需要把定位城市的id查询出来，然后通过这个id来查询详细的数据
@@ -218,8 +194,7 @@ public class WeatherContract {
     }
 
     public interface IWeatherView extends BaseView {
-        //获取必应每日一图返回
-        void getBiYingResult(Response<BiYingImgResponse> response);
+
         //天气数据获取错误返回
         void getWeatherDataFailed();
 

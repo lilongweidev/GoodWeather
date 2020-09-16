@@ -151,7 +151,7 @@
     <!-- 圆角图片 -->
     <style name="roundedCornerStyle">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/dp_20</item>
+        <item name="cornerSize">@dimen/dp_16</item>
     </style>
 
 

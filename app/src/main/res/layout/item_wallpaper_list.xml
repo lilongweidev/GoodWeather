@@ -10,7 +10,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/iv_wallpaper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/roundedCornerStyle" />
 </RelativeLayout>

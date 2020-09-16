@@ -59,6 +59,7 @@ import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.contract.WeatherContract;
+import com.llw.goodweather.eventbus.ChangeWallPaperEvent;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.AboutUsActivity;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
@@ -252,6 +253,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     //数据初始化
     @Override
     public void initData(Bundle savedInstanceState) {
+
         StatusBarUtil.transparencyBar(context);//透明状态栏
         initList();//天气预报列表初始化
 
@@ -378,6 +380,36 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         mPresent.newSearchCity(event.mLocation);//相应事件时
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ChangeWallPaperEvent event) {//接收
+        updateWallpaper(event.mType);
+    }
+
+    /**
+     * 更换壁纸
+     *
+     * @param type 类型
+     */
+    private void updateWallpaper(int type) {
+        switch (type) {
+            case 1://壁纸列表
+            case 2://每日一图
+            case 3://手动上传
+                String imgUrl = SPUtils.getString(Constant.WALLPAPER_URL, null, context);
+                Log.d("type-->",imgUrl+"");
+                if (imgUrl != null) {
+                    Glide.with(context).load(imgUrl).into(bg);
+                } else {
+                    bg.setBackgroundResource(R.drawable.img_5);
+                }
+            case 0:
+            case 4://默认壁纸
+                bg.setBackgroundResource(R.drawable.img_5);
+                break;
+
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -394,12 +426,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         } else {
             dismissLoadingDialog();
         }
-        isOpenChangeBg();//是否开启了切换背景
+        //isOpenChangeBg();//是否开启了切换背景
+        int type = SPUtils.getInt(Constant.WALLPAPER_TYPE, 0, context);
+        Log.d("type-->", type + "");
+        updateWallpaper(type);
 
     }
 
     //判断是否开启了切换背景，没有开启则用默认的背景
-    private void isOpenChangeBg() {
+    /*private void isOpenChangeBg() {
         boolean isEverydayImg = SPUtils.getBoolean(Constant.EVERYDAY_IMG, false, context);//每日图片
         boolean isImgList = SPUtils.getBoolean(Constant.IMG_LIST, false, context);//图片列表
         boolean isCustomImg = SPUtils.getBoolean(Constant.CUSTOM_IMG, false, context);//手动定义
@@ -437,7 +472,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 Glide.with(context).load(imgPath).into(bg);
             }
         }
-    }
+    }*/
 
     //绑定布局文件
     @Override
@@ -875,19 +910,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                     mPresent.newSearchCity(district);//下拉刷新时
                 });
             }
-        }
-    }
-
-    //获取必应每日一图返回
-    @Override
-    public void getBiYingResult(Response<BiYingImgResponse> response) {
-        dismissLoadingDialog();
-        if (response.body().getImages() != null) {
-            //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
-            String imgUrl = "http://cn.bing.com" + response.body().getImages().get(0).getUrl();
-            Glide.with(context).load(imgUrl).into(bg);
-        } else {
-            ToastUtils.showShortToast(context, "数据为空");
         }
     }
 

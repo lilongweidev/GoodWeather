@@ -13,19 +13,27 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.WallPaperAdapter;
+import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.WallPaperResponse;
 import com.llw.goodweather.contract.WallPaperContract;
+import com.llw.goodweather.eventbus.ChangeWallPaperEvent;
+import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.utils.CameraUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
@@ -36,10 +44,12 @@ import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,33 +76,68 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
     List<WallPaperResponse.ResBean.VerticalBean> mList = new ArrayList<>();
     WallPaperAdapter mAdapter;
     AlertDialog bottomSettingDialog = null;
+    private String biyingUrl = null;//必应的每日壁纸
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        showLoadingDialog();
         StatusBarUtil.StatusBarLightMode(this);//高亮状态栏
         Back(toolbar);//左上角的返回
         initWallPaperList();
 
+
     }
 
+    List<Integer> heightList = new ArrayList<>();
+
     private void initWallPaperList() {
-        mAdapter = new WallPaperAdapter(R.layout.item_wallpaper_list, mList);
-        rv.setLayoutManager(new GridLayoutManager(context, 2));
+        //生成随机高度
+//        for (int i = 0; i < 30; i++) {
+//            heightList.add((int) (200 + Math.random() * (300 - 100 + 1)));
+//            Log.d("height-->",(int) (200 + Math.random() * (300 - 100 + 1))+"");
+//        }
+        heightList.add(100);
+        for (int i = 0; i < 30; i++) {
+            heightList.add(300);
+        }
+        heightList.add(100);
+
+        List<String> topList = new ArrayList<>();
+        topList.add("头部");
+
+        TopAdapter topAdapter = new TopAdapter(R.layout.item_wallpaper_top_list, topList);
+        mAdapter = new WallPaperAdapter(R.layout.item_wallpaper_list, mList, heightList);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        rv.setLayoutManager(manager);
+        rv.setAdapter(topAdapter);
         rv.setAdapter(mAdapter);
         mPresent.getWallPaper();//请求数据
+        mPresent.biying();//获取必应壁纸
 
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                //这里的列表数据实际上有32条，有两条假数据，就是首尾这两条，所以点击的时候要做判断处理
+                if (position == 0 || position == mList.size() - 1) {//是否为第一条或者最后一条
+                    ToastUtils.showShortToast(context,"这是广告");
+                } else {
+                    Intent intent = new Intent(context, ImageActivity.class);
+                    intent.putExtra("position", position - 1);
+                    startActivity(intent);
+                }
 
-                Intent intent = new Intent(context, ImageActivity.class);
-                intent.putExtra("position", position);
-                startActivity(intent);
             }
         });
 
         //滑动监听
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                manager.invalidateSpanAssignments(); //防止第一行到顶部有空白区域
+//            }
+
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -107,6 +152,18 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
 
     }
 
+    class TopAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+
+        public TopAdapter(int layoutResId, @Nullable List<String> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, String item) {
+
+        }
+    }
+
 
     @Override
     public int getLayoutId() {
@@ -119,34 +176,69 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
     }
 
     @Override
+    public void getBiYingResult(Response<BiYingImgResponse> response) {
+        if (response.body().getImages() != null) {
+            //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
+            biyingUrl = "http://cn.bing.com" + response.body().getImages().get(0).getUrl();
+            Log.d("type-->", biyingUrl);
+        } else {
+            ToastUtils.showShortToast(context, "未获取到必应的图片");
+        }
+    }
+
+    WallPaperResponse.ResBean.VerticalBean topBean, bottomBean;
+
+    @Override
     public void getWallPaperResult(Response<WallPaperResponse> response) {
         if (response.body().getMsg().equals("success")) {
+
             List<WallPaperResponse.ResBean.VerticalBean> data = response.body().getRes().getVertical();
+
+            topBean = new WallPaperResponse.ResBean.VerticalBean();
+            topBean.setDesc("top");
+            topBean.setImg("");
+            bottomBean = new WallPaperResponse.ResBean.VerticalBean();
+            bottomBean.setDesc("bottom");
+            bottomBean.setImg("");
+
             if (data != null && data.size() > 0) {
                 mList.clear();
-                mList.addAll(data);
-                mAdapter.notifyDataSetChanged();
+                mList.add(topBean);
+//                Log.d("list-->", "" + mList.size());
+//                Log.d("list-->", new Gson().toJson(mList));
+                for (int i = 0; i < data.size(); i++) {
+                    mList.add(data.get(i));
+                }
+//                Log.d("list-->", new Gson().toJson(mList));
+//                Log.d("list-->", "" + mList.size());
+//                mList.addAll(data);
+                mList.add(bottomBean);
+//                Log.d("list-->", "" + mList.size());
+                Log.d("list-->", new Gson().toJson(mList));
+                mAdapter.notifyItemInserted(mList.size());
+//                mAdapter.notifyDataSetChanged();
 
                 LitePal.deleteAll(WallPaper.class);
-                for (int i = 0;i< mList.size();i++){
+                for (int i = 0; i < mList.size(); i++) {
                     WallPaper wallPaper = new WallPaper();
                     wallPaper.setImgUrl(mList.get(i).getImg());
                     wallPaper.save();
                 }
-
-
-
+                dismissLoadingDialog();
             } else {
                 ToastUtils.showShortToast(context, "壁纸数据为空");
+                dismissLoadingDialog();
             }
         } else {
+            dismissLoadingDialog();
             ToastUtils.showShortToast(context, "未获取到壁纸数据");
         }
     }
 
     @Override
     public void getDataFailed() {
-
+        dismissLoadingDialog();
+        ToastUtils.showShortToast(context, "请求超时");
     }
 
 
@@ -170,19 +262,34 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                 .setContentView(R.layout.dialog_bottom_wallpaper_setting)//载入布局文件
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)//设置弹窗宽高
                 .setOnClickListener(R.id.lay_wallpaper_list, v -> {//壁纸列表
-                    ToastUtils.showShortToast(context, "壁纸列表");
+
+                    Intent intent = new Intent(context, ImageActivity.class);
+                    intent.putExtra("position", 0);
+                    startActivity(intent);
+
                     bottomSettingDialog.dismiss();
                 }).setOnClickListener(R.id.lay_everyday_wallpaper, v -> {//每日一图
-                    ToastUtils.showShortToast(context, "每日一图");
+
+                    ToastUtils.showShortToast(context, "使用每日一图");
+                    SPUtils.putString(Constant.WALLPAPER_URL, biyingUrl, context);
+                    SPUtils.putInt(Constant.WALLPAPER_TYPE, 2, context);//壁纸列表
+                    //发送消息
+                    EventBus.getDefault().post(new ChangeWallPaperEvent(2));
+
                     bottomSettingDialog.dismiss();
                 }).setOnClickListener(R.id.lay_upload_wallpaper, v -> {//手动上传
-                    ToastUtils.showShortToast(context, "手动上传");
 
                     startActivityForResult(CameraUtils.getSelectPhotoIntent(), SELECT_PHOTO);
+                    ToastUtils.showShortToast(context, "请选择图片");
 
                     bottomSettingDialog.dismiss();
                 }).setOnClickListener(R.id.lay_default_wallpaper, v -> {//默认壁纸
-                    ToastUtils.showShortToast(context, "默认壁纸");
+
+                    ToastUtils.showShortToast(context, "使用默认壁纸");
+                    SPUtils.putInt(Constant.WALLPAPER_TYPE, 4, context);//使用默认壁纸
+                    SPUtils.putString(Constant.WALLPAPER_URL, null, context);
+                    //发送消息
+                    EventBus.getDefault().post(new ChangeWallPaperEvent(4));
                     bottomSettingDialog.dismiss();
                 });
 
@@ -244,8 +351,11 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                     }
                     displayImage(imagePath);
                 }
+                Log.d("result-->", requestCode + "   " + resultCode + "   " + data.getData().toString());
+
                 break;
             default:
+                Log.d("result-->", requestCode + "   " + resultCode + "   " + data.getData().toString());
                 break;
         }
     }
@@ -256,8 +366,11 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
     private void displayImage(String imagePath) {
         if (!TextUtils.isEmpty(imagePath)) {
             //将本地上传选中的图片地址放入缓存,当手动定义开关打开时，取出缓存中的图片地址，显示为背景
-            SPUtils.putInt(Constant.WALLPAPER_TYPE, 4, context);
-            ToastUtils.showShortToast(context, "已更换为你上传的壁纸");
+            SPUtils.putInt(Constant.WALLPAPER_TYPE, 3, context);
+            SPUtils.putString(Constant.WALLPAPER_URL, imagePath, context);
+            ToastUtils.showShortToast(context, "已更换为你选择的图片");
+            //发送消息
+            EventBus.getDefault().post(new ChangeWallPaperEvent(3));
         } else {
             SPUtils.putInt(Constant.WALLPAPER_TYPE, 0, context);
             ToastUtils.showShortToast(context, "图片获取失败");

@@ -1,8 +1,10 @@
 package com.llw.goodweather.utils;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class DateUtils {
     //获取当前完整的日期和时间
@@ -61,24 +64,6 @@ public class DateUtils {
         return sdf.format(new Date());
     }
 
-    /**
-     * 获取当前时间转换成时和分
-     * @param data
-     * @return
-     */
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String getCurrentTime(String data) {
-        String result = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        if (data == null) {//获取当前时间的时和分
-            result = sdf.format(new Date());
-        } else {
-            LocalDateTime date = LocalDateTime.parse(data, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-            result = date.format(DateTimeFormatter.ofPattern("HH:mm"));
-        }
-        return result;
-    }
-
     //获取当前日期(精确到毫秒)
     public static String getNowTimeDetail() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
@@ -86,14 +71,17 @@ public class DateUtils {
     }
 
     //根据传入的时间，先转换再截取，得到更新时间  传入  "2020-07-16T09:39+08:00"
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     public static String updateTime(String dateTime) {
         String result = null;
-
-        LocalDateTime date = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        String dateString = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        System.out.println("dateString:" + dateString);//到这一步，时间格式已经转换好了
-        result = dateString.substring(11);//进一步截取以达到我项目中的需求
+        Log.d("dateTime-->",dateTime+"");
+        if (dateTime == null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            result = sdf.format(new Date());
+        } else {
+            result = dateTime.substring(11,16);
+            Log.d("dateTime-->",result);
+        }
         return result;
     }
 

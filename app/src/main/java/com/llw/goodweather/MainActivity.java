@@ -4,12 +4,8 @@ import android.animation.Animator;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
@@ -30,7 +26,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.content.PermissionChecker;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,8 +35,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.llw.goodweather.adapter.AreaAdapter;
@@ -50,7 +43,6 @@ import com.llw.goodweather.adapter.DailyAdapter;
 import com.llw.goodweather.adapter.HourlyAdapter;
 import com.llw.goodweather.adapter.ProvinceAdapter;
 import com.llw.goodweather.bean.AirNowResponse;
-import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.CityResponse;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
@@ -59,7 +51,6 @@ import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.WarningResponse;
 import com.llw.goodweather.contract.WeatherContract;
-import com.llw.goodweather.eventbus.ChangeWallPaperEvent;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.ui.AboutUsActivity;
 import com.llw.goodweather.ui.BackgroundManagerActivity;
@@ -84,7 +75,6 @@ import com.llw.goodweather.utils.WeatherUtil;
 import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.AnimationUtil;
-import com.llw.mvplibrary.utils.DrawableUtils;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.RoundProgressBar;
@@ -108,7 +98,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -380,33 +369,16 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         mPresent.newSearchCity(event.mLocation);//相应事件时
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(ChangeWallPaperEvent event) {//接收
-        updateWallpaper(event.mType);
-    }
 
     /**
      * 更换壁纸
-     *
-     * @param type 类型
      */
-    private void updateWallpaper(int type) {
-        switch (type) {
-            case 1://壁纸列表
-            case 2://每日一图
-            case 3://手动上传
-                String imgUrl = SPUtils.getString(Constant.WALLPAPER_URL, null, context);
-                Log.d("type-->",imgUrl+"");
-                if (imgUrl != null) {
-                    Glide.with(context).load(imgUrl).into(bg);
-                } else {
-                    bg.setBackgroundResource(R.drawable.img_5);
-                }
-            case 0:
-            case 4://默认壁纸
-                bg.setBackgroundResource(R.drawable.img_5);
-                break;
-
+    private void updateWallpaper() {
+        String imgUrl = SPUtils.getString(Constant.WALLPAPER_URL, null, context);
+        if (imgUrl != null) {
+            Glide.with(context).load(imgUrl).into(bg);
+        } else {
+            Glide.with(context).load(R.drawable.img_5).into(bg);
         }
     }
 
@@ -426,53 +398,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         } else {
             dismissLoadingDialog();
         }
-        //isOpenChangeBg();//是否开启了切换背景
-        int type = SPUtils.getInt(Constant.WALLPAPER_TYPE, 0, context);
-        Log.d("type-->", type + "");
-        updateWallpaper(type);
+
+        updateWallpaper();
 
     }
-
-    //判断是否开启了切换背景，没有开启则用默认的背景
-    /*private void isOpenChangeBg() {
-        boolean isEverydayImg = SPUtils.getBoolean(Constant.EVERYDAY_IMG, false, context);//每日图片
-        boolean isImgList = SPUtils.getBoolean(Constant.IMG_LIST, false, context);//图片列表
-        boolean isCustomImg = SPUtils.getBoolean(Constant.CUSTOM_IMG, false, context);//手动定义
-        //因为只有有一个为true，其他两个就都会是false,所以可以一个一个的判断
-        if (isEverydayImg != true && isImgList != true && isCustomImg != true) {
-            //当所有开关都没有打开的时候用默认的图片
-            bg.setBackgroundResource(R.drawable.img_5);
-        } else {
-            if (isEverydayImg != false) {//开启每日一图
-                mPresent.biying(context);
-            } else if (isImgList != false) {//开启图片列表
-                int position = SPUtils.getInt(Constant.IMG_POSITION, -1, context);
-                switch (position) {
-                    case 0:
-                        bg.setBackgroundResource(R.drawable.img_1);
-                        break;
-                    case 1:
-                        bg.setBackgroundResource(R.drawable.img_2);
-                        break;
-                    case 2:
-                        bg.setBackgroundResource(R.drawable.img_3);
-                        break;
-                    case 3:
-                        bg.setBackgroundResource(R.drawable.img_4);
-                        break;
-                    case 4:
-                        bg.setBackgroundResource(R.drawable.img_5);
-                        break;
-                    case 5:
-                        bg.setBackgroundResource(R.drawable.img_6);
-                        break;
-                }
-            } else if (isCustomImg != false) {
-                String imgPath = SPUtils.getString(Constant.CUSTOM_IMG_PATH, "", context);
-                Glide.with(context).load(imgPath).into(bg);
-            }
-        }
-    }*/
 
     //绑定布局文件
     @Override
@@ -513,7 +442,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         rvHourly.setAdapter(mAdapterHourlyV7);
         //逐小时天气预报列表item点击事件
         mAdapterHourlyV7.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 //赋值
@@ -566,7 +494,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     //显示小时详情天气信息弹窗
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showHourlyWindow(HourlyResponse.HourlyBean data) {
         liWindow = new LiWindow(context);
         final View view = LayoutInflater.from(context).inflate(R.layout.window_hourly_detail, null);
@@ -584,6 +511,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         TextView tv_cloud = view.findViewById(R.id.tv_cloud);//云量
 
         String time = DateUtils.updateTime(data.getFxTime());
+
         tv_time.setText(WeatherUtil.showTimeInfo(time) + time);
         tv_tem.setText(data.getTemp() + "℃");
         tv_cond_txt.setText(data.getText());
@@ -674,7 +602,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             recyclerView.setLayoutManager(manager);
             recyclerView.setAdapter(provinceAdapter);
             provinceAdapter.notifyDataSetChanged();
-            runLayoutAnimationRight(recyclerView);//动画展示
+            //runLayoutAnimationRight(recyclerView);//动画展示
             provinceAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -715,7 +643,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                         recyclerView.setLayoutManager(manager1);
                         recyclerView.setAdapter(cityAdapter);
                         cityAdapter.notifyDataSetChanged();
-                        runLayoutAnimationRight(recyclerView);
+                        //runLayoutAnimationRight(recyclerView);
 
                         cityAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                             @Override
@@ -956,7 +884,6 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      *
      * @param response
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void getNowResult(Response<NowResponse> response) {
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {//200则成功返回数据
@@ -1209,8 +1136,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         });
         //绑定布局中的控件
         TextView changeCity = mPopupWindow.getContentView().findViewById(R.id.tv_change_city);//切换城市
-        TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景
-        TextView wallpaper = mPopupWindow.getContentView().findViewById(R.id.tv_wallpaper);//壁纸管理
+        TextView changeBg = mPopupWindow.getContentView().findViewById(R.id.tv_change_bg);//切换背景  太丑了，不用它了
+        TextView wallpaper = mPopupWindow.getContentView().findViewById(R.id.tv_wallpaper);//壁纸管理  我才是这条Gai最靓的仔
         TextView searchCity = mPopupWindow.getContentView().findViewById(R.id.tv_search_city);//城市搜索
         TextView worldCity = mPopupWindow.getContentView().findViewById(R.id.tv_world_city);//世界城市  V7
         TextView residentCity = mPopupWindow.getContentView().findViewById(R.id.tv_resident_city);//常用城市

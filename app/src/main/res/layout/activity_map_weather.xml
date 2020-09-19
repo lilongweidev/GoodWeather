@@ -23,7 +23,7 @@
         android:layout_marginTop="@dimen/dp_32"
         android:clickable="true"
         android:src="@mipmap/icon_auto_location"
-        app:backgroundTint="@color/transparent_bg_3"
+        app:backgroundTint="@color/white"
         app:backgroundTintMode="screen"
         app:borderWidth="@dimen/dp_0"
         app:fabSize="mini"

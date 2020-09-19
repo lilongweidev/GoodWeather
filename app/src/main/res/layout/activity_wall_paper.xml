@@ -26,6 +26,7 @@
             app:navigationIcon="@mipmap/icon_return"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+            <!--标题-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,4 +63,5 @@
 
         app:pressedTranslationZ="@dimen/dp_18"
         app:rippleColor="@color/blue_one" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,6 @@ package com.llw.goodweather.ui;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.transition.TransitionManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -27,14 +25,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -82,17 +76,13 @@ import com.llw.goodweather.view.horizonview.ScrollWatched;
 import com.llw.goodweather.view.horizonview.ScrollWatcher;
 import com.llw.goodweather.view.skyview.SunView;
 import com.llw.mvplibrary.mvp.MvpActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
-
-import static com.llw.goodweather.utils.DateUtils.getCurrentTime;
 import static com.llw.goodweather.utils.DateUtils.getNowDateNoLimiter;
+import static com.llw.goodweather.utils.DateUtils.updateTime;
 
 /**
  * 地图天气
@@ -819,7 +809,6 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      *
      * @param response
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void getSunMoonResult(Response<SunMoonResponse> response) {
 
@@ -827,11 +816,11 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
 
             SunMoonResponse data = response.body();
             if (data != null) {
-                String sunRise = getCurrentTime(data.getSunrise());
-                String moonRise = getCurrentTime(data.getMoonrise());
-                String sunSet = getCurrentTime(data.getSunset());
-                String moonSet = getCurrentTime(data.getMoonset());
-                String currentTime = getCurrentTime(null);
+                String sunRise = updateTime(data.getSunrise());
+                String moonRise = updateTime(data.getMoonrise());
+                String sunSet = updateTime(data.getSunset());
+                String moonSet = updateTime(data.getMoonset());
+                String currentTime = updateTime(null);
 
                 sunView.setTimes(sunRise, sunSet, currentTime);
                 moonView.setTimes(moonRise, moonSet, currentTime);

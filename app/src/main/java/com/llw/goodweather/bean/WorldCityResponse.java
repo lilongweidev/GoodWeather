@@ -6,23 +6,22 @@ import java.util.List;
  * 世界城市返回实体
  */
 public class WorldCityResponse {
-
     /**
-     * status : 200
-     * topCityList : [{"name":"余杭","id":"101210106","lat":"30.42118","lon":"120.30173","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"25","fxLink":"http://hfx.link/32t1"},{"name":"嘉定","id":"101020500","lat":"31.38352","lon":"121.25033","adm2":"上海","adm1":"上海","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"23","fxLink":"http://hfx.link/2bf1"},{"name":"杭州","id":"101210101","lat":"30.28745","lon":"120.15357","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"11","fxLink":"http://hfx.link/32o1"},{"name":"上海","id":"101020100","lat":"31.23170","lon":"121.47264","adm2":"上海","adm1":"上海","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"11","fxLink":"http://hfx.link/2bc1"},{"name":"萧山","id":"101210102","lat":"30.16293","lon":"120.27069","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"23","fxLink":"http://hfx.link/32p1"},{"name":"朝阳","id":"101010300","lat":"39.92148","lon":"116.48641","adm2":"北京","adm1":"北京","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"15","fxLink":"http://hfx.link/2az1"},{"name":"江干","id":"101210111","lat":"30.26660","lon":"120.20263","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"25","fxLink":"http://hfx.link/1tvn1"},{"name":"海淀","id":"101010200","lat":"39.95607","lon":"116.31031","adm2":"北京","adm1":"北京","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"15","fxLink":"http://hfx.link/2ay1"},{"name":"滨江","id":"101210114","lat":"30.20661","lon":"120.21061","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/1tvq1"},{"name":"西湖","id":"101210113","lat":"30.27293","lon":"120.14737","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/1tvp1"},{"name":"深圳","id":"101280601","lat":"22.54700","lon":"114.08594","adm2":"深圳","adm1":"广东","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"13","fxLink":"http://hfx.link/3i71"},{"name":"金水","id":"101180112","lat":"34.77583","lon":"113.68603","adm2":"郑州","adm1":"河南","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"25","fxLink":"http://hfx.link/1tst1"},{"name":"北京","id":"101010100","lat":"39.90498","lon":"116.40528","adm2":"北京","adm1":"北京","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"10","fxLink":"http://hfx.link/2ax1"},{"name":"宝山","id":"101020300","lat":"31.39889","lon":"121.48993","adm2":"上海","adm1":"上海","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"23","fxLink":"http://hfx.link/2be1"},{"name":"拱墅","id":"101210112","lat":"30.31469","lon":"120.15005","adm2":"杭州","adm1":"浙江","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/1tvo1"},{"name":"栖霞","id":"101190112","lat":"32.10214","lon":"118.80870","adm2":"南京","adm1":"江苏","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/1tu61"},{"name":"浦东新区","id":"101020600","lat":"31.24594","lon":"121.56770","adm2":"上海","adm1":"上海","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"15","fxLink":"http://hfx.link/2bg1"},{"name":"金凤","id":"101170107","lat":"38.47735","lon":"106.22848","adm2":"银川","adm1":"宁夏","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/1tsk1"},{"name":"苏州","id":"101190401","lat":"31.29937","lon":"120.61958","adm2":"苏州","adm1":"江苏","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"13","fxLink":"http://hfx.link/30y1"},{"name":"郑州","id":"101180101","lat":"34.75797","lon":"113.66541","adm2":"郑州","adm1":"河南","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"11","fxLink":"http://hfx.link/2qk1"}]
+     * code : 200
+     * topCityList : [{"name":"喀布尔","id":"6BA3","lat":"34.53277","lon":"69.16583","adm2":"喀布尔","adm1":"喀布尔省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"20","fxLink":"http://hfx.link/1xq31"},{"name":"Ghaziabad","id":"8E836","lat":"34.31499","lon":"70.76899","adm2":"Ghaziabad","adm1":"楠格哈尔省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"600","fxLink":"http://hfx.link/1xqa1"},{"name":"Herat","id":"E5CDA","lat":"34.37385","lon":"62.17918","adm2":"Herat","adm1":"赫拉特省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"31","fxLink":"http://hfx.link/1xqd1"},{"name":"坎大哈","id":"B5722","lat":"31.60777","lon":"65.70527","adm2":"坎大哈","adm1":"坎大哈省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"31","fxLink":"http://hfx.link/1xq21"},{"name":"马扎里沙里夫","id":"C5C86","lat":"36.70000","lon":"67.11666","adm2":"Mazar-i-Sharif","adm1":"巴尔赫省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"31","fxLink":"http://hfx.link/1xq11"},{"name":"贾拉拉巴德","id":"575B","lat":"34.43027","lon":"70.45277","adm2":"贾拉拉巴德","adm1":"Nangarhar","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"41","fxLink":"http://hfx.link/1xqe1"},{"name":"法扎巴德","id":"46291","lat":"37.09999","lon":"70.56700","adm2":"法扎巴德","adm1":"巴达赫尚省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"51","fxLink":"http://hfx.link/1xq71"},{"name":"Khost","id":"AD93F","lat":"33.33333","lon":"69.91666","adm2":"Khost","adm1":"霍斯特省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"75","fxLink":"http://hfx.link/1xqf1"},{"name":"加兹尼","id":"EA283","lat":"33.54916","lon":"68.42333","adm2":"加兹尼","adm1":"加兹尼省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"51","fxLink":"http://hfx.link/1xqb1"},{"name":"Farah","id":"A05D4","lat":"32.34361","lon":"62.11944","adm2":"Farah","adm1":"法拉省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"51","fxLink":"http://hfx.link/1xq81"},{"name":"Sinay","id":"964D8","lat":"33.37900","lon":"65.01699","adm2":"Sinay","adm1":"古尔省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"65","fxLink":"http://hfx.link/1xq61"},{"name":"安德科伊","id":"611D5","lat":"36.92499","lon":"65.11000","adm2":"安德科伊","adm1":"法利亚布省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"55","fxLink":"http://hfx.link/1xq41"},{"name":"巴米扬","id":"450C6","lat":"34.81999","lon":"67.81099","adm2":"巴米扬","adm1":"巴米扬省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"45","fxLink":"http://hfx.link/1xq51"},{"name":"贾巴奥斯沙拉吉","id":"71A7D","lat":"35.09799","lon":"69.20700","adm2":"贾巴奥斯沙拉吉","adm1":"帕尔旺省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"55","fxLink":"http://hfx.link/1xqm1"},{"name":"黑拉坦","id":"40B4E","lat":"37.17200","lon":"67.33699","adm2":"黑拉坦","adm1":"巴尔赫省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"65","fxLink":"http://hfx.link/1xqc1"},{"name":"塔林科","id":"5ED87","lat":"32.62400","lon":"65.86299","adm2":"塔林科","adm1":"乌鲁兹甘省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"71","fxLink":"http://hfx.link/1xqn1"},{"name":"加德兹","id":"99F95","lat":"33.59799","lon":"69.22399","adm2":"加德兹","adm1":"帕克蒂亚省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"61","fxLink":"http://hfx.link/1xq91"},{"name":"扎兰季","id":"C08A9","lat":"30.98399","lon":"61.84199","adm2":"扎兰季","adm1":"尼姆鲁兹省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"71","fxLink":"http://hfx.link/1xqo1"},{"name":"昆都士","id":"362EC","lat":"36.72888","lon":"68.85694","adm2":"昆都士","adm1":"昆都士省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"41","fxLink":"http://hfx.link/1xqg1"},{"name":"普勒`阿拉姆","id":"9AA42","lat":"33.99100","lon":"69.02200","adm2":"普勒`阿拉姆","adm1":"洛加尔省","country":"阿富汗","tz":"Asia/Kabul","utcOffset":"+04:30","isDst":"0","type":"city","rank":"61","fxLink":"http://hfx.link/1xqi1"}]
      * refer : {"sources":["heweather.com"],"license":["commercial license"]}
      */
 
-    private String status;
+    private String code;
     private ReferBean refer;
     private List<TopCityListBean> topCityList;
 
-    public String getStatus() {
-        return status;
+    public String getCode() {
+        return code;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public ReferBean getRefer() {
@@ -64,19 +63,19 @@ public class WorldCityResponse {
 
     public static class TopCityListBean {
         /**
-         * name : 余杭
-         * id : 101210106
-         * lat : 30.42118
-         * lon : 120.30173
-         * adm2 : 杭州
-         * adm1 : 浙江
-         * country : 中国
-         * tz : Asia/Shanghai
-         * utcOffset : +08:00
+         * name : 喀布尔
+         * id : 6BA3
+         * lat : 34.53277
+         * lon : 69.16583
+         * adm2 : 喀布尔
+         * adm1 : 喀布尔省
+         * country : 阿富汗
+         * tz : Asia/Kabul
+         * utcOffset : +04:30
          * isDst : 0
          * type : city
-         * rank : 25
-         * fxLink : http://hfx.link/32t1
+         * rank : 20
+         * fxLink : http://hfx.link/1xq31
          */
 
         private String name;

@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="@color/shallow_gray"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WorldCityActivity">
+    tools:context=".ui.WorldCityListActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:textSize="@dimen/sp_18"
             android:textColor="@color/black"
-            android:text="国家/地区" />
+            android:text="城市" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -39,5 +39,4 @@
         android:paddingBottom="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
 </LinearLayout>

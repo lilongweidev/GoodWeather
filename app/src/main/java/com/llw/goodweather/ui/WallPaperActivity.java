@@ -9,31 +9,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.WallPaperAdapter;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.WallPaperResponse;
 import com.llw.goodweather.contract.WallPaperContract;
-import com.llw.goodweather.eventbus.ChangeWallPaperEvent;
-import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.utils.CameraUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
@@ -41,18 +31,14 @@ import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.WallPaper;
 import com.llw.mvplibrary.mvp.MvpActivity;
-import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
 
-import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Response;
 
@@ -91,26 +77,17 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
     List<Integer> heightList = new ArrayList<>();
 
     private void initWallPaperList() {
-        //生成随机高度
-//        for (int i = 0; i < 30; i++) {
-//            heightList.add((int) (200 + Math.random() * (300 - 100 + 1)));
-//            Log.d("height-->",(int) (200 + Math.random() * (300 - 100 + 1))+"");
-//        }
+
         heightList.add(100);
         for (int i = 0; i < 30; i++) {
             heightList.add(300);
         }
         heightList.add(100);
 
-        List<String> topList = new ArrayList<>();
-        topList.add("头部");
-
-        TopAdapter topAdapter = new TopAdapter(R.layout.item_wallpaper_top_list, topList);
         mAdapter = new WallPaperAdapter(R.layout.item_wallpaper_list, mList, heightList);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         rv.setLayoutManager(manager);
-        rv.setAdapter(topAdapter);
         rv.setAdapter(mAdapter);
         mPresent.getWallPaper();//请求数据
         mPresent.biying();//获取必应壁纸
@@ -149,19 +126,6 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
             }
         });
 
-
-    }
-
-    class TopAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
-        public TopAdapter(int layoutResId, @Nullable List<String> data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-
-        }
     }
 
 
@@ -204,16 +168,10 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
             if (data != null && data.size() > 0) {
                 mList.clear();
                 mList.add(topBean);
-//                Log.d("list-->", "" + mList.size());
-//                Log.d("list-->", new Gson().toJson(mList));
                 for (int i = 0; i < data.size(); i++) {
                     mList.add(data.get(i));
                 }
-//                Log.d("list-->", new Gson().toJson(mList));
-//                Log.d("list-->", "" + mList.size());
-//                mList.addAll(data);
                 mList.add(bottomBean);
-//                Log.d("list-->", "" + mList.size());
                 Log.d("list-->", new Gson().toJson(mList));
                 mAdapter.notifyItemInserted(mList.size());
 //                mAdapter.notifyDataSetChanged();
@@ -274,7 +232,7 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                     SPUtils.putString(Constant.WALLPAPER_URL, biyingUrl, context);
                     SPUtils.putInt(Constant.WALLPAPER_TYPE, 2, context);//壁纸列表
                     //发送消息
-                    EventBus.getDefault().post(new ChangeWallPaperEvent(2));
+                    //EventBus.getDefault().post(new ChangeWallPaperEvent(2));
 
                     bottomSettingDialog.dismiss();
                 }).setOnClickListener(R.id.lay_upload_wallpaper, v -> {//手动上传
@@ -289,7 +247,7 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                     SPUtils.putInt(Constant.WALLPAPER_TYPE, 4, context);//使用默认壁纸
                     SPUtils.putString(Constant.WALLPAPER_URL, null, context);
                     //发送消息
-                    EventBus.getDefault().post(new ChangeWallPaperEvent(4));
+                    //EventBus.getDefault().post(new ChangeWallPaperEvent(4));
                     bottomSettingDialog.dismiss();
                 });
 
@@ -370,7 +328,7 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
             SPUtils.putString(Constant.WALLPAPER_URL, imagePath, context);
             ToastUtils.showShortToast(context, "已更换为你选择的图片");
             //发送消息
-            EventBus.getDefault().post(new ChangeWallPaperEvent(3));
+            //EventBus.getDefault().post(new ChangeWallPaperEvent(3));
         } else {
             SPUtils.putInt(Constant.WALLPAPER_TYPE, 0, context);
             ToastUtils.showShortToast(context, "图片获取失败");

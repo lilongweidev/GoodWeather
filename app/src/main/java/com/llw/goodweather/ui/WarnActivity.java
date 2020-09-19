@@ -39,8 +39,6 @@ public class WarnActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void initData(Bundle savedInstanceState) {
         StatusBarUtil.transparencyBar(context);//透明状态栏
@@ -67,7 +65,6 @@ public class WarnActivity extends BaseActivity {
             super(layoutResId, data);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void convert(BaseViewHolder helper, WarningResponse.WarningBean item) {
 

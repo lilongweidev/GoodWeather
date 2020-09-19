@@ -20,7 +20,6 @@ public class HourlyAdapter extends BaseQuickAdapter<HourlyResponse.HourlyBean, B
         super(layoutResId, data);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void convert(BaseViewHolder helper, HourlyResponse.HourlyBean item) {
         //首先是对时间格式的处理,因为拿到的时间是  2020-04-28 22:00  要改成   晚上22:00

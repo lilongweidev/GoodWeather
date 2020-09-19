@@ -22,7 +22,8 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ImageActivity"></activity>
+        <activity android:name=".ui.WorldCityListActivity"></activity>
+        <activity android:name=".ui.ImageActivity" />
         <activity
             android:name=".ui.WallPaperActivity"
             android:theme="@style/WallPaperTheme" />

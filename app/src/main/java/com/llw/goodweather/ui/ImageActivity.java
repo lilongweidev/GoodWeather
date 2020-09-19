@@ -1,6 +1,5 @@
 package com.llw.goodweather.ui;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,12 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -27,9 +21,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.llw.goodweather.R;
-import com.llw.goodweather.eventbus.ChangeWallPaperEvent;
 import com.llw.goodweather.utils.Constant;
-import com.llw.goodweather.utils.RecyclerViewScrollHelper;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
@@ -37,7 +29,6 @@ import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.bean.WallPaper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.io.File;
@@ -51,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -134,7 +124,7 @@ public class ImageActivity extends BaseActivity {
                 SPUtils.putString(Constant.WALLPAPER_URL, wallpaperUrl, context);//放入缓存
                 SPUtils.putInt(Constant.WALLPAPER_TYPE, 1, context);//壁纸列表
                 //发送消息
-                EventBus.getDefault().post(new ChangeWallPaperEvent(1));
+                //EventBus.getDefault().post(new ChangeWallPaperEvent(1));
                 ToastUtils.showShortToast(context, "已设置");
                 break;
             case R.id.btn_download://下载壁纸

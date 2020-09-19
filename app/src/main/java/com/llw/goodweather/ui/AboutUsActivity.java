@@ -80,7 +80,7 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         Back(toolbar);
-        StatusBarUtil.setStatusBarColor(context, R.color.about_bg_color);//白色状态栏
+        StatusBarUtil.setStatusBarColor(context, R.color.about_bg_color);//蓝色状态栏
         tvCopyEmail.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         tvCopyEmail.getPaint().setAntiAlias(true);//抗锯齿
 

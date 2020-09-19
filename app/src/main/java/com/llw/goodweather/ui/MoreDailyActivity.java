@@ -54,6 +54,7 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(linearLayoutManager);
         PagerSnapHelper snapHelper = new PagerSnapHelper();
+        rv.setOnFlingListener(null);//避免抛异常
         snapHelper.attachToRecyclerView(rv);//滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
         rv.setAdapter(mAdapter);
         tvTitle.setText(getIntent().getStringExtra("cityName"));

@@ -152,7 +152,7 @@ public class AlertDialog extends Dialog {
          */
         public Builder fromRight(boolean isAnimation) {
             if (isAnimation) {
-                P.mAnimation = R.style.dialog_from_bottom_anim;
+                P.mAnimation = R.style.dialog_scale_anim;
             }
             P.mGravity = Gravity.RIGHT;
             return this;

@@ -118,7 +118,6 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
      *
      * @param response
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void getMoreAirResult(Response<AirNowResponse> response) {
         dismissLoadingDialog();
@@ -136,6 +135,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 rvStation.setLayoutManager(linearLayoutManager);
                 PagerSnapHelper snapHelper = new PagerSnapHelper();
+                rvStation.setOnFlingListener(null);//避免抛异常
                 snapHelper.attachToRecyclerView(rvStation);//滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
                 rvStation.setAdapter(mAdapter);
 

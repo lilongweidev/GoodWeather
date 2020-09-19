@@ -20,7 +20,6 @@ public class HourlyWorldCityAdapter extends BaseQuickAdapter<HourlyResponse.Hour
         super(layoutResId, data);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void convert(BaseViewHolder helper, HourlyResponse.HourlyBean item) {
         /**

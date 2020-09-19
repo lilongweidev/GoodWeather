@@ -214,20 +214,27 @@ public class WeatherUtil {
     public static String showTimeInfo(String timeData) {
         String timeInfo = null;
         int time = 0;
-        time = Integer.parseInt(timeData.trim().substring(0, 2));
-        if (time >= 0 && time <= 6) {
-            timeInfo = "凌晨";
-        } else if (time > 6 && time <= 12) {
-            timeInfo = "上午";
-        } else if (time > 12 && time <= 13) {
-            timeInfo = "中午";
-        } else if (time > 13 && time <= 18) {
-            timeInfo = "下午";
-        } else if (time > 18 && time <= 24) {
-            timeInfo = "晚上";
-        } else {
-            timeInfo = "未知";
+
+        if(timeData == null || timeData.equals("")){
+            timeInfo = "获取失败";
+        }else {
+            time = Integer.parseInt(timeData.trim().substring(0, 2));
+            if (time >= 0 && time <= 6) {
+                timeInfo = "凌晨";
+            } else if (time > 6 && time <= 12) {
+                timeInfo = "上午";
+            } else if (time > 12 && time <= 13) {
+                timeInfo = "中午";
+            } else if (time > 13 && time <= 18) {
+                timeInfo = "下午";
+            } else if (time > 18 && time <= 24) {
+                timeInfo = "晚上";
+            } else {
+                timeInfo = "未知";
+            }
         }
+
+
         return timeInfo;
     }
 

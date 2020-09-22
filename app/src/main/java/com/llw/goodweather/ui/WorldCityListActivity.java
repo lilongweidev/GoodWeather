@@ -31,6 +31,8 @@ import retrofit2.Response;
 
 /**
  * 世界城市列表 每个国家20个Top城市
+ *
+ * @author llw
  */
 public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCityPresenter>
         implements WorldCityContract.IWorldCityView {
@@ -47,8 +49,10 @@ public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCi
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtil.setStatusBarColor(context, R.color.white);//白色底  状态栏
-        StatusBarUtil.StatusBarLightMode(context);//黑色字体
+        //白色底  状态栏
+        StatusBarUtil.setStatusBarColor(context, R.color.white);
+        //状态栏 黑色字体
+        StatusBarUtil.StatusBarLightMode(context);
         Back(toolbar);
 
         tvTitle.setText(getIntent().getStringExtra("name"));
@@ -61,6 +65,7 @@ public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCi
 
     /**
      * 初始化数据列表
+     *
      * @param code 国家/地区 代码
      */
     private void initList(String code) {
@@ -95,6 +100,7 @@ public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCi
 
     /**
      * 世界城市返回
+     *
      * @param response
      */
     @Override

@@ -13,6 +13,8 @@ import retrofit2.Response;
 
 /**
  * 更多生活指数订阅器
+ *
+ * @author llw
  */
 public class MoreLifestyleContract {
 
@@ -20,21 +22,22 @@ public class MoreLifestyleContract {
 
         /**
          * 更多生活指数  V7
-         * @param location  城市id
+         *
+         * @param location 城市id
          */
         public void worldCity(String location) {
-            ApiService service = ServiceGenerator.createService(ApiService.class,3);
-            service.lifestyle("0",location).enqueue(new NetCallBack<LifestyleResponse>() {
+            ApiService service = ServiceGenerator.createService(ApiService.class, 3);
+            service.lifestyle("0", location).enqueue(new NetCallBack<LifestyleResponse>() {
                 @Override
                 public void onSuccess(Call<LifestyleResponse> call, Response<LifestyleResponse> response) {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getMoreLifestyleResult(response);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }

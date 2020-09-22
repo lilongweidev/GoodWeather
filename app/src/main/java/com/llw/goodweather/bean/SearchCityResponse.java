@@ -1,8 +1,11 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
+
 /**
  * 搜索城市数据实体
+ *
+ * @author llw
  */
 public class SearchCityResponse {
 

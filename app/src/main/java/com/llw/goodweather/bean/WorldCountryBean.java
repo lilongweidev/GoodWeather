@@ -1,5 +1,10 @@
 package com.llw.goodweather.bean;
 
+/**
+ * 世界国家实体
+ *
+ * @author llw
+ */
 public class WorldCountryBean {
 
 

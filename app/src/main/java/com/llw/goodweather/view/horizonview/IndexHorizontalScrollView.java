@@ -9,6 +9,7 @@ import com.llw.goodweather.utils.DisplayUtil;
 
 /**
  * 横向滑动条
+ * @author hefeng
  */
 public class IndexHorizontalScrollView extends HorizontalScrollView {
 

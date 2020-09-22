@@ -11,8 +11,9 @@
 * 城市搜索
 * 常用城市
 * 世界国家/地区的城市
-* 背景更换
+* 壁纸切换
 * 地图天气
+* 地图搜索定位
 * 应用自动更新
 
 ## 运行效果图
@@ -22,6 +23,7 @@
     align-items: flex-start;
     flex-wrap: wrap;">
 <img title="演示GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "25%" height = "546" alt="演示GIF"/>
+<img title="壁纸切换GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/wallpaper.gif" width = "25%" height = "546" alt="壁纸切换GIF"/>
 <img title="地图搜索定位GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "25%" height = "546" alt="地图搜索定位GIF"/>
 <img title="自动更新GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "25%" height = "546" alt="自动更新GIF"/>
 <img title="地图天气GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "25%" height = "546" alt="地图天气GIF"/>
@@ -83,7 +85,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 版本说明
 
-### V 2.3 (最新版本)
+### V 2.4 (最新版本)
+* 新版壁纸管理、支持网络图片下载、优化页面UI<br>
+### V 2.3 
 * 新增地图逐小时天气、日出日落、月升月落、地图搜索定位<br>
 ### V 2.2
 * 新增应用自动更新<br>

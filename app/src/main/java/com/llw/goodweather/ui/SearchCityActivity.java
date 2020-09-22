@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +28,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.SearchCityAdapter;
 import com.llw.goodweather.bean.NewSearchCityResponse;
-import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.contract.SearchCityContract;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.utils.CodeToStringUtils;
@@ -39,6 +36,8 @@ import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.utils.SizeUtils;
+import com.llw.mvplibrary.view.dialog.AlertDialog;
 import com.llw.mvplibrary.view.flowlayout.FlowLayout;
 import com.llw.mvplibrary.view.flowlayout.RecordsDao;
 import com.llw.mvplibrary.view.flowlayout.TagAdapter;
@@ -50,7 +49,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -64,33 +62,63 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 
 /**
  * 搜索城市
+ *
+ * @author llw
  */
 public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCityPresenter>
         implements SearchCityContract.ISearchCityView {
 
-
+    private static final String ALL_RECORD = "all";
+    /**
+     * 输入框
+     */
     @BindView(R.id.edit_query)
-    AutoCompleteTextView editQuery;//输入框
+    AutoCompleteTextView editQuery;
+    /**
+     * 清空输入的内容图标
+     */
     @BindView(R.id.iv_clear_search)
-    ImageView ivClearSearch;//清空输入的内容图标
+    ImageView ivClearSearch;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    /**
+     * 数据显示列表
+     */
     @BindView(R.id.rv)
-    RecyclerView rv;//数据显示列表
+    RecyclerView rv;
+    /**
+     * 清理所有历史记录
+     */
     @BindView(R.id.clear_all_records)
-    ImageView clearAllRecords;//清理所有历史记录
+    ImageView clearAllRecords;
+    /**
+     * 搜索历史布局
+     */
     @BindView(R.id.fl_search_records)
-    TagFlowLayout flSearchRecords;//搜索历史布局
+    TagFlowLayout flSearchRecords;
+    /**
+     * 超过三行就会出现，展开显示更多
+     */
     @BindView(R.id.iv_arrow)
-    ImageView ivArrow;//超过三行就会出现，展开显示更多
+    ImageView ivArrow;
+    /**
+     * 搜索历史主布局
+     */
     @BindView(R.id.ll_history_content)
-    LinearLayout llHistoryContent;//搜索历史主布局
+    LinearLayout llHistoryContent;
 
-
-    //    List<SearchCityResponse.HeWeather6Bean.BasicBean> mList = new ArrayList<>();//数据源
-    List<NewSearchCityResponse.LocationBean> mList = new ArrayList<>();//V7数据源
-    SearchCityAdapter mAdapter;//适配器
-
+    /**
+     * V7数据源
+     */
+    List<NewSearchCityResponse.LocationBean> mList = new ArrayList<>();
+    /**
+     * 适配器
+     */
+    SearchCityAdapter mAdapter;
+    /**
+     * 记录条数
+     */
+    private static final int RECORD_NUM = 50;
 
     private RecordsDao mRecordsDao;
     //默然展示词条个数
@@ -99,10 +127,17 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     private TagAdapter mRecordsAdapter;
     private LinearLayout mHistoryContent;
 
+    /**
+     * 提示弹窗
+     */
+    private AlertDialog tipDialog = null;
+
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtil.setStatusBarColor(context, R.color.white);//白色状态栏
-        StatusBarUtil.StatusBarLightMode(context);//黑色字体
+        //白色状态栏
+        StatusBarUtil.setStatusBarColor(context, R.color.white);
+        //黑色字体
+        StatusBarUtil.StatusBarLightMode(context);
         Back(toolbar);
 
         initView();//初始化页面数据
@@ -130,7 +165,8 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                 return tv;
             }
         };
-        editQuery.addTextChangedListener(textWatcher);//添加输入监听
+        //添加输入监听
+        editQuery.addTextChangedListener(textWatcher);
         editQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -167,15 +203,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         flSearchRecords.setOnLongClickListener(new TagFlowLayout.OnLongClickListener() {
             @Override
             public void onLongClick(View view, final int position) {
-                showDialog("确定要删除该条历史记录？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //删除某一条记录
-                        mRecordsDao.deleteRecord(recordList.get(position));
-
-                        initTagFlowLayout();
-                    }
-                });
+                showTipDialog(position, "确定要删除该条历史记录？");
             }
         });
 
@@ -212,7 +240,9 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
     }
 
-    //历史记录布局
+    /**
+     * 历史记录布局
+     */
     private void initTagFlowLayout() {
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override
@@ -248,12 +278,14 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
      */
     private void initAutoComplete(String field, AutoCompleteTextView autoCompleteTextView) {
         SharedPreferences sp = getSharedPreferences("sp_history", 0);
-        String etHistory = sp.getString("history", "深圳");//获取缓存
-        String[] histories = etHistory.split(",");//通过,号分割成String数组
+        //获取缓存
+        String etHistory = sp.getString("history", "深圳");
+        //通过,号分割成String数组
+        String[] histories = etHistory.split(",");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item_tv_history, histories);
 
         // 只保留最近的50条的记录
-        if (histories.length > 50) {
+        if (histories.length > RECORD_NUM) {
             String[] newHistories = new String[50];
             System.arraycopy(histories, 0, newHistories, 0, 50);
             adapter = new ArrayAdapter<String>(this, R.layout.item_tv_history, newHistories);
@@ -284,27 +316,56 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
      */
     private void saveHistory(String field, AutoCompleteTextView autoCompleteTextView) {
 
-        String text = autoCompleteTextView.getText().toString();//输入的值
+        //输入的值
+        String text = autoCompleteTextView.getText().toString();
         SharedPreferences sp = getSharedPreferences("sp_history", 0);
         String tvHistory = sp.getString(field, "深圳");
 
-        if (!tvHistory.contains(text + ",")) {//如果历史缓存中不存在输入的值则
+        //如果历史缓存中不存在输入的值则
+        if (!tvHistory.contains(text + ",")) {
 
             StringBuilder sb = new StringBuilder(tvHistory);
             sb.insert(0, text + ",");
-            sp.edit().putString("history", sb.toString()).commit();//写入缓存
+            //写入缓存
+            sp.edit().putString("history", sb.toString()).commit();
 
         }
     }
 
-    //提示弹窗  后续我可能会改，因为原生的太丑了
-    private void showDialog(String dialogTitle, @NonNull DialogInterface.OnClickListener onClickListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(dialogTitle);
-        builder.setPositiveButton("确定", onClickListener);
-        builder.setNegativeButton("取消", null);
-        builder.create().show();
+    /**
+     * 显示提示弹窗
+     *
+     * @param data    数据
+     * @param content 内容
+     */
+    private void showTipDialog(Object data, String content) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .addDefaultAnimation()
+                .setCancelable(true)
+                .setContentView(R.layout.dialog_tip)
+                .setWidthAndHeight(SizeUtils.dp2px(context, 270), LinearLayout.LayoutParams.WRAP_CONTENT)
+                .setText(R.id.tv_content, content)
+                .setOnClickListener(R.id.tv_cancel, v -> {
+                    tipDialog.dismiss();
+                }).setOnClickListener(R.id.tv_sure, v -> {
+                    //传入all则删除所有
+                    if (ALL_RECORD.equals(data)) {
+                        flSearchRecords.setLimit(true);
+                        //清除所有数据
+                        mRecordsDao.deleteUsernameAllRecords();
+                        llHistoryContent.setVisibility(View.GONE);
+                    } else {
+                        //删除某一条记录  传入单个的position
+                        mRecordsDao.deleteRecord(recordList.get((Integer) data));
+                        initTagFlowLayout();
+                    }
+
+                    tipDialog.dismiss();
+                });
+        tipDialog = builder.create();
+        tipDialog.show();
     }
+
 
     @Override
     public int getLayoutId() {
@@ -316,7 +377,9 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         return new SearchCityContract.SearchCityPresenter();
     }
 
-    //输入监听
+    /**
+     * 输入监听
+     */
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -330,7 +393,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (!s.toString().equals("")) {//输入后，显示清除按钮
+            if (!"".equals(s.toString())) {//输入后，显示清除按钮
                 ivClearSearch.setVisibility(View.VISIBLE);
             } else {//隐藏按钮
                 ivClearSearch.setVisibility(View.GONE);
@@ -338,31 +401,33 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         }
     };
 
-    //点击事件
+    /**
+     * 点击事件
+     *
+     * @param view 控件
+     */
     @OnClick({R.id.iv_clear_search, R.id.clear_all_records, R.id.iv_arrow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.iv_clear_search://清空输入的内容
+            //清空输入的内容
+            case R.id.iv_clear_search:
                 ivClearSearch.setVisibility(View.GONE);
                 editQuery.setText("");
                 break;
-            case R.id.clear_all_records://清除所有记录
-                showDialog("确定要删除全部历史记录？", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        flSearchRecords.setLimit(true);
-                        //清除所有数据
-                        mRecordsDao.deleteUsernameAllRecords();
-                        llHistoryContent.setVisibility(View.GONE);
-                    }
-                });
+            //清除所有记录
+            case R.id.clear_all_records:
+                showTipDialog("all", "确定要删除全部历史记录？");
                 break;
-            case R.id.iv_arrow://向下展开
+            //向下展开
+            case R.id.iv_arrow:
                 flSearchRecords.setLimit(false);
                 mRecordsAdapter.notifyDataChanged();
                 break;
+            default:
+                break;
         }
     }
+
 
     /**
      * 搜索城市返回数据  V7
@@ -388,7 +453,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     @Override
     public void getDataFailed() {
         dismissLoadingDialog();//关闭弹窗
-        ToastUtils.showShortToast(context, "网络异常");//这里的context是框架中封装好的，等同于this
+        ToastUtils.showShortToast(context, "网络异常");
     }
 
 }

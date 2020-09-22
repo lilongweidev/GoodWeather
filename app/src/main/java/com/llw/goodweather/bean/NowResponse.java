@@ -1,8 +1,11 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
+
 /**
  * 今日天气数据实体
+ *
+ * @author llw
  */
 public class NowResponse {
 

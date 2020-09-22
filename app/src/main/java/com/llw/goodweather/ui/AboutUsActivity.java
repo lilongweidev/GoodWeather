@@ -49,6 +49,8 @@ import okhttp3.OkHttpClient;
 
 /**
  * 关于 Good Weather
+ *
+ * @author llw
  */
 public class AboutUsActivity extends BaseActivity {
 
@@ -75,27 +77,41 @@ public class AboutUsActivity extends BaseActivity {
     private String updateLog = null;
     private boolean is_update = false;
     private AppVersion appVersion;
+    /**
+     * 博客地址
+     */
+    private String CSDN_BLOG_URL = "https://blog.csdn.net/qq_38436214/category_9880722.html";
+    /**
+     * 源码地址
+     */
+    private String GITHUB_URL = "https://github.com/lilongweidev/GoodWeather";
 
 
     @Override
     public void initData(Bundle savedInstanceState) {
         Back(toolbar);
-        StatusBarUtil.setStatusBarColor(context, R.color.about_bg_color);//蓝色状态栏
-        tvCopyEmail.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        tvCopyEmail.getPaint().setAntiAlias(true);//抗锯齿
+        //蓝色状态栏
+        StatusBarUtil.setStatusBarColor(context, R.color.about_bg_color);
+        //设置文字下划线
+        tvCopyEmail.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        //抗锯齿
+        tvCopyEmail.getPaint().setAntiAlias(true);
 
         tvVersion.setText(APKVersionInfoUtils.getVerName(context));
 
         appVersion = LitePal.find(AppVersion.class, 1);
         updateLog = appVersion.getChangelog();
 
-        if (!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))) {//提示更新
+        //提示更新
+        if (!appVersion.getVersionShort().equals(APKVersionInfoUtils.getVerName(context))) {
             is_update = true;
-            vRed.setVisibility(View.VISIBLE);//显示红点
+            //显示红点
+            vRed.setVisibility(View.VISIBLE);
             updateUrl = appVersion.getInstall_url();
             updateLog = appVersion.getChangelog();
         } else {
-            vRed.setVisibility(View.GONE);//隐藏红点
+            //隐藏红点
+            vRed.setVisibility(View.GONE);
             is_update = false;
         }
 
@@ -111,20 +127,24 @@ public class AboutUsActivity extends BaseActivity {
     @OnClick({R.id.lay_app_version, R.id.tv_blog, R.id.tv_code, R.id.tv_copy_email, R.id.tv_author})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.lay_app_version://版本更新
+            //版本更新
+            case R.id.lay_app_version:
                 if (is_update) {
                     showUpdateAppDialog(updateUrl, updateLog);
                 } else {
                     ToastUtils.showShortToast(context, "当前已是最新版本");
                 }
                 break;
-            case R.id.tv_blog://博客地址
-                jumpUrl("https://blog.csdn.net/qq_38436214/category_9880722.html");
+            //博客地址
+            case R.id.tv_blog:
+                jumpUrl(CSDN_BLOG_URL);
                 break;
-            case R.id.tv_code://源码地址
-                jumpUrl("https://github.com/lilongweidev/GoodWeather");
+            //源码地址
+            case R.id.tv_code:
+                jumpUrl(GITHUB_URL);
                 break;
-            case R.id.tv_copy_email://复制邮箱
+            //复制邮箱
+            case R.id.tv_copy_email:
                 myClipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
                 myClip = ClipData.newPlainText("text", "lonelyholiday@qq.com");
                 myClipboard.setPrimaryClip(myClip);
@@ -132,6 +152,9 @@ public class AboutUsActivity extends BaseActivity {
                 break;
             case R.id.tv_author:
                 ToastUtils.showShortToast(context, "你为啥要点我呢？");
+                break;
+            default:
+                ToastUtils.showShortToast(context, "点你咋的！");
                 break;
         }
     }
@@ -153,6 +176,7 @@ public class AboutUsActivity extends BaseActivity {
 
     /**
      * 更新弹窗
+     *
      * @param downloadUrl 下载地址
      * @param updateLog   更新内容
      */
@@ -176,6 +200,7 @@ public class AboutUsActivity extends BaseActivity {
 
     /**
      * 清除APK
+     *
      * @param apkName
      * @return
      */
@@ -189,6 +214,7 @@ public class AboutUsActivity extends BaseActivity {
 
     /**
      * 下载APK
+     *
      * @param downloadUrl
      */
     private void downloadApk(String downloadUrl) {

@@ -27,6 +27,8 @@ import static com.llw.goodweather.utils.Constant.UPDATE_USER_ID;
 
 /**
  * API服务接口
+ *
+ * @author llw
  */
 public interface ApiService {
     /**
@@ -41,6 +43,8 @@ public interface ApiService {
 
     /**
      * 必应每日一图
+     *
+     * @return BiYingImgResponse 必应壁纸返回
      */
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Call<BiYingImgResponse> biying();
@@ -51,7 +55,7 @@ public interface ApiService {
      * 实况天气
      *
      * @param location 城市名
-     * @return 返回实况天气数据
+     * @return 返回实况天气数据 NowResponse
      */
     @GET("/v7/weather/now?key=" + API_KEY + "&gzip=n")
     Call<NowResponse> nowWeather(@Query("location") String location);
@@ -62,36 +66,36 @@ public interface ApiService {
      *
      * @param type     天数类型  传入3d / 7d / 10d / 15d  通过Path拼接到请求的url里面
      * @param location 城市id
-     * @return 返回天气预报数据
+     * @return 返回天气预报数据 DailyResponse
      */
-    @GET("/v7/weather/{type}?key="+ API_KEY)
+    @GET("/v7/weather/{type}?key=" + API_KEY)
     Call<DailyResponse> dailyWeather(@Path("type") String type, @Query("location") String location);
 
     /**
      * 逐小时预报（未来24小时）之前是逐三小时预报
      *
      * @param location 城市id
-     * @return 返回逐小时数据
+     * @return 返回逐小时数据 MoreAirFiveResponse
      */
-    @GET("/v7/weather/24h?key="  + API_KEY)
+    @GET("/v7/weather/24h?key=" + API_KEY)
     Call<HourlyResponse> hourlyWeather(@Query("location") String location);
 
     /**
      * 当天空气质量
      *
      * @param location 城市id
-     * @return 返回当天空气质量数据
+     * @return 返回当天空气质量数据 MoreAirFiveResponse
      */
-    @GET("/v7/air/now?key="  + API_KEY)
+    @GET("/v7/air/now?key=" + API_KEY)
     Call<AirNowResponse> airNowWeather(@Query("location") String location);
 
     /**
      * 空气质量5天预报
      *
      * @param location 城市id
-     * @return 返回空气质量5天预报数据
+     * @return 返回空气质量5天预报数据 MoreAirFiveResponse
      */
-    @GET("/v7/air/5d?key="+ API_KEY)
+    @GET("/v7/air/5d?key=" + API_KEY)
     Call<MoreAirFiveResponse> airFiveWeather(@Query("location") String location);
 
     /**
@@ -102,7 +106,7 @@ public interface ApiService {
      *                 感冒指数	9 ，空气污染扩散条件指数	10 ，空调开启指数	 11 ，太阳镜指数	12 ，
      *                 化妆指数  13 ，晾晒指数  14 ，交通指数  15 ，防晒指数	16
      * @param location 城市id
-     * @return
+     * @return LifestyleResponse 生活指数数据返回
      */
     @GET("/v7/indices/1d?key=" + API_KEY)
     Call<LifestyleResponse> lifestyle(@Query("type") String type,
@@ -113,7 +117,7 @@ public interface ApiService {
      *
      * @param location 城市名
      * @param mode     exact 精准搜索  fuzzy 模糊搜索
-     * @return
+     * @return NewSearchCityResponse 搜索城市数据返回
      */
     @GET("/v2/city/lookup?key=" + API_KEY + "&range=cn")
     Call<NewSearchCityResponse> newSearchCity(@Query("location") String location,
@@ -123,8 +127,7 @@ public interface ApiService {
      * 世界城市
      *
      * @param range cn表示国内  world 表示全世界
-     * @return 返回热门城市数据 遗憾的是，现在最多只能返回20条，
-     * 之前是有50条的，后面只能想别的办法来做海外热门城市了，目前就先这样了
+     * @return WorldCityResponse 世界城市数据返回
      */
     @GET("/v2/city/top?key=" + API_KEY + "&number=20")
     Call<WorldCityResponse> worldCity(@Query("range") String range);
@@ -133,29 +136,36 @@ public interface ApiService {
      * 当前城市灾害预警
      *
      * @param location 城市id ，通过搜索城市获得
-     * @return
+     * @return WarningResponse 灾害预警返回
      */
-    @GET("/v7/warning/now?key="+ API_KEY)
+    @GET("/v7/warning/now?key=" + API_KEY)
     Call<WarningResponse> nowWarn(@Query("location") String location);
 
     /**
      * APP版本更新
+     *
+     * @return AppVersion 版本信息返回
      */
     @GET("/apps/latest/" + UPDATE_USER_ID + "?api_token=" + UPDATE_API_TOKEN)
     Call<AppVersion> getAppInfo();
 
     /**
      * 太阳和月亮  日出日落、月升月落
+     *
+     * @param location 位置
+     * @param date     日期
+     * @return SunMoonResponse 太阳和月亮数据返回
      */
-    @GET("/v7/astronomy/sunmoon?key="+ API_KEY)
+    @GET("/v7/astronomy/sunmoon?key=" + API_KEY)
     Call<SunMoonResponse> getSunMoon(@Query("location") String location, @Query("date") String date);
 
     /**
      * 手机壁纸API
+     *
+     * @return WallPaperResponse 网络壁纸数据返回
      */
     @GET("/v1/vertical/vertical?limit=30&skip=180&adult=false&first=0&order=hot")
     Call<WallPaperResponse> getWallPaper();
-
 
 
 }

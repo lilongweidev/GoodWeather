@@ -23,6 +23,11 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import org.litepal.LitePal;
 
+/**
+ * 项目管理
+ *
+ * @author llw
+ */
 public class WeatherApplication extends BaseApplication {
 
     /**
@@ -94,7 +99,8 @@ public class WeatherApplication extends BaseApplication {
             }
         });
 
-        LitePal.initialize(this);//初始化
+        //初始化数据库
+        LitePal.initialize(this);
 
         //在使用SDK各组件之前初始化context信息，传入ApplicationContext
         SDKInitializer.initialize(this);
@@ -110,7 +116,6 @@ public class WeatherApplication extends BaseApplication {
     public static ActivityManager getActivityManager() {
         return activityManager;
     }
-
 
 
     @Override

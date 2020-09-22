@@ -5,8 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-
-
+    <!--壁纸列表-->
     <LinearLayout
         android:id="@+id/lay_wallpaper_list"
         android:layout_width="match_parent"
@@ -39,6 +38,7 @@
         android:layout_marginRight="@dimen/dp_16"
         android:background="@color/gray_white_2" />
 
+    <!--每日一图-->
     <LinearLayout
         android:id="@+id/lay_everyday_wallpaper"
         android:layout_width="match_parent"
@@ -71,6 +71,7 @@
         android:layout_marginRight="@dimen/dp_16"
         android:background="@color/gray_white_2" />
 
+    <!--手动上传-->
     <LinearLayout
         android:id="@+id/lay_upload_wallpaper"
         android:layout_width="match_parent"
@@ -103,6 +104,7 @@
         android:layout_marginRight="@dimen/dp_16"
         android:background="@color/gray_white_2" />
 
+    <!--默认壁纸-->
     <LinearLayout
         android:id="@+id/lay_default_wallpaper"
         android:layout_width="match_parent"

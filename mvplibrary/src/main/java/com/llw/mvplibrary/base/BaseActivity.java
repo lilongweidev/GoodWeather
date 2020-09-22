@@ -22,17 +22,23 @@ import androidx.appcompat.widget.Toolbar;
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
 import com.llw.mvplibrary.kit.KnifeKit;
+
 import butterknife.Unbinder;
 
 /**
  * 用于不需要请求网络接口的Activity
+ *
+ * @author llw
  */
 public abstract class BaseActivity extends AppCompatActivity implements UiCallBack {
     private static final int FAST_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
     protected Activity context;
     private Unbinder unbinder;
-    private Dialog mDialog;//加载弹窗
+    /**
+     * 加载弹窗
+     */
+    private Dialog mDialog;
 
 
     @Override
@@ -64,8 +70,10 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
     }
 
 
-    //弹窗出现
-    public void showLoadingDialog(){
+    /**
+     * 弹窗出现
+     */
+    protected void showLoadingDialog() {
         if (mDialog == null) {
             mDialog = new Dialog(context, R.style.loading_dialog);
         }
@@ -74,32 +82,43 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
         mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         mDialog.show();
     }
-    //弹窗消失
-    protected void dismissLoadingDialog(){
+
+    /**
+     * 弹窗消失
+     */
+    protected void dismissLoadingDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
         }
         mDialog = null;
     }
 
-    //返回
-    protected void Back(Toolbar toolbar){
+    /**
+     * 返回
+     *
+     * @param toolbar
+     */
+    protected void Back(Toolbar toolbar) {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.finish();
-                if(!isFastClick()) {
+                if (!isFastClick()) {
                     context.finish();
                 }
             }
         });
     }
 
-    // 两次点击间隔不能少于500ms
+    /**
+     * 两次点击间隔不能少于500ms
+     *
+     * @return flag
+     */
     protected static boolean isFastClick() {
         boolean flag = true;
         long currentClickTime = System.currentTimeMillis();
-        if ((currentClickTime - lastClickTime) >= FAST_CLICK_DELAY_TIME ) {
+        if ((currentClickTime - lastClickTime) >= FAST_CLICK_DELAY_TIME) {
             flag = false;
         }
         lastClickTime = currentClickTime;

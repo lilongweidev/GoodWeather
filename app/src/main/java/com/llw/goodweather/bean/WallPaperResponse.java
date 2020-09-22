@@ -1,9 +1,12 @@
 package com.llw.goodweather.bean;
 
-import org.litepal.crud.LitePalSupport;
-
 import java.util.List;
 
+/**
+ * 壁纸列表返回实体
+ *
+ * @author llw
+ */
 public class WallPaperResponse {
 
     /**

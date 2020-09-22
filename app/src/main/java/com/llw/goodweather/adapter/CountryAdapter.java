@@ -11,7 +11,10 @@ import java.util.List;
 
 /**
  * 国家列表适配器
+ *
+ * @author llw
  */
+
 public class CountryAdapter extends BaseQuickAdapter<Country, BaseViewHolder> {
     public CountryAdapter(int layoutResId, @Nullable List<Country> data) {
         super(layoutResId, data);
@@ -19,7 +22,9 @@ public class CountryAdapter extends BaseQuickAdapter<Country, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Country item) {
-        helper.setText(R.id.tv_country_name,item.getName());
+        //设置名称
+        helper.setText(R.id.tv_country_name, item.getName());
+        //点击事件
         helper.addOnClickListener(R.id.tv_country_name);
     }
 }

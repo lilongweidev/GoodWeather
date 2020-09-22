@@ -1,10 +1,13 @@
 package com.llw.goodweather.utils;
 
+/**
+ * @author llw
+ */
 public class CodeToStringUtils {
 
-    public static String WeatherCode(String code){
+    public static String WeatherCode(String code) {
         String codeInfo = null;
-        switch (code){
+        switch (code) {
             case "ok":
                 codeInfo = "正常";
                 break;
@@ -45,7 +48,7 @@ public class CodeToStringUtils {
                 codeInfo = "签名错误";
                 break;
 
-                //新增V7版本下的状态码判断
+            //新增V7版本下的状态码判断
             case "204":
                 codeInfo = "你查询的地区暂时没有你需要的数据";
                 break;

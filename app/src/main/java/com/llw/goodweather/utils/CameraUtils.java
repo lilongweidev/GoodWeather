@@ -25,9 +25,11 @@ import java.io.IOException;
 
 /**
  * 相机、相册工具类
+ *
+ * @author llw
  */
 public class CameraUtils {
-    public static Intent getTakePhotoIntent(Context context, File outputImagepath){
+    public static Intent getTakePhotoIntent(Context context, File outputImagepath) {
         //获取系統版本
         int currentapiVersion = Build.VERSION.SDK_INT;
         // 激活相机
@@ -49,11 +51,12 @@ public class CameraUtils {
         return intent;
     }
 
-    public static Intent getSelectPhotoIntent(){
+    public static Intent getSelectPhotoIntent() {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
         return intent;
     }
+
     /*
      * 判断sdcard是否被挂载
      */
@@ -77,14 +80,14 @@ public class CameraUtils {
             if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 String id = docId.split(":")[1];
                 String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection,context);
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection, context);
             } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
                 Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
-                imagePath = getImagePath(contentUri, null,context);
+                imagePath = getImagePath(contentUri, null, context);
             }
 
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            imagePath = getImagePath(uri, null,context);
+            imagePath = getImagePath(uri, null, context);
         }
         return imagePath;
     }
@@ -103,6 +106,7 @@ public class CameraUtils {
         }
         return path;
     }
+
     //改变拍完照后图片方向不正的问题
     public static void ImgUpdateDirection(String filepath, Bitmap orc_bitmap, ImageView iv) {
         int digree = 0;//图片旋转的角度
@@ -160,7 +164,7 @@ public class CameraUtils {
      */
     public static String getImageBeforeKitKatPath(Intent data, Context context) {
         Uri uri = data.getData();
-        String imagePath = getImagePath(uri, null,context);
+        String imagePath = getImagePath(uri, null, context);
         return imagePath;
     }
 

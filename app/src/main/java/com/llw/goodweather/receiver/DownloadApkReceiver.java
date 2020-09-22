@@ -21,13 +21,16 @@ import java.util.Arrays;
 
 /**
  * 下载APK广播
+ *
+ * @author llw
  */
 public class DownloadApkReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {//下载完成
+        //下载完成
+        if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
             long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L);
             DownloadManager manager = (DownloadManager) WeatherApplication.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
             DownloadManager.Query query = new DownloadManager.Query();
@@ -38,7 +41,8 @@ public class DownloadApkReceiver extends BroadcastReceiver {
                 return;
             }
             int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
-            if (status == DownloadManager.STATUS_SUCCESSFUL) {//成功
+            //成功
+            if (status == DownloadManager.STATUS_SUCCESSFUL) {
                 //安装
                 installApk(context);
             }
@@ -48,6 +52,7 @@ public class DownloadApkReceiver extends BroadcastReceiver {
 
     /**
      * 安装APK
+     *
      * @param context
      */
     public static void installApk(Context context) {
@@ -57,13 +62,14 @@ public class DownloadApkReceiver extends BroadcastReceiver {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         // 由于没有在Activity环境下启动Activity,设置下面的标签
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(Build.VERSION.SDK_INT>=24) { //判读版本是否在7.0以上
+        //判断版本是否在7.0以上
+        if (Build.VERSION.SDK_INT >= 24) {
             //参数1 上下文, 参数2 Provider主机地址 和配置文件中保持一致   参数3  共享的文件
             Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-        }else{
+        } else {
             intent.setDataAndType(Uri.fromFile(file),
                     "application/vnd.android.package-archive");
         }

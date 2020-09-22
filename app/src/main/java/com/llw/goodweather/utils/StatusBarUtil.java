@@ -7,12 +7,16 @@ import android.os.Build;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.readystatesoftware.systembartint.SystemBarTintManager;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
  * 状态栏工具类
+ *
+ * @author llw
  */
 public class StatusBarUtil {
     /**
@@ -47,7 +51,6 @@ public class StatusBarUtil {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
-//      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(activity.getResources().getColor(colorId));
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //使用SystemBarTint库使4.4版本状态栏变色，需要先将状态栏设置为透明

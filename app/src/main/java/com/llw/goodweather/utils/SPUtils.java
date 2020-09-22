@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * sharepref工具类
+ * SharedPreferences工具类
+ *
+ * @author llw
  */
 public class SPUtils {
-    private static final String NAME="config";
+    private static final String NAME = "config";
+
     public static void putBoolean(String key, boolean value, Context ctx) {
         SharedPreferences sp = ctx.getSharedPreferences(NAME,
                 Context.MODE_PRIVATE);
@@ -27,7 +30,7 @@ public class SPUtils {
     }
 
     public static String getString(String key, String defValue, Context ctx) {
-        if(ctx!=null){
+        if (ctx != null) {
             SharedPreferences sp = ctx.getSharedPreferences(NAME,
                     Context.MODE_PRIVATE);
             return sp.getString(key, defValue);

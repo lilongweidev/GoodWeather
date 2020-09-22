@@ -1,8 +1,11 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
+
 /**
  * 必应每日一图数据实体
+ *
+ * @author llw
  */
 public class BiYingImgResponse {
 

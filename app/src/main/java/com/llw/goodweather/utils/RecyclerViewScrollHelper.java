@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 滑动帮助
+ *
+ * @author llw
  */
 public class RecyclerViewScrollHelper {
-    public static void scrollToPosition(RecyclerView recyclerView, int position){
+    public static void scrollToPosition(RecyclerView recyclerView, int position) {
         RecyclerView.LayoutManager manager1 = recyclerView.getLayoutManager();
         if (manager1 instanceof LinearLayoutManager) {
             LinearLayoutManager manager = (LinearLayoutManager) manager1;
@@ -24,10 +26,12 @@ public class RecyclerViewScrollHelper {
         TopSmoothScroller(Context context) {
             super(context);
         }
+
         @Override
         protected int getHorizontalSnapPreference() {
             return SNAP_TO_START;
         }
+
         @Override
         protected int getVerticalSnapPreference() {
             return SNAP_TO_START;

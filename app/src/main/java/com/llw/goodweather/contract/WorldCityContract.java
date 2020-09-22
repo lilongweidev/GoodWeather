@@ -12,6 +12,8 @@ import retrofit2.Response;
 
 /**
  * 世界城市订阅器
+ *
+ * @author llw
  */
 public class WorldCityContract {
 
@@ -19,21 +21,22 @@ public class WorldCityContract {
 
         /**
          * 世界城市  V7
-         * @param range  类型
+         *
+         * @param range 类型
          */
         public void worldCity(String range) {
             ApiService service = ServiceGenerator.createService(ApiService.class, 4);//指明访问的地址
             service.worldCity(range).enqueue(new NetCallBack<WorldCityResponse>() {
                 @Override
                 public void onSuccess(Call<WorldCityResponse> call, Response<WorldCityResponse> response) {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getWorldCityResult(response);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }

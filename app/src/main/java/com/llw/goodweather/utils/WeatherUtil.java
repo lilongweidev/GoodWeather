@@ -7,6 +7,8 @@ import com.llw.goodweather.R;
 
 /**
  * 天气工具类
+ *
+ * @author llw
  */
 public class WeatherUtil {
 
@@ -18,188 +20,264 @@ public class WeatherUtil {
      */
     public static void changeIcon(ImageView weatherStateIcon, int code) {
         switch (code) {
-            case 100://晴
+            //晴
+            case 100:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_100);
                 break;
-            case 101://多云
+            //多云
+            case 101:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_101);
                 break;
-            case 102://少云
+            //少云
+            case 102:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_102);
                 break;
-            case 103://晴间多云
+            //晴间多云
+            case 103:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_103);
                 break;
-            case 104://阴 V7
+            //阴 V7
+            case 104:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_104);
                 break;
-            case 150://晴 晚上  V7
+            //晴 晚上  V7
+            case 150:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_150);
                 break;
-            case 153://晴间多云 晚上  V7
+            //晴间多云 晚上  V7
+            case 153:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_153);
                 break;
-            case 154://阴 晚上  V7
+            //阴 晚上  V7
+            case 154:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_154);
                 break;
-            case 200://有风
-            case 202://微风
-            case 203://和风
-            case 204://清风
-                weatherStateIcon.setBackgroundResource(R.mipmap.icon_200);//因为这几个状态的图标是一样的
+            //有风
+            case 200:
+                //微风
+            case 202:
+                //和风
+            case 203:
+                //清风
+            case 204:
+                //因为这几个状态的图标是一样的
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_200);
                 break;
-            case 201://平静
+            //平静
+            case 201:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_201);
                 break;
-            case 205://强风/劲风
-            case 206://疾风
-            case 207://大风
-                weatherStateIcon.setBackgroundResource(R.mipmap.icon_205);//因为这几个状态的图标是一样的
+            //强风/劲风
+            case 205:
+                //疾风
+            case 206:
+                //大风
+            case 207:
+                //因为这几个状态的图标是一样的
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_205);
                 break;
-            case 208://烈风
-            case 209://风暴
-            case 210://狂爆风
-            case 211://飓风
-            case 212://龙卷风
-            case 213://热带风暴
-                weatherStateIcon.setBackgroundResource(R.mipmap.icon_208);//因为这几个状态的图标是一样的
+            //烈风
+            case 208:
+                //风暴
+            case 209:
+                //狂爆风
+            case 210:
+                //飓风
+            case 211:
+                //龙卷风
+            case 212:
+                //热带风暴
+            case 213:
+                //因为这几个状态的图标是一样的
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_208);
                 break;
-            case 300://阵雨
+            //阵雨
+            case 300:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_300);
                 break;
-            case 301://强阵雨
+            //强阵雨
+            case 301:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_301);
                 break;
-            case 302://雷阵雨
+            //雷阵雨
+            case 302:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_302);
                 break;
-            case 303://强雷阵雨
+            //强雷阵雨
+            case 303:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_303);
                 break;
-            case 304://雷阵雨伴有冰雹
+            //雷阵雨伴有冰雹
+            case 304:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_304);
                 break;
-            case 305://小雨
+            //小雨
+            case 305:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_305);
                 break;
-            case 306://中雨
+            //中雨
+            case 306:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_306);
                 break;
-            case 307://大雨
+            //大雨
+            case 307:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_307);
                 break;
-            case 308://极端降雨
+            //极端降雨
+            case 308:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_312);
                 break;
-            case 309://毛毛雨/细雨
+            //毛毛雨/细雨
+            case 309:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_309);
                 break;
-            case 310://暴雨
+            //暴雨
+            case 310:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_310);
                 break;
-            case 311://大暴雨
+            //大暴雨
+            case 311:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_311);
                 break;
-            case 312://特大暴雨
+            //特大暴雨
+            case 312:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_312);
                 break;
-            case 313://冻雨
+            //冻雨
+            case 313:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_313);
                 break;
-            case 314://小到中雨
+            //小到中雨
+            case 314:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_306);
                 break;
-            case 315://中到大雨
+            //中到大雨
+            case 315:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_307);
                 break;
-            case 316://大到暴雨
+            //大到暴雨
+            case 316:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_310);
                 break;
-            case 317://大暴雨到特大暴雨
+            //大暴雨到特大暴雨
+            case 317:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_312);
                 break;
-            case 399://雨
+            //雨
+            case 399:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_399);
                 break;
-            case 400://小雪
+            //小雪
+            case 400:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_400);
                 break;
-            case 401://中雪
+            //中雪
+            case 401:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_401);
                 break;
-            case 402://大雪
+            //大雪
+            case 402:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_402);
                 break;
-            case 403://暴雪
+            //暴雪
+            case 403:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_403);
                 break;
-            case 404://雨夹雪
+            //雨夹雪
+            case 404:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_404);
                 break;
-            case 405://雨雪天气
+            //雨雪天气
+            case 405:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_405);
                 break;
-            case 406://阵雨夹雪
+            //阵雨夹雪
+            case 406:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_406);
                 break;
-            case 407://阵雪
+            //阵雪
+            case 407:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_407);
                 break;
-            case 408://小到中雪
+            //小到中雪
+            case 408:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_408);
                 break;
-            case 409://中到大雪
+            //中到大雪
+            case 409:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_409);
                 break;
-            case 410://大到暴雪
+            //大到暴雪
+            case 410:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_410);
                 break;
-            case 499://雪
+            //雪
+            case 499:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_499);
                 break;
-            case 500://薄雾
+            //薄雾
+            case 500:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_500);
                 break;
-            case 501://雾
+            //雾
+            case 501:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_501);
                 break;
-            case 502://霾
+            //霾
+            case 502:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_502);
                 break;
-            case 503://扬沙
+            //扬沙
+            case 503:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_503);
                 break;
-            case 504://扬沙
+            //扬沙
+            case 504:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_504);
                 break;
-            case 507://沙尘暴
+            //沙尘暴
+            case 507:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_507);
                 break;
-            case 508://强沙尘暴
+            //强沙尘暴
+            case 508:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_508);
                 break;
-            case 509://浓雾
-            case 510://强浓雾
-            case 514://大雾
-            case 515://特强浓雾
+            //浓雾
+            case 509:
+                //强浓雾
+            case 510:
+                //大雾
+            case 514:
+                //特强浓雾
+            case 515:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_509);
                 break;
-            case 511://中度霾
+            //中度霾
+            case 511:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_511);
                 break;
-            case 512://重度霾
+            //重度霾
+            case 512:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_512);
                 break;
-            case 513://严重霾
+            //严重霾
+            case 513:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_513);
                 break;
-            case 900://热
+            //热
+            case 900:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_900);
                 break;
-            case 901://冷
+            //冷
+            case 901:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_901);
                 break;
-            case 999://未知
+            //未知
+            case 999:
+                weatherStateIcon.setBackgroundResource(R.mipmap.icon_999);
+                break;
+            default:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_999);
                 break;
         }
@@ -215,9 +293,9 @@ public class WeatherUtil {
         String timeInfo = null;
         int time = 0;
 
-        if(timeData == null || timeData.equals("")){
+        if (timeData == null || timeData.equals("")) {
             timeInfo = "获取失败";
-        }else {
+        } else {
             time = Integer.parseInt(timeData.trim().substring(0, 2));
             if (time >= 0 && time <= 6) {
                 timeInfo = "凌晨";
@@ -241,6 +319,7 @@ public class WeatherUtil {
 
     /**
      * 紫外线等级描述
+     *
      * @param uvIndex
      * @return
      */
@@ -276,7 +355,8 @@ public class WeatherUtil {
         } else {
             str = apiInfo;
         }
-        switch (str) {//优，良，轻度污染，中度污染，重度污染，严重污染
+        //优，良，轻度污染，中度污染，重度污染，严重污染
+        switch (str) {
             case "优":
                 result = "♪(^∇^*)  空气很好。";
                 break;
@@ -295,12 +375,15 @@ public class WeatherUtil {
             case "严重污染":
                 result = "ヽ(*。>Д<)o゜  完犊子了!空气污染非常严重，要减少出门，定期检查身体，能搬家就搬家吧！";
                 break;
+            default:
+                break;
         }
         return result;
     }
 
     /**
      * 紫外线详细描述
+     *
      * @param uvIndexInfo
      * @return
      */

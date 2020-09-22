@@ -1,16 +1,20 @@
 package com.llw.goodweather.adapter;
 
 import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.WeatherUtil;
+
 import java.util.List;
 
 /**
  * 更多天气预报信息数据适配器
+ *
+ * @author llw
  */
 public class MoreDailyAdapter extends BaseQuickAdapter<DailyResponse.DailyBean, BaseViewHolder> {
     public MoreDailyAdapter(int layoutResId, @Nullable List<DailyResponse.DailyBean> data) {
@@ -19,31 +23,40 @@ public class MoreDailyAdapter extends BaseQuickAdapter<DailyResponse.DailyBean, 
 
     @Override
     protected void convert(BaseViewHolder helper, DailyResponse.DailyBean item) {
-        helper.setText(R.id.tv_temp_max,item.getTempMax()+"°")
-                .setText(R.id.tv_temp_min,item.getTempMin()+"°");
-
-        helper.setText(R.id.tv_date_info, DateUtils.Week(item.getFxDate()))//日期描述
-                .setText(R.id.tv_date, DateUtils.dateSplit(item.getFxDate()))//日期
-                .setText(R.id.tv_weather_state_d, item.getTextDay())//白天天气状况文字描述
-                .setText(R.id.tv_weather_state_n, item.getTextNight());//晚间天气状况文字描述
-
-        helper.setText(R.id.tv_wind_360_d, item.getWind360Day() + "°")
+        //最高温
+        helper.setText(R.id.tv_temp_max, item.getTempMax() + "°")
+                //最低温
+                .setText(R.id.tv_temp_min, item.getTempMin() + "°")
+                //日期描述
+                .setText(R.id.tv_date_info, DateUtils.Week(item.getFxDate()))
+                //日期
+                .setText(R.id.tv_date, DateUtils.dateSplit(item.getFxDate()))
+                //白天天气状况文字描述
+                .setText(R.id.tv_weather_state_d, item.getTextDay())
+                //晚间天气状况文字描述
+                .setText(R.id.tv_weather_state_n, item.getTextNight())
+                //白天风力信息
+                .setText(R.id.tv_wind_360_d, item.getWind360Day() + "°")
                 .setText(R.id.tv_wind_dir_d, item.getWindDirDay())
                 .setText(R.id.tv_wind_scale_d, item.getWindScaleDay() + "级")
-                .setText(R.id.tv_wind_speed_d, item.getWindSpeedDay() + "km/h");
-
-        helper.setText(R.id.tv_wind_360_n, item.getWind360Night() + "°")
+                .setText(R.id.tv_wind_speed_d, item.getWindSpeedDay() + "km/h")
+                //晚上风力信息
+                .setText(R.id.tv_wind_360_n, item.getWind360Night() + "°")
                 .setText(R.id.tv_wind_dir_n, item.getWindDirNight())
                 .setText(R.id.tv_wind_scale_n, item.getWindScaleNight() + "级")
-                .setText(R.id.tv_wind_speed_n, item.getWindSpeedNight() + "km/h");
-
-        helper.setText(R.id.tv_cloud, item.getCloud() + "%")//云量
-                .setText(R.id.tv_uvIndex, uvIndexToString(item.getUvIndex()))//紫外线
-                .setText(R.id.tv_vis, item.getVis() + "km")//能见度
-                .setText(R.id.tv_precip, item.getPrecip() + "mm")//降水量
-                .setText(R.id.tv_humidity, item.getHumidity() + "%")//相对湿度
-                .setText(R.id.tv_pressure, item.getPressure() + "hPa")//大气压强
-        ;
+                .setText(R.id.tv_wind_speed_n, item.getWindSpeedNight() + "km/h")
+                //云量
+                .setText(R.id.tv_cloud, item.getCloud() + "%")
+                //紫外线
+                .setText(R.id.tv_uvIndex, uvIndexToString(item.getUvIndex()))
+                //能见度
+                .setText(R.id.tv_vis, item.getVis() + "km")
+                //降水量
+                .setText(R.id.tv_precip, item.getPrecip() + "mm")
+                //相对湿度
+                .setText(R.id.tv_humidity, item.getHumidity() + "%")
+                //大气压强
+                .setText(R.id.tv_pressure, item.getPressure() + "hPa");
 
 
         //白天天气状态图片描述

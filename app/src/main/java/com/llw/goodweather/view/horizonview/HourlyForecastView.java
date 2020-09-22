@@ -30,6 +30,7 @@ import java.util.List;
 
 /**
  * 24小时天气预报自定义View
+ * @author hefeng
  */
 public class HourlyForecastView extends View implements ScrollWatcher {
 

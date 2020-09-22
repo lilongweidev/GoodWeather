@@ -2,10 +2,12 @@ package com.llw.goodweather.ui;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.MoreDailyAdapter;
 import com.llw.goodweather.bean.DailyResponse;
@@ -17,13 +19,17 @@ import com.llw.goodweather.utils.RecyclerViewScrollHelper;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import retrofit2.Response;
 
 /**
  * 更多天气预报
+ *
+ * @author llw
  */
 public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPresenter> implements MoreDailyContract.IMoreDailyView {
 
@@ -34,12 +40,19 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    List<DailyResponse.DailyBean> mList = new ArrayList<>();//数据实体
-    MoreDailyAdapter mAdapter;//适配器
+    /**
+     * 数据实体
+     */
+    List<DailyResponse.DailyBean> mList = new ArrayList<>();
+    /**
+     * 适配器
+     */
+    MoreDailyAdapter mAdapter;
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtil.transparencyBar(context);//透明状态栏
+        //透明状态栏
+        StatusBarUtil.transparencyBar(context);
         showLoadingDialog();
         initList();
         Back(toolbar);
@@ -55,7 +68,8 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
         rv.setLayoutManager(linearLayoutManager);
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         rv.setOnFlingListener(null);//避免抛异常
-        snapHelper.attachToRecyclerView(rv);//滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
+        //滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
+        snapHelper.attachToRecyclerView(rv);
         rv.setAdapter(mAdapter);
         tvTitle.setText(getIntent().getStringExtra("cityName"));
         mPresent.worldCity(getIntent().getStringExtra("locationId"));
@@ -81,14 +95,19 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
         dismissLoadingDialog();
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<DailyResponse.DailyBean> data = response.body().getDaily();
-            if (data != null && data.size() > 0) {//判空处理
-                mList.clear();//添加数据之前先清除
-                mList.addAll(data);//添加数据
-                mAdapter.notifyDataSetChanged();//刷新列表
+            //判空处理
+            if (data != null && data.size() > 0) {
+                //添加数据之前先清除
+                mList.clear();
+                //添加数据
+                mList.addAll(data);
+                //刷新列表
+                mAdapter.notifyDataSetChanged();
 
                 for (int i = 0; i < data.size(); i++) {
-                    if(data.get(i).getFxDate().equals(DateUtils.getNowDate())){
-                        RecyclerViewScrollHelper.scrollToPosition(rv,i);//渲染完成后，定位到今天，因为和风天气预报有时候包括了昨天，有时候又不包括，搞得我很被动
+                    if (data.get(i).getFxDate().equals(DateUtils.getNowDate())) {
+                        //渲染完成后，定位到今天，因为和风天气预报有时候包括了昨天，有时候又不包括，搞得我很被动
+                        RecyclerViewScrollHelper.scrollToPosition(rv, i);
                     }
                 }
 

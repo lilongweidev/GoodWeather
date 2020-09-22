@@ -27,7 +27,6 @@ import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.base.BaseActivity;
 import com.llw.mvplibrary.bean.WallPaper;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.litepal.LitePal;
 
@@ -46,6 +45,8 @@ import butterknife.OnClick;
 
 /**
  * 查看图片
+ *
+ * @author llw
  */
 public class ImageActivity extends BaseActivity {
     @BindView(R.id.iv_back)
@@ -61,8 +62,7 @@ public class ImageActivity extends BaseActivity {
     WallPaperAdapter mAdapter;
     String wallpaperUrl = null;
 
-    private int position;//位置
-    private RxPermissions rxPermissions;//权限
+    private int position;
     private Bitmap bitmap;
 
 
@@ -77,19 +77,14 @@ public class ImageActivity extends BaseActivity {
         mList = LitePal.findAll(WallPaper.class);
         Log.d("list-->", "" + mList.size());
         if (mList != null && mList.size() > 0) {
-            for (int i=0;i<mList.size();i++){
-                if(mList.get(i).getImgUrl().equals("")){
+            for (int i = 0; i < mList.size(); i++) {
+                if ("".equals(mList.get(i).getImgUrl())) {
                     mList.remove(i);
                 }
             }
         }
-        Log.d("list-->", "" + mList.size());
 
-        //RecyclerView实现方式
         mAdapter = new WallPaperAdapter(R.layout.item_image_list, mList);
-
-        Log.d("wallPaper", new Gson().toJson(mList));
-
         //ViewPager2实现方式
         vp.setAdapter(mAdapter);
 
@@ -120,15 +115,19 @@ public class ImageActivity extends BaseActivity {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.btn_setting_wallpaper://设置壁纸
-                SPUtils.putString(Constant.WALLPAPER_URL, wallpaperUrl, context);//放入缓存
-                SPUtils.putInt(Constant.WALLPAPER_TYPE, 1, context);//壁纸列表
-                //发送消息
-                //EventBus.getDefault().post(new ChangeWallPaperEvent(1));
+            //设置壁纸
+            case R.id.btn_setting_wallpaper:
+                //放入缓存
+                SPUtils.putString(Constant.WALLPAPER_URL, wallpaperUrl, context);
+                //壁纸列表
+                SPUtils.putInt(Constant.WALLPAPER_TYPE, 1, context);
                 ToastUtils.showShortToast(context, "已设置");
                 break;
-            case R.id.btn_download://下载壁纸
+            //下载壁纸
+            case R.id.btn_download:
                 saveImageToGallery(context, bitmap);
+                break;
+            default:
                 break;
         }
     }

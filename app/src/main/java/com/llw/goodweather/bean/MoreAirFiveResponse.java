@@ -2,6 +2,11 @@ package com.llw.goodweather.bean;
 
 import java.util.List;
 
+/**
+ * 更多空气质量数据实体
+ *
+ * @author llw
+ */
 public class MoreAirFiveResponse {
 
     /**

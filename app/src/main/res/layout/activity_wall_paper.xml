@@ -60,7 +60,6 @@
         app:backgroundTintMode="screen"
         app:borderWidth="@dimen/dp_0"
         app:hoveredFocusedTranslationZ="@dimen/dp_18"
-
         app:pressedTranslationZ="@dimen/dp_18"
         app:rippleColor="@color/blue_one" />
 

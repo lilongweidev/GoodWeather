@@ -23,7 +23,10 @@ import java.text.DecimalFormat;
 
 /**
  * 太阳、月亮自定义View
+ *
+ * @author hefeng
  */
+
 public class SunView extends View {
 
     private int mWidth; //屏幕宽度

@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * 国家/地区中的城市适配器
+ *
+ * @author llw
  */
 public class WorldCityAdapter extends BaseQuickAdapter<WorldCityResponse.TopCityListBean, BaseViewHolder> {
     public WorldCityAdapter(int layoutResId, @Nullable List<WorldCityResponse.TopCityListBean> data) {
@@ -19,7 +21,9 @@ public class WorldCityAdapter extends BaseQuickAdapter<WorldCityResponse.TopCity
 
     @Override
     protected void convert(BaseViewHolder helper, WorldCityResponse.TopCityListBean item) {
-        helper.setText(R.id.tv_city,item.getName());
+        //名称
+        helper.setText(R.id.tv_city, item.getName());
+        //点击事件
         helper.addOnClickListener(R.id.tv_city);
     }
 }

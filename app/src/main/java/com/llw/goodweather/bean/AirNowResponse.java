@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 当天空气质量数据实体 V7
+ *
+ * @author llw
  */
 public class AirNowResponse {
 

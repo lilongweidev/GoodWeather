@@ -14,12 +14,28 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.WallPaperResponse;
+
 import java.util.List;
 
+/**
+ * 壁纸列表适配器
+ *
+ * @author llw
+ */
 public class WallPaperAdapter extends BaseQuickAdapter<WallPaperResponse.ResBean.VerticalBean, BaseViewHolder> {
 
+    //定义一个item的高度列表
     List<Integer> mHeightList;
-    public WallPaperAdapter(int layoutResId, @Nullable List<WallPaperResponse.ResBean.VerticalBean> data,List<Integer> heightList) {
+    /**
+     * 头部广告
+     */
+    private String Top = "top";
+    /**
+     * 底部广告
+     */
+    private String Bottom = "bottom";
+
+    public WallPaperAdapter(int layoutResId, @Nullable List<WallPaperResponse.ResBean.VerticalBean> data, List<Integer> heightList) {
         super(layoutResId, data);
         this.mHeightList = heightList;
 
@@ -32,17 +48,19 @@ public class WallPaperAdapter extends BaseQuickAdapter<WallPaperResponse.ResBean
         //获取imageView的LayoutParams
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         layoutParams.height = dip2px(mHeightList.get(helper.getAdapterPosition()));
+        //重新设置imageView的高度
         imageView.setLayoutParams(layoutParams);
 
-        if(item.getDesc().equals("top") || item.getDesc().equals("bottom")){
-            imageView.setImageResource(R.mipmap.icon_logo);
-        }else {
+        if (Top.equals(item.getDesc())) {
+            imageView.setImageResource(R.mipmap.icon_top_wallpaper);
+        } else if (Bottom.equals(item.getDesc())) {
+            imageView.setImageResource(R.mipmap.icon_bottom_wallpaper);
+        } else {
             Glide.with(mContext).load(item.getImg()).into(imageView);
         }
 
         helper.addOnClickListener(R.id.item_wallpaper);
     }
-
 
 
     // dp 转成 px

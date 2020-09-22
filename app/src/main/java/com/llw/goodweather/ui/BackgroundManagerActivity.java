@@ -42,6 +42,8 @@ import static com.llw.goodweather.utils.Constant.SELECT_PHOTO;
 
 /**
  * 壁纸管理  三种模式，本地壁纸列表、必应每日一图、自己上传图片
+ *
+ * @author llw
  */
 public class BackgroundManagerActivity extends BaseActivity {
 

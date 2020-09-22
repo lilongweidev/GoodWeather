@@ -3,11 +3,13 @@ package com.llw.goodweather.ui;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.MoreAirFiveAdapter;
 import com.llw.goodweather.adapter.MoreAirStationAdapter;
@@ -24,12 +26,16 @@ import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.view.RoundProgressBar;
+
 import java.util.List;
+
 import butterknife.BindView;
 import retrofit2.Response;
 
 /**
  * 更多空气质量信息
+ *
+ * @author llw
  */
 public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresenter> implements MoreAirContract.IMoreAirView {
 

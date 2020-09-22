@@ -31,6 +31,8 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 
 /**
  * 灾害预警详情信息页面
+ *
+ * @author llw
  */
 public class WarnActivity extends BaseActivity {
 
@@ -41,10 +43,11 @@ public class WarnActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtil.transparencyBar(context);//透明状态栏
+        //透明状态栏
+        StatusBarUtil.transparencyBar(context);
         Back(toolbar);
         WarningResponse data = new Gson().fromJson(getIntent().getStringExtra("warnBodyString"), WarningResponse.class);
-        WarnAdapter mAdapter = new WarnAdapter(R.layout.item_warn_list,data.getWarning());
+        WarnAdapter mAdapter = new WarnAdapter(R.layout.item_warn_list, data.getWarning());
         rv.setLayoutManager(new LinearLayoutManager(context));
         rv.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();

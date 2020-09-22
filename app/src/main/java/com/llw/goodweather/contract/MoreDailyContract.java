@@ -13,6 +13,8 @@ import retrofit2.Response;
 
 /**
  * 更多天气预报订阅器
+ *
+ * @author llw
  */
 public class MoreDailyContract {
 
@@ -20,21 +22,22 @@ public class MoreDailyContract {
 
         /**
          * 更多天气预报  V7
-         * @param location  城市id
+         *
+         * @param location 城市id
          */
         public void worldCity(String location) {
-            ApiService service = ServiceGenerator.createService(ApiService.class,3);
-            service.dailyWeather("15d",location).enqueue(new NetCallBack<DailyResponse>() {
+            ApiService service = ServiceGenerator.createService(ApiService.class, 3);
+            service.dailyWeather("15d", location).enqueue(new NetCallBack<DailyResponse>() {
                 @Override
                 public void onSuccess(Call<DailyResponse> call, Response<DailyResponse> response) {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getMoreDailyResult(response);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }

@@ -28,6 +28,8 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 
 /**
  * 更多生活指数信息
+ *
+ * @author llw
  */
 public class MoreLifestyleActivity extends MvpActivity<MoreLifestyleContract.MoreLifestylePresenter> implements MoreLifestyleContract.IMoreLifestyleView {
 
@@ -40,7 +42,8 @@ public class MoreLifestyleActivity extends MvpActivity<MoreLifestyleContract.Mor
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        StatusBarUtil.transparencyBar(context);//透明状态栏
+        //透明状态栏
+        StatusBarUtil.transparencyBar(context);
         Back(toolbar);
         showLoadingDialog();
         tvTitle.setText(getIntent().getStringExtra("cityName"));

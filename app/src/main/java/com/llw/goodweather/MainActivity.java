@@ -106,6 +106,11 @@ import retrofit2.Response;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationRight;
 
+/**
+ * 主页面
+ *
+ * @author llw
+ */
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         implements WeatherContract.IWeatherView, View.OnScrollChangeListener {
@@ -337,7 +342,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     /**
      * 下载APK
      *
-     * @param downloadUrl
+     * @param downloadUrl 下载地址
      */
     private void downloadApk(String downloadUrl) {
         clearApk("GoodWeather.apk");
@@ -345,7 +350,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
         //设置运行使用的网络类型，移动网络或者Wifi都可以
-        request.setAllowedNetworkTypes(request.NETWORK_MOBILE | request.NETWORK_WIFI);
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         //设置是否允许漫游
         request.setAllowedOverRoaming(true);
         //设置文件类型
@@ -353,7 +358,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(downloadUrl));
         request.setMimeType(mimeString);
         //设置下载时或者下载完成时，通知栏是否显示
-        request.setNotificationVisibility(request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle("下载新版本");
         request.setVisibleInDownloadsUi(true);//下载UI
         //sdcard目录下的download文件夹
@@ -394,7 +399,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             city = SPUtils.getString(Constant.CITY, "", context);
 
             //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-            mPresent.newSearchCity(district);//其他页面返回时
+            //其他页面返回时
+            mPresent.newSearchCity(district);
         } else {
             dismissLoadingDialog();
         }
@@ -753,7 +759,11 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
     }
 
-    //添加点击事件
+    /**
+     * 添加点击事件
+     *
+     * @param view 控件
+     */
     @OnClick({R.id.iv_map, R.id.iv_add, R.id.tv_warn, R.id.tv_city, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -787,6 +797,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 break;
             case R.id.tv_more_lifestyle://更多生活建议
                 goToMore(MoreLifestyleActivity.class);
+                break;
+            default:
                 break;
         }
     }
@@ -835,13 +847,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 refresh.setOnRefreshListener(refreshLayout -> {
 
                     //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-                    mPresent.newSearchCity(district);//下拉刷新时
+                    mPresent.newSearchCity(district);
                 });
             }
         }
     }
 
-    //天气预报数据访问异常返回
+    /**
+     * 天气预报数据访问异常返回
+     */
     @Override
     public void getWeatherDataFailed() {
         refresh.finishRefresh();//关闭刷新
@@ -925,13 +939,18 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     public void getDailyResult(Response<DailyResponse> response) {
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<DailyResponse.DailyBean> data = response.body().getDaily();
-            if (data != null && data.size() > 0) {//判空处理
+            //判空处理
+            if (data != null && data.size() > 0) {
                 tvTempHeight.setText(data.get(0).getTempMax() + "℃");
                 tvTempLow.setText(" / " + data.get(0).getTempMin() + "℃");
-                dailyListV7.clear();//添加数据之前先清除
-                dailyListV7.addAll(data);//添加数据
-                mAdapterDailyV7.notifyDataSetChanged();//刷新列表
-                runLayoutAnimation(rv);//底部动画展示
+                //添加数据之前先清除
+                dailyListV7.clear();
+                //添加数据
+                dailyListV7.addAll(data);
+                //刷新列表
+                mAdapterDailyV7.notifyDataSetChanged();
+                //底部动画展示
+                runLayoutAnimation(rv);
             } else {
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }

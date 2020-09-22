@@ -30,6 +30,8 @@ import retrofit2.Response;
 
 /**
  * 世界城市天气
+ *
+ * @author llw
  */
 public class WorldCityWeatherActivity extends MvpActivity<WorldCityWeatherContract.WorldCityWeatherPresenter>
         implements WorldCityWeatherContract.IWorldCityWeatherView {
@@ -65,19 +67,26 @@ public class WorldCityWeatherActivity extends MvpActivity<WorldCityWeatherContra
      * 初始化页面
      */
     private void initView() {
-        StatusBarUtil.transparencyBar(context);//设置状态栏背景颜色
+        //设置状态栏背景颜色
+        StatusBarUtil.transparencyBar(context);
         Back(toolbar);
-        showLoadingDialog();//加载弹窗
+        //加载弹窗
+        showLoadingDialog();
 
         mAdapter = new HourlyWorldCityAdapter(R.layout.item_weather_hourly_world_list, mList);
         rvHourly.setLayoutManager(new LinearLayoutManager(context));
         rvHourly.setAdapter(mAdapter);
 
-        String locationId = getIntent().getStringExtra("locationId");//获取上一个页面传递过来的城市id
-        tvTitle.setText(getIntent().getStringExtra("name"));//城市名称显示
-        mPresent.nowWeather(locationId);//查询实况天气
-        mPresent.dailyWeather(locationId);//查询天气预报
-        mPresent.hourlyWeather(locationId);//查询逐小时天气预报
+        //获取上一个页面传递过来的城市id
+        String locationId = getIntent().getStringExtra("locationId");
+        //城市名称显示
+        tvTitle.setText(getIntent().getStringExtra("name"));
+        //查询实况天气
+        mPresent.nowWeather(locationId);
+        //查询天气预报
+        mPresent.dailyWeather(locationId);
+        //查询逐小时天气预报
+        mPresent.hourlyWeather(locationId);
     }
 
     @Override
@@ -106,7 +115,7 @@ public class WorldCityWeatherActivity extends MvpActivity<WorldCityWeatherContra
             WeatherUtil.changeIcon(ivWeatherState, code);//调用工具类中写好的方法
 
             tvWeatherState.setText("当前：" + response.body().getNow().getText());
-            tvWindState.setText(response.body().getNow().getWindDir()+"   "+response.body().getNow().getWindScale()+"级");
+            tvWindState.setText(response.body().getNow().getWindDir() + "   " + response.body().getNow().getWindScale() + "级");
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }

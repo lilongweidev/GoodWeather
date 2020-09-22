@@ -1,8 +1,11 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
+
 /**
  * 逐小时天气数据实体  V7
+ *
+ * @author llw
  */
 public class HourlyResponse {
     /**

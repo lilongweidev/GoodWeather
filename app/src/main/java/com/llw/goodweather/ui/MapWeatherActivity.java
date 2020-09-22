@@ -25,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -76,17 +78,23 @@ import com.llw.goodweather.view.horizonview.ScrollWatched;
 import com.llw.goodweather.view.horizonview.ScrollWatcher;
 import com.llw.goodweather.view.skyview.SunView;
 import com.llw.mvplibrary.mvp.MvpActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Response;
+
 import static com.llw.goodweather.utils.DateUtils.getNowDateNoLimiter;
 import static com.llw.goodweather.utils.DateUtils.updateTime;
 
 /**
  * 地图天气
+ *
+ * @author llw
  */
+
 public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeatherPresenter>
         implements MapWeatherContract.IMapWeatherView {
 
@@ -471,17 +479,18 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     private void beginDelayedTransition(ViewGroup view) {
         autoTransition = new AutoTransition();
         autoTransition.setDuration(500);
-        TransitionManager.beginDelayedTransition(view,autoTransition);
+        TransitionManager.beginDelayedTransition(view, autoTransition);
     }
 
     /**
      * 缩放动画
-     * @param view 需要缩放的控件
+     *
+     * @param view  需要缩放的控件
      * @param state 状态  显示或者隐藏
      */
-    private void scaleAnimation(View view,String state) {
+    private void scaleAnimation(View view, String state) {
 
-        switch (state){
+        switch (state) {
             case "show":
                 view.startAnimation(bigShowAnim);
                 view.setVisibility(View.VISIBLE);

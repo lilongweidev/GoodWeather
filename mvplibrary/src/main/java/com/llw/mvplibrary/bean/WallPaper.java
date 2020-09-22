@@ -4,6 +4,11 @@ import org.litepal.crud.LitePalSupport;
 
 import java.util.List;
 
+/**
+ * 壁纸表
+ *
+ * @author llw
+ */
 public class WallPaper extends LitePalSupport {
 
     private String ImgUrl;

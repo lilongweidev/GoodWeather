@@ -14,6 +14,8 @@ import retrofit2.Response;
 
 /**
  * 欢迎页订阅器
+ *
+ * @author llw
  */
 public class SplashContract {
 
@@ -27,14 +29,14 @@ public class SplashContract {
             service.getAppInfo().enqueue(new NetCallBack<AppVersion>() {
                 @Override
                 public void onSuccess(Call<AppVersion> call, Response<AppVersion> response) {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getAppInfoResult(response);
                     }
                 }
 
                 @Override
                 public void onFailed() {
-                    if(getView() != null){
+                    if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }

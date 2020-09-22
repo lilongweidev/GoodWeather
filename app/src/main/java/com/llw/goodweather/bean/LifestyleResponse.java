@@ -1,8 +1,11 @@
 package com.llw.goodweather.bean;
 
 import java.util.List;
+
 /**
  * 生活指数  V7
+ *
+ * @author llw
  */
 public class LifestyleResponse {
 

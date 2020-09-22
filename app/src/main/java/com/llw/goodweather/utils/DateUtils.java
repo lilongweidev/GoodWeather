@@ -1,77 +1,105 @@
 package com.llw.goodweather.utils;
 
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
+
+/**
+ * 日期工具类
+ *
+ * @author llw
+ */
 public class DateUtils {
-    //获取当前完整的日期和时间
+
+    static int dit = 10;
+
+    /**
+     * 获取当前完整的日期和时间
+     * @return 时间
+     */
     public static String getNowDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
 
-    //获取当前日期
+    /**
+     * 获取当前日期
+     * @return 日期
+     */
     public static String getNowDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(new Date());
     }
 
-    //获取当前日期  没有分隔符
+    /**
+     * 获取当前日期  没有分隔符
+     * @return
+     */
     public static String getNowDateNoLimiter() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         return sdf.format(new Date());
     }
 
-    //前一天
+    /**
+     * 前一天
+     * @param date
+     * @return
+     */
     public static String getYesterday(Date date) {
         String tomorrow = "";
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE, -1);
+        calendar.add(Calendar.DATE, -1);
         date = calendar.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         tomorrow = formatter.format(date);
         return tomorrow;
     }
 
-    //后一天
+    /**
+     * 后一天
+     * @param date
+     * @return
+     */
     public static String getTomorrow(Date date) {
         String tomorrow = "";
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
-        calendar.add(calendar.DATE, +1);
+        calendar.add(Calendar.DATE, +1);
         date = calendar.getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         tomorrow = formatter.format(date);
         return tomorrow;
     }
 
-    //获取当前时间
+    /**
+     * 获取当前时间
+     * @return
+     */
     public static String getNowTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(new Date());
     }
 
-    //获取当前日期(精确到毫秒)
+    /**
+     * 获取当前日期(精确到毫秒)
+     * @return
+     */
     public static String getNowTimeDetail() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss.SSS");
         return sdf.format(new Date());
     }
 
-    //根据传入的时间，先转换再截取，得到更新时间  传入  "2020-07-16T09:39+08:00"
-
+    /**
+     * 根据传入的时间，先转换再截取，得到更新时间  传入  "2020-07-16T09:39+08:00"
+     * @param dateTime
+     * @return
+     */
     public static String updateTime(String dateTime) {
         String result = null;
         Log.d("dateTime-->",dateTime+"");
@@ -85,19 +113,28 @@ public class DateUtils {
         return result;
     }
 
-    //获取今天是星期几
+    /**
+     * 获取今天是星期几
+     * @param date
+     * @return
+     */
     public static String getWeekOfDate(Date date) {
         String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        if (w < 0)
+        if (w < 0) {
             w = 0;
+        }
         return weekDays[w];
     }
 
-    //计算星期几
-    private static int getDayOfWeek(String dateTime) {
+    /**
+     * 计算星期几
+     * @param dateTime
+     * @return
+     */
+    public static int getDayOfWeek(String dateTime) {
 
         Calendar cal = Calendar.getInstance();
         if (dateTime.equals("")) {
@@ -118,7 +155,11 @@ public class DateUtils {
         return cal.get(Calendar.DAY_OF_WEEK);
     }
 
-    //根据年月日计算是星期几并与当前日期判断  非昨天、今天、明天 则以星期显示
+    /**
+     * 根据年月日计算是星期几并与当前日期判断  非昨天、今天、明天 则以星期显示
+     * @param dateTime
+     * @return
+     */
     public static String Week(String dateTime) {
         String week = "";
         String yesterday = "";
@@ -165,28 +206,41 @@ public class DateUtils {
         return week;
     }
 
-    //时间截取
+    /**
+     * 时间截取
+     * @param date
+     * @return
+     */
     public static String dateSplit(String date) {//2020-08-04
         String result = null;
 
         String[] array = date.split("-");
         result = array[1] + "/" + array[2];
-        return result; //08/04
+        return result;
     }
 
-    //时间截取plus
+    /**
+     * 时间截取plus
+     * @param date 时间
+     * @return
+     */
     public static String dateSplitPlus(String date) {//2020-08-07
         String result = null;
 
         String[] array = date.split("-");
         result = Integer.parseInt(array[1]) + "月" + Integer.parseInt(array[2]) + "号";
-        return result; // 8月7号
+        return result;
     }
 
-    //将时间戳转化为对应的时间(10位或者13位都可以)
+    /**
+     * 将时间戳转化为对应的时间(10位或者13位都可以)
+     * @param time
+     * @return
+     */
     public static String formatTime(long time) {
         String times = null;
-        if (String.valueOf(time).length() > 10) {// 10位的秒级别的时间戳
+        if (String.valueOf(time).length() > dit) {
+            // 10位的秒级别的时间戳
             times = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(time * 1000));
         } else {// 13位的秒级别的时间戳
             times = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time);
@@ -194,7 +248,11 @@ public class DateUtils {
         return times;
     }
 
-    //将时间字符串转为时间戳字符串
+    /**
+     * 将时间字符串转为时间戳字符串
+     * @param time
+     * @return
+     */
     public static String getStringTimestamp(String time) {
         String timestamp = null;
 

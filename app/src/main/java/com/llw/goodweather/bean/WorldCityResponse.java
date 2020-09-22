@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * 世界城市返回实体
+ *
+ * @author llw
  */
 public class WorldCityResponse {
     /**

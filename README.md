@@ -74,6 +74,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（二十六）增加自动更新（检查版本、通知栏下载、自动安装）](https://blog.csdn.net/qq_38436214/article/details/108335485)<br>
 [Android 天气APP（二十七）增加地图天气的逐小时天气、太阳和月亮数据](https://blog.csdn.net/qq_38436214/article/details/108397121)<br>
 [Android 天气APP（二十八）地图搜索定位](https://blog.csdn.net/qq_38436214/article/details/108407945)<br>
+[Android 天气APP（二十九）壁纸设置、图片查看、图片保存](https://blog.csdn.net/qq_38436214/article/details/108469321)<br>
 
 
 

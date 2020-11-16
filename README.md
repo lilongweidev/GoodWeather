@@ -40,7 +40,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 网址下载
 
-[下载地址](http://d.firim.vip/h4sg)<br>
+点击下载[好天气APP](http://d.firim.vip/h4sg)<br>
 
 ## 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>

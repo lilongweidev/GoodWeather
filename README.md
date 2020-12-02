@@ -1,5 +1,11 @@
 ![Good Weather](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
 <br>
+## APP使用
+
+   本项目没有后台，很注意，所以自然不会有什么服务器之类的，数据来源于和风天气API，不了解的可以看看我的博客文章，也可以先通过二维码或者下载链接去下载APK体验，使用过程中有问题可以在GitHub上提出，或者在博客中评论。我会在第一时间回复，感谢您的阅读，山高水长，后会有期~
+   将项目导入到Android Studio 有两种方式，
+1. 复制https://github.com/lilongweidev/GoodWeather.git，在AS中VSC → Checkout from Version Control → Git .然后会弹出一个克隆项目的弹窗，粘贴刚才复制的地址，点击弹窗的Clone按钮就可以了克隆GitHub上的项目到自己的AS中了。不过这个时候是比较看你的网速的，项目中的很多内容与你本地环境不同，所以需要下载和配置才行。
+2. 点击绿色的Code按钮，点击Download ZIP，直接下载压缩包到电脑本地，然后解压，通过AS 的 File → Open 找到刚才解压之后的文件，然后就是同步和配置即可。
 
 ## APP功能描述
 * 15天天气预报

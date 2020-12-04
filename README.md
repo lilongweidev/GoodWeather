@@ -46,6 +46,7 @@
 <img title="常用城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "25%" height = "480" alt="常用城市GIF"/>
 </div>
 
+
 GIF看不了的，打开下面的视频地址进行观看<br>
 [APP演示视频地址](http://m.v.qq.com/play.html?cid=&vid=m3139pttqgo&vuid24=xHi7q3LxeNTsapddk3QYFg%3D%3D&url_from=share&second_share=0&share_from=copy)<br>
 

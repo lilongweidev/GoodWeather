@@ -195,6 +195,9 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
         initMapOnClick();//初始化地图点击
     }
 
+    /**
+     * 初始化控件
+     */
     private void initView() {
         StatusBarUtil.transparencyBar(context);//透明状态栏
         StatusBarUtil.StatusBarLightMode(context);//状态栏黑色字体
@@ -212,7 +215,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
         /*获取behavior 控制bottomsheet的 显示 与隐藏*/
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetRay);
         /*bottomSheet 的 状态改变 根据不同的状态 做不同的事情*/
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+        //setBottomSheetCallback 已经过时了，现在使用addBottomSheetCallback
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 switch (newState) {
@@ -242,6 +246,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                         } else {//直接隐藏
                             scaleAnimation(laySearch, "hide");
                         }
+                        break;
+                    default:
                         break;
                 }
             }

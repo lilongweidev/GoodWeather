@@ -1,8 +1,14 @@
 ![Good Weather](https://github.com/lilongweidev/GoodWeather/blob/master/download/icon_good_weather.png)<br>
 <br>
+## APP介绍与使用
+
+   本项目没有自己搭建后台，所以自然不会有什么服务器数据库，数据来源于和风天气API，不了解的可以看看我的博客文章，也可以先通过二维码或者下载链接去下载APK体验，使用过程中有问题可以在GitHub上提出，或者在博客中评论。我会在第一时间回复，感谢您的阅读，山高水长，后会有期 ~
+   将项目导入到Android Studio 有两种方式，
+1. 复制 https://github.com/lilongweidev/GoodWeather.git 在AS的导航栏中 VSC → Checkout from Version Control → Git .然后会弹出一个克隆项目的弹窗，粘贴刚才复制的地址，点击弹窗的Clone按钮就可以克隆GitHub上的项目到自己的AS中了。不过这个时候是比较看你的网速的，项目中的很多内容与你本地环境不同，所以需要下载和配置才行。
+2. 点击绿色的Code按钮，点击Download ZIP，直接下载压缩包到电脑本地，然后解压，通过AS 的导航栏 File → Open 找到刚才解压之后的文件，然后就是同步和配置即可。
 
 ## APP功能描述
-* 15天气预报
+* 15天天气预报
 * 空气质量
 * 生活建议
 * 灾害预警
@@ -12,9 +18,12 @@
 * 常用城市
 * 世界国家/地区的城市
 * 壁纸切换
+* 壁纸下载
 * 地图天气
 * 地图搜索定位
 * 应用自动更新
+* 分钟级降水
+* 每日提醒
 
 ## 运行效果图
 <div style="width: 100%;
@@ -22,17 +31,19 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;">
-<img title="演示GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "25%" height = "546" alt="演示GIF"/>
-<img title="壁纸切换GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/wallpaper.gif" width = "25%" height = "546" alt="壁纸切换GIF"/>
-<img title="地图搜索定位GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "25%" height = "546" alt="地图搜索定位GIF"/>
-<img title="自动更新GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "25%" height = "546" alt="自动更新GIF"/>
-<img title="地图天气GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "25%" height = "546" alt="地图天气GIF"/>
-<img title="灾害预警GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif" width = "25%" height = "546" alt="灾害预警GIF"/>
-<img title="更多天气预报GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif" width = "25%" height = "546" alt="更多天气预报GIF"/>
-<img title="更多空气质量GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif" width = "25%" height = "546" alt="更多空气质量GIF"/>
-<img title="更多生活指数GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "25%" height = "546" alt="更多生活指数GIF"/>
-<img title="世界城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "25%" height = "546" alt="世界城市GIF"/>
-<img title="常用城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "25%" height = "546" alt="常用城市GIF"/>
+<img title="演示GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/demo.gif" width = "25%" height = "480" alt="演示GIF"/>
+<img title="每日提醒GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/everyday_tip.gif" width = "25%" height = "480" alt="每日GIF"/>
+<img title="分钟级降水GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/precipitation.gif" width = "25%" height = "480" alt="分钟级降水GIF"/>
+<img title="壁纸切换GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/wallpaper.gif" width = "25%" height = "480" alt="壁纸切换GIF"/>
+<img title="地图搜索定位GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_search.gif" width = "25%" height = "480" alt="地图搜索定位GIF"/>
+<img title="自动更新GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/auto_update.gif" width = "25%" height = "480" alt="自动更新GIF"/>
+<img title="地图天气GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/map_weather.gif" width = "25%" height = "480" alt="地图天气GIF"/>
+<img title="灾害预警GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/warn.gif" width = "25%" height = "480" alt="灾害预警GIF"/>
+<img title="更多天气预报GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_daily.gif" width = "25%" height = "480" alt="更多天气预报GIF"/>
+<img title="更多空气质量GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_air.gif" width = "25%" height = "480" alt="更多空气质量GIF"/>
+<img title="更多生活指数GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/more_lifestyle.gif" width = "25%" height = "480" alt="更多生活指数GIF"/>
+<img title="世界城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/world_city.gif" width = "25%" height = "480" alt="世界城市GIF"/>
+<img title="常用城市GIF" src="https://github.com/lilongweidev/GoodWeather/blob/master/download/commonly_city.gif" width = "25%" height = "480" alt="常用城市GIF"/>
 </div>
 
 GIF看不了的，打开下面的视频地址进行观看<br>
@@ -40,10 +51,13 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 网址下载
 
-[下载地址](http://d.firim.vip/h4sg)<br>
+点击下载[好天气APP](http://d.firim.vip/h4sg)<br>
 
 ## 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>
+
+## 天气APP 博客专栏
+[天气APP](https://blog.csdn.net/qq_38436214/category_9880722.html)<br>
 
 ## 天气APP文章博客(一步一步开发天气APP)
 [Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)<br>
@@ -74,6 +88,10 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（二十六）增加自动更新（检查版本、通知栏下载、自动安装）](https://blog.csdn.net/qq_38436214/article/details/108335485)<br>
 [Android 天气APP（二十七）增加地图天气的逐小时天气、太阳和月亮数据](https://blog.csdn.net/qq_38436214/article/details/108397121)<br>
 [Android 天气APP（二十八）地图搜索定位](https://blog.csdn.net/qq_38436214/article/details/108407945)<br>
+[Android 天气APP（二十九）壁纸设置、图片查看、图片保存](https://blog.csdn.net/qq_38436214/article/details/108469321)<br>
+[Android 天气APP（三十）分钟级降水](https://blog.csdn.net/qq_38436214/article/details/110469064)<br>
+[Android 天气APP（三十一）每日提醒弹窗](https://blog.csdn.net/qq_38436214/article/details/110647965)<br>
+
 
 
 
@@ -85,7 +103,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 版本说明
 
-### V 2.4 (最新版本)
+### V 2.5 (最新版本)
+* 分钟级降水、每日提醒<br>
+### V 2.4 
 * 新版壁纸管理、支持网络图片下载、优化页面UI<br>
 ### V 2.3 
 * 新增地图逐小时天气、日出日落、月升月落、地图搜索定位<br>

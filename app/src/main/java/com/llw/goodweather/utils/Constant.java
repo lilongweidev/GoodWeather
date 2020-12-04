@@ -88,4 +88,13 @@ public class Constant {
      */
     public static final String WALLPAPER_TYPE = "wallpaperType";
 
+    /**
+     * 每日提示弹窗的背景图
+     */
+    public static final String EVERYDAY_TIP_IMG = "everydayTipImg";
+
+    /**
+     * 每日提示弹窗是否弹出
+     */
+    public static final String EVERYDAY_POP_BOOLEAN = "everydayPopBoolean";
 }

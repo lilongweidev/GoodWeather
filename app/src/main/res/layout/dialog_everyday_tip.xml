@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_270"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--弹窗背景图-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_dialog_bg"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:foreground="@drawable/shape_dialog_foreground_bg_12"
+        android:scaleType="fitXY"
+        android:src="@drawable/img_5"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:padding="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/tv_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="星期四"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold" />
+        <!--温度-->
+        <TextView
+            android:id="@+id/tv_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_week"
+            android:text="温度"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_48" />
+
+        <!--天气状态-->
+        <TextView
+            android:id="@+id/tv_weather_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_temperature"
+            android:text="天气"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20"
+            android:typeface="monospace" />
+        <!--天气状态图标-->
+        <ImageView
+            android:id="@+id/iv_weather_state"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_100" />
+
+        <!--降水预告-->
+        <TextView
+            android:id="@+id/tv_precipitation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_weather_state"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:drawableLeft="@mipmap/icon_weather_prec"
+            android:drawablePadding="4dp"
+            android:text="降水预告"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_12" />
+
+        <!--温差提示-->
+        <TextView
+            android:id="@+id/tv_temp_difference"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_weather_state"
+            android:layout_marginTop="@dimen/dp_100"
+            android:text="温差提示"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18"
+            android:typeface="monospace" />
+
+        <!--不再弹出-->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_no_pop_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="不再弹出"
+            android:textSize="@dimen/sp_16"
+            app:useMaterialThemeColors="true"
+            app:buttonTint="@color/gray"
+            android:textColor="@color/gray" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/iv_dialog_bg"
+        android:background="@color/white"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="@dimen/dp_12"/>
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:layout_below="@+id/iv_dialog_bg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_12"
+        android:src="@mipmap/icon_close_dialog" />
+
+
+</RelativeLayout>

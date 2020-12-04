@@ -22,7 +22,9 @@
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.WorldCityListActivity"></activity>
+        <activity android:name=".ui.SettingActivity"></activity>
+        <activity android:name=".ui.WebActivity" />
+        <activity android:name=".ui.WorldCityListActivity" />
         <activity android:name=".ui.ImageActivity" />
         <activity
             android:name=".ui.WallPaperActivity"
@@ -47,8 +49,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.CommonlyUsedCityActivity" />
         <activity android:name=".ui.WorldCityWeatherActivity" />
-        <activity android:name=".ui.SearchCityActivity" />
-        <activity android:name=".ui.BackgroundManagerActivity" /> <!-- 百度定位AK -->
+        <activity android:name=".ui.SearchCityActivity" /> <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Fh0NIFb6Tg8f7altVIpdGoDH0BR2myG4" /> <!-- 百度定位服务 -->

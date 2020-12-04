@@ -69,7 +69,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
 
     }
 
-
     /**
      * 弹窗出现
      */

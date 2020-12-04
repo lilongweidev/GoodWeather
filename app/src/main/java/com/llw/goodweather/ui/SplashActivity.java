@@ -14,7 +14,10 @@ import android.widget.ImageView;
 
 import com.llw.goodweather.MainActivity;
 import com.llw.goodweather.R;
+import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.contract.SplashContract;
+import com.llw.goodweather.utils.Constant;
+import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.AppVersion;
@@ -87,6 +90,8 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
                         initCountryData();
                         //请求版本更新
                         mPresent.getAppInfo();
+                        //获取必应壁纸
+                        mPresent.biying();
                     } else {//申请失败
                         finish();
                         ToastUtils.showShortToast(this, "权限未开启");
@@ -182,16 +187,28 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
         }
     }
 
+    /**
+     * 必应壁纸数据返回
+     *
+     * @param response BiYingImgResponse
+     */
+    @Override
+    public void getBiYingResult(Response<BiYingImgResponse> response) {
+        if (response.body().getImages() != null) {
+            //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
+            String biyingUrl = "http://cn.bing.com" + response.body().getImages().get(0).getUrl();
+            SPUtils.putString(Constant.EVERYDAY_TIP_IMG,biyingUrl,context);
+
+        } else {
+            ToastUtils.showShortToast(context, "未获取到必应的图片");
+        }
+    }
+
     @Override
     public void getDataFailed() {
         Log.d("Network Error", "网络异常");
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

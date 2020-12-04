@@ -1,6 +1,7 @@
 package com.llw.goodweather.contract;
 
 import com.llw.goodweather.api.ApiService;
+import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.NowResponse;
 import com.llw.mvplibrary.base.BasePresenter;
@@ -42,11 +43,39 @@ public class SplashContract {
                 }
             });
         }
+
+        /**
+         * 获取必应  每日一图
+         */
+        public void biying() {
+            ApiService service = ServiceGenerator.createService(ApiService.class, 1);
+            service.biying().enqueue(new NetCallBack<BiYingImgResponse>() {
+                @Override
+                public void onSuccess(Call<BiYingImgResponse> call, Response<BiYingImgResponse> response) {
+                    if (getView() != null) {
+                        getView().getBiYingResult(response);
+                    }
+                }
+
+                @Override
+                public void onFailed() {
+                    if (getView() != null) {
+                        getView().getDataFailed();
+                    }
+                }
+            });
+        }
     }
 
     public interface ISplashView extends BaseView {
         //APP信息返回
         void getAppInfoResult(Response<AppVersion> response);
+
+        /**
+         * 获取必应每日一图返回
+         * @param response BiYingImgResponse
+         */
+        void getBiYingResult(Response<BiYingImgResponse> response);
 
         //错误返回
         void getDataFailed();

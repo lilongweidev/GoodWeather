@@ -40,12 +40,12 @@ public class ServiceGenerator {
             //和风天气  新增
             case 3:
                 //V7版本接口地址
-                BASE_URL = "https://devapi.heweather.net";
+                BASE_URL = "https://devapi.qweather.net";
                 break;
             //搜索城市  新增
             case 4:
                 //V7版本下的搜索城市地址
-                BASE_URL = "https://geoapi.heweather.net";
+                BASE_URL = "https://geoapi.qweather.net";
                 break;
             //APP更新  分发平台更新接口
             case 5:

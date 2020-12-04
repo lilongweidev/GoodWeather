@@ -7,22 +7,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.llw.mvplibrary.R;
 import com.llw.mvplibrary.kit.KnifeKit;
+
 import butterknife.Unbinder;
 
 /**
  * 用于不需要请求网络接口的BaseFragment
+ *
+ * @author llw
  */
 public abstract class BaseFragment extends Fragment implements UiCallBack {
     protected View rootView;
     protected LayoutInflater layoutInflater;
     protected Activity context;
     private Unbinder unbinder;
-    private Dialog mDialog;//加载弹窗
+    //加载弹窗
+    private Dialog mDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public abstract class BaseFragment extends Fragment implements UiCallBack {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         layoutInflater = inflater;
         if (rootView == null) {
-            rootView = inflater.inflate(getLayoutId(), null);
+            rootView = inflater.inflate(getLayoutId(), container, false);
             unbinder = KnifeKit.bind(this, rootView);
         } else {
             ViewGroup viewGroup = (ViewGroup) rootView.getParent();
@@ -73,7 +78,7 @@ public abstract class BaseFragment extends Fragment implements UiCallBack {
     }
 
     //弹窗出现
-    public void showLoadingDialog(){
+    public void showLoadingDialog() {
         if (mDialog == null) {
             mDialog = new Dialog(context, R.style.loading_dialog);
         }
@@ -82,8 +87,9 @@ public abstract class BaseFragment extends Fragment implements UiCallBack {
         mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         mDialog.show();
     }
+
     //弹窗消失
-    public void dismissLoadingDialog(){
+    public void dismissLoadingDialog() {
         if (mDialog != null) {
             mDialog.dismiss();
         }

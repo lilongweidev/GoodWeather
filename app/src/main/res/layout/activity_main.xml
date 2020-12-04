@@ -254,6 +254,56 @@
                         android:alpha="0.1"
                         android:background="@color/white" />
 
+                    <!--分钟级降水-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+
+                        <TextView
+                            android:id="@+id/tv_precipitation"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@mipmap/icon_weather_prec"
+                            android:drawablePadding="4dp"
+                            android:text="降水预告"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_12" />
+                        <!--查看更多降水信息-->
+                        <TextView
+                            android:gravity="center_vertical"
+                            android:id="@+id/tv_prec_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="查看详情"
+                            android:drawableRight="@mipmap/icon_more_blue_small"
+                            android:textColor="@color/blue_more"
+                            android:textSize="@dimen/sp_12" />
+                    </LinearLayout>
+
+                    <!--降水详情列表-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="gone"
+                        android:paddingTop="@dimen/dp_8"
+                        android:id="@+id/rv_prec_detail"
+                        android:paddingLeft="@dimen/dp_12"
+                        android:paddingRight="@dimen/dp_12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <!--分隔线 增加UI效果-->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="20dp"
+                        android:alpha="0.1"
+                        android:background="@color/white" />
+
                     <!--用于显示逐小时天气-->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_hourly"

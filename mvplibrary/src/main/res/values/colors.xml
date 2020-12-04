@@ -30,6 +30,7 @@
     <color name="world_city_color">#243440</color>
     <color name="blue_more">#C8DCFF</color><!--浅蓝色-->
     <color name="gray_white">#F8F8F8</color><!--灰白-->
+    <color name="transparent_bg_1">#20000000</color><!--黑色半透明 二-->
     <color name="transparent_bg_2">#44000000</color><!--黑色半透明 二-->
     <color name="transparent_bg_3">#66000000</color><!--黑色半透明 三-->
     <color name="transparent_bg_4">#70000000</color><!--黑色半透明 四-->

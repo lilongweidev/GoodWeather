@@ -6,6 +6,7 @@ import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.bean.LifestyleResponse;
+import com.llw.goodweather.bean.MinutePrecResponse;
 import com.llw.goodweather.bean.MoreAirFiveResponse;
 import com.llw.goodweather.bean.SunMoonResponse;
 import com.llw.goodweather.bean.WallPaperResponse;
@@ -167,5 +168,14 @@ public interface ApiService {
     @GET("/v1/vertical/vertical?limit=30&skip=180&adult=false&first=0&order=hot")
     Call<WallPaperResponse> getWallPaper();
 
+
+    /**
+     * 分钟级降水 最近两小时内
+     *
+     * @param location 经纬度拼接字符串，使用英文逗号分隔,经度在前纬度在后
+     * @return
+     */
+    @GET("/v7/minutely/5m?key=" + API_KEY)
+    Call<MinutePrecResponse> getMinutePrec(@Query("location") String location);
 
 }

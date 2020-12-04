@@ -405,7 +405,41 @@ public class WeatherUtil {
             case "很强":
                 result = "紫外线很强，尽可能不在室外活动，必须外出时，要采取各种有效的防护措施。";
                 break;
+            default:
+                break;
         }
         return result;
+    }
+
+    /**
+     * 早晚温差提示
+     *
+     * @param height 当天最高温
+     * @param low    当天最低温
+     */
+    public static String differenceTempTip(int height, int low) {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("    今天最高温" + height + "℃，最低温" + low + "℃。");
+        if (height - low > 5) {//温差大
+            if (height < 25) {
+                stringBuffer.append("早晚温差较大，加强自我防护，防治感冒，对自己好一点(*￣︶￣)");
+            } else if (height < 20) {
+                stringBuffer.append("天气转阴温度低，上下班请注意添衣保暖(*^▽^*)");
+            } else if (height < 15) {
+                stringBuffer.append("关怀不是今天才开始，关心也不是今天就结束，希望你注意保暖ヾ(◍°∇°◍)ﾉﾞ");
+            }
+        } else {//温差小
+            if (low < 25) {
+                stringBuffer.append("多运动，多喝水，注意补充水分(*￣︶￣)");
+            } else if (low < 20) {
+                stringBuffer.append("早睡早起，别熬夜，无论晴天还是雨天，每天都是新的一天(*^▽^*)");
+            } else if (low < 15) {
+                stringBuffer.append("天气寒冷，注意防寒和保暖，也不要忘记锻炼喔ヾ(◍°∇°◍)ﾉﾞ");
+            }
+        }
+
+
+        return stringBuffer.toString();
     }
 }

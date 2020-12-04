@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:paddingLeft="@dimen/dp_8"
+    android:paddingRight="@dimen/dp_8"
+    android:orientation="vertical">
+
+    <!--时间-->
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上午10:00"
+        android:textColor="#FFF"
+        android:textSize="@dimen/sp_12" />
+
+    <TextView
+        android:id="@+id/tv_precip_info"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:gravity="center"
+        android:text="0.1  雨"
+        android:textColor="#FFF"
+        android:textSize="@dimen/sp_12" />
+</LinearLayout>

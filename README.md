@@ -11,9 +11,35 @@
 
 &emsp;&emsp;在Clone源码到本地Android Studio中DeBug运行时，进入地图页面时，发现没有定位或者是无反应，请检查Run下面的日志信息，看有无 "鉴权错误信息" 等字样，如果有的话则说明你需要使用自己项目生成的开发版SHA1,替换掉平台上的应用配置信息，当你看到这个源码之前，你肯定是从博客过来的，那么你可以点击[Android 天气APP（一）开发准备](https://blog.csdn.net/qq_38436214/article/details/105204552)进行百度开发者的账号注册并配置应用，文章里已经讲得很详细了，至于鉴权错误信息的处理你可以通过[Android 百度地图SDK 自动定位、标记定位](https://blog.csdn.net/qq_38436214/article/details/107604267)这篇文章，点击目录“疑问解决”来查看解决方案，祝您使用愉快。
 
+&emsp;&emsp;Windows中GitHub图片显示异常解决方法：打开hosts文件所在目录，C:\Windows\System32\drivers\etc\hosts，默认我们对hosts文件是没有修改权限的，需要开启修改权限，开启修改权限后，用随便用一个编辑器打开，然后在最后加上如下：（注意这个开始和结束的标识）
+# GitHub Start 
+
+192.30.253.112    Build software better, together 
+192.30.253.119    gist.github.com
+151.101.184.133    assets-cdn.github.com
+151.101.184.133    raw.githubusercontent.com
+151.101.184.133    gist.githubusercontent.com
+151.101.184.133    cloud.githubusercontent.com
+151.101.184.133    camo.githubusercontent.com
+151.101.184.133    avatars0.githubusercontent.com
+151.101.184.133    avatars1.githubusercontent.com
+151.101.184.133    avatars2.githubusercontent.com
+151.101.184.133    avatars3.githubusercontent.com
+151.101.184.133    avatars4.githubusercontent.com
+151.101.184.133    avatars5.githubusercontent.com
+151.101.184.133    avatars6.githubusercontent.com
+151.101.184.133    avatars7.githubusercontent.com
+151.101.184.133    avatars8.githubusercontent.com
+ 
+
+ # GitHub End
+ 
+ 保存即可
+
 ## APP功能描述
 
 &emsp;&emsp;15天天气预报、空气质量、生活建议、出行建议、灾害预警、分钟级降水、城市切换、城市搜索、常用城市、世界国家/地区的城市、壁纸切换、壁纸下载、地图天气、地图搜索定位、每日提醒、应用自动更新
+
 
 ## 运行效果图
 

@@ -9,6 +9,9 @@ import android.os.Handler;
 
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
+import com.llw.goodweather.utils.GlideUtil;
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.utils.ActivityManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -110,6 +113,8 @@ public class WeatherApplication extends BaseApplication {
         SDKInitializer.setCoordType(CoordType.BD09LL);
 
         CrashReport.initCrashReport(getApplicationContext(), "d3637c0f25", true);
+        //配置讯飞语音SDK
+        SpeechUtility.createUtility(this, SpeechConstant.APPID +"=6018c2cb");
     }
 
 

@@ -97,4 +97,26 @@ public class Constant {
      * 每日提示弹窗是否弹出
      */
     public static final String EVERYDAY_POP_BOOLEAN = "everydayPopBoolean";
+
+    /**
+     * 播报人
+     */
+    public static final String VOICE_NAME = "voiceName";
+
+    /**
+     * 语速
+     */
+    public static final String SPEED = "speed";
+
+    /**
+     * 音调
+     */
+    public static final String PITCH = "pitch";
+
+    /**
+     * 音量
+     */
+    public static final String VOLUME = "volume";
+
+
 }

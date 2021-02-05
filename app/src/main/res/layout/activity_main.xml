@@ -33,8 +33,8 @@
                 android:id="@+id/iv_map"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_50"
-                android:layout_marginLeft="@dimen/dp_4"
                 android:layout_alignParentEnd="true"
+                android:layout_marginLeft="@dimen/dp_4"
                 android:background="@drawable/selector_bg_img"
                 android:padding="@dimen/dp_12"
                 android:src="@mipmap/icon_map" />
@@ -51,13 +51,13 @@
             <!--更多功能-->
             <ImageView
                 android:id="@+id/iv_add"
-                android:layout_marginRight="@dimen/dp_4"
                 android:layout_width="@dimen/dp_50"
                 android:layout_height="@dimen/dp_50"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="right"
-                android:padding="14dp"
+                android:layout_marginRight="@dimen/dp_4"
                 android:background="@drawable/selector_bg_img"
+                android:padding="14dp"
                 android:src="@mipmap/icon_add" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -113,14 +113,38 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/sp_12" />
 
-                        <!--星期-->
-                        <TextView
-                            android:id="@+id/tv_week"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="16dp"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
+                            android:animateLayoutChanges="true"
+                            android:gravity="center_vertical">
+                            <!--星期-->
+                            <TextView
+                                android:id="@+id/tv_week"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/dp_12"
+                                android:paddingLeft="16dp"
+                                android:text="星期一"
+                                android:textColor="@color/white"
+                                android:textSize="18sp" />
+                            <!--播放图标-->
+                            <ImageView
+                                android:id="@+id/iv_voice_broadcast"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@mipmap/icon_broadcast"
+                                android:visibility="gone" />
+
+                            <!--播报状态-->
+                            <TextView
+                                android:id="@+id/tv_broadcast_state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_12"
+                                android:textColor="@color/white_4" />
+                        </LinearLayout>
+
                         <!--温度-->
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -214,6 +238,21 @@
                                 android:background="@mipmap/icon_location"
                                 android:visibility="gone" />
                         </LinearLayout>
+                        <!--切换城市-->
+                        <!--常用城市快捷切换-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:animateLayoutChanges="true">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_change_city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="12dp"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <!--上一次更新时间-->
@@ -265,8 +304,8 @@
                         <TextView
                             android:id="@+id/tv_precipitation"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:drawableLeft="@mipmap/icon_weather_prec"
                             android:drawablePadding="4dp"
                             android:text="降水预告"
@@ -274,25 +313,25 @@
                             android:textSize="@dimen/sp_12" />
                         <!--查看更多降水信息-->
                         <TextView
-                            android:gravity="center_vertical"
                             android:id="@+id/tv_prec_more"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="查看详情"
                             android:drawableRight="@mipmap/icon_more_blue_small"
+                            android:gravity="center_vertical"
+                            android:text="查看详情"
                             android:textColor="@color/blue_more"
                             android:textSize="@dimen/sp_12" />
                     </LinearLayout>
 
                     <!--降水详情列表-->
                     <androidx.recyclerview.widget.RecyclerView
-                        android:visibility="gone"
-                        android:paddingTop="@dimen/dp_8"
                         android:id="@+id/rv_prec_detail"
-                        android:paddingLeft="@dimen/dp_12"
-                        android:paddingRight="@dimen/dp_12"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_8"
+                        android:paddingRight="@dimen/dp_12"
+                        android:visibility="gone" />
 
                     <!--分隔线 增加UI效果-->
                     <View
@@ -763,5 +802,21 @@
             </androidx.core.widget.NestedScrollView>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
+
+    <!--浮动按钮 跳转路线Activity-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_voice_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone"
+        android:layout_margin="@dimen/dp_20"
+        android:clickable="true"
+        android:src="@mipmap/icon_voice_search"
+        app:backgroundTint="#FFF"
+        app:backgroundTintMode="screen"
+        app:fabSize="mini"
+        app:hoveredFocusedTranslationZ="18dp"
+        app:pressedTranslationZ="18dp" />
 
 </FrameLayout>

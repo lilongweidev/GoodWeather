@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -40,12 +39,13 @@ import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.llw.goodweather.adapter.AreaAdapter;
 import com.llw.goodweather.adapter.CityAdapter;
 import com.llw.goodweather.adapter.DailyAdapter;
 import com.llw.goodweather.adapter.HourlyAdapter;
+import com.llw.goodweather.adapter.MainChangeCommonlyCityAdapter;
 import com.llw.goodweather.adapter.MinutePrecAdapter;
 import com.llw.goodweather.adapter.ProvinceAdapter;
 import com.llw.goodweather.bean.AirNowResponse;
@@ -76,10 +76,12 @@ import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
 import com.llw.goodweather.utils.SPUtils;
+import com.llw.goodweather.utils.SpeechUtil;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
 import com.llw.mvplibrary.bean.AppVersion;
+import com.llw.mvplibrary.bean.ResidentCity;
 import com.llw.mvplibrary.mvp.MvpActivity;
 import com.llw.mvplibrary.utils.AnimationUtil;
 import com.llw.mvplibrary.utils.LiWindow;
@@ -110,6 +112,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Response;
 
+import static com.llw.goodweather.utils.GlideUtil.loadImgListener;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationRight;
 
@@ -210,6 +213,18 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     TextView tvPrecMore;//降水详情
     @BindView(R.id.rv_prec_detail)
     RecyclerView rvPrecDetail;//分钟级降水列表
+    @BindView(R.id.rv_change_city)
+    RecyclerView rvChangeCity;//点击切换常用城市
+    @BindView(R.id.iv_voice_broadcast)
+    ImageView ivVoiceBroadcast;//语音播报天气
+    @BindView(R.id.tv_broadcast_state)
+    TextView tvBroadcastState;//播报状态
+    @BindView(R.id.fab_voice_search)
+    FloatingActionButton fabVoiceSearch;//语音搜索浮动按钮
+
+    private boolean changeCityState = false;//常用城市列表  收缩状态  false 收缩  true 展开
+
+    private boolean isChangeCity = false;//是否可以展开，如果没有添加常用城市，自然不能展开
 
     private boolean flag = true;//图标显示标识,true显示，false不显示,只有定位的时候才为true,切换城市和常用城市都为false
 
@@ -273,6 +288,17 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     private int dialogTempHeight = 0;//弹窗中今日最高温
     private int dialogTempLow = 0;//弹窗中今日最低温
 
+    //主页面切换城市列表适配器
+    private MainChangeCommonlyCityAdapter changeCityAdapter;
+    //常用城市切换列表
+    private List<ResidentCity> residentCityList = new ArrayList<>();
+
+    private String dateDetailStr, tempStr, tempMaxMin, precStr, airStr;
+    //灾害预警内容
+    private String warnStr = "";
+    //播放的内容
+    private String voiceStr = "";
+
 
     //数据初始化
     @Override
@@ -282,14 +308,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         initList();//天气预报列表初始化
 
         if (isOpenLocationServiceEnable()) {
-            tvCity.setEnabled(false);//不可点击
+            //tvCity.setEnabled(false);//不可点击
             startLocation();//开始定位
         } else {
-            tvCity.setEnabled(true);//可以点击
+            //tvCity.setEnabled(true);//可以点击
             ToastUtils.showShortToast(context, "(((φ(◎ロ◎;)φ)))，你好像忘记打开定位功能了");
             tvCity.setText("打开定位");
         }
-
         //由于这个刷新框架默认是有下拉和上拉，但是上拉没有用到，为了不造成误会，我这里禁用上拉
         refresh.setEnableLoadMore(false);
         //初始化弹窗
@@ -299,6 +324,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         EventBus.getDefault().register(this);//注册
 
         scrollView.setOnScrollChangeListener(this);//指定当前页面，不写则滑动监听无效
+        //加载常用城市
+        loadingCommonlyUsedCity();
+        //初始化语音播报
+        SpeechUtil.init(context);
     }
 
 
@@ -360,9 +389,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     /**
-     * 每日提示弹窗
+     * 设置每日提示弹窗
      */
-    private void showEveryDayTipDialog() {
+    private void setEveryDayTipDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
                 .addDefaultAnimation()//默认弹窗动画
                 .setCancelable(false)
@@ -376,10 +405,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 .setOnClickListener(R.id.iv_close, v -> {//关闭
                     everyDayTipDialog.dismiss();
                 });
-        everyDayTipDialog = builder.create();
-        String imgUrl = SPUtils.getString(Constant.EVERYDAY_TIP_IMG, "", context);
-        ShapeableImageView bg = everyDayTipDialog.getView(R.id.iv_dialog_bg);
-        Glide.with(context).load(imgUrl).into(bg);
+        if (everyDayTipDialog == null) {
+            everyDayTipDialog = builder.create();
+        }
         //温度
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
         TextView temp = everyDayTipDialog.getView(R.id.tv_temperature);
@@ -391,18 +419,15 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
         //不再弹出
         MaterialCheckBox cb = everyDayTipDialog.getView(R.id.cb_no_pop_up);
-        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, false, context);
-                } else {
-                    SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
-                }
+        cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, false, context);
+            } else {
+                SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
             }
         });
-
         everyDayTipDialog.show();
+
     }
 
     /**
@@ -449,6 +474,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(SearchCityEvent event) {//接收
+        //重新加载数据
+        loadingCommonlyUsedCity();
+
         flag = false;//切换城市得到的城市不属于定位，因此这里隐藏定位图标
         //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
         mPresent.newSearchCity(event.mLocation);//相应事件时
@@ -847,6 +875,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 }
             }
         }
+
         if (scrollY < oldScrollY) {
             Log.e("onScroll", "下滑");
             if (scrollY < laySlideArea.getMeasuredHeight()) {
@@ -854,6 +883,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 tvTitle.setText("城市天气");
             }
         }
+
     }
 
     /**
@@ -861,8 +891,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      *
      * @param view 控件
      */
-    @OnClick({R.id.iv_map, R.id.iv_add, R.id.tv_warn, R.id.tv_city, R.id.tv_more_daily,
-            R.id.tv_more_air, R.id.tv_more_lifestyle, R.id.tv_prec_more})
+    @OnClick({R.id.iv_map, R.id.iv_add, R.id.tv_warn, R.id.iv_voice_broadcast,
+            R.id.tv_city, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle,
+            R.id.tv_prec_more,R.id.fab_voice_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_map://地图天气
@@ -878,10 +909,27 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 intent.putExtra("warnBodyString", warnBodyString);
                 startActivity(intent);
                 break;
+            case R.id.iv_voice_broadcast://语音播报
+                SpeechUtil.startVoiceBroadcast(voiceStr, tvBroadcastState);
+                break;
             case R.id.tv_city://当用户没有打开GPS定位时，则可以点击这个TextView进行重新定位
                 if (isOpenLocationServiceEnable()) {//已开启定位
-                    tvCity.setText("定位中");
-                    startLocation();//开始定位
+                    if (tvCity.getText().toString().contains("定位")) {
+                        tvCity.setText("定位中");
+                        startLocation();//开始定位
+                    } else {
+                        if (isChangeCity) {
+                            //有数据
+                            if (changeCityState) {//收缩
+                                rvChangeCity.setVisibility(View.GONE);
+                                changeCityState = false;
+                            } else {//展开
+                                rvChangeCity.setVisibility(View.VISIBLE);
+                                changeCityState = true;
+                            }
+                        }
+
+                    }
                 } else {//未开启
                     //跳转到系统定位设置
                     startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), OPEN_LOCATION);
@@ -904,6 +952,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                     AnimationUtil.expand(rvPrecDetail, tvPrecMore);
                     state = true;
                 }
+                break;
+            case R.id.fab_voice_search://语音搜索
+
                 break;
             default:
                 break;
@@ -940,10 +991,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             if (district == null) {//未获取到定位信息，请重新定位
                 ToastUtils.showShortToast(context, "未获取到定位信息，请重新定位");
                 tvCity.setText("重新定位");
-                tvCity.setEnabled(true);//可点击
+                //tvCity.setEnabled(true);//可点击
                 //页面处理
             } else {
-                tvCity.setEnabled(false);//不可点击
+                //tvCity.setEnabled(false);//不可点击
                 //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
                 showLoadingDialog();
 
@@ -983,18 +1034,25 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 NewSearchCityResponse.LocationBean locationBean = response.body().getLocation().get(0);
+                //如果是定位到当前地方则添加到常用城市
+                addCommonlyUsedCity(locationBean);
+                //日期所在地
+                dateDetailStr = "今天是" + DateUtils.getNowDateStr() + "，"
+                        + DateUtils.getWeekOfDate(new Date()) + "，当前所在地：" + locationBean.getName() + "。";
+
                 tvCity.setText(locationBean.getName());//城市
                 locationId = locationBean.getId();//城市Id
                 stationName = locationBean.getAdm2();//上级城市 也是空气质量站点
                 lon = locationBean.getLon();//经度
                 lat = locationBean.getLat();//纬度
+                mPresent.nowWarn(locationId);//灾害预警
                 mPresent.nowWeather(locationId);//查询实况天气
-                mPresent.dailyWeather(locationId);//查询天气预报
+                mPresent.getMinutePrec(lon + "," + lat);//分钟级降水
                 mPresent.hourlyWeather(locationId);//查询逐小时天气预报
+                mPresent.dailyWeather(locationId);//查询天气预报
                 mPresent.airNowWeather(locationId);//空气质量
                 mPresent.lifestyle(locationId);//生活指数
-                mPresent.nowWarn(locationId);//灾害预警
-                mPresent.getMinutePrec(lon + "," + lat);
+
             } else {
                 ToastUtils.showShortToast(context, "数据为空");
             }
@@ -1018,6 +1076,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
                 tvTemperature.setText(data.getNow().getTemp());//温度
 
+                tempStr = "当前温度：" + data.getNow().getTemp() + "度，天气" + data.getNow().getText() + "。";
                 dialogTemp = data.getNow().getTemp();
                 dialogWeatherState = data.getNow().getText();
                 dialogWeatherStateCode = Integer.parseInt(data.getNow().getIcon());
@@ -1047,34 +1106,29 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     /**
-     * 天气预报数据返回  V7
+     * 分钟级降水返回
      *
      * @param response
      */
     @Override
-    public void getDailyResult(Response<DailyResponse> response) {
+    public void getMinutePrecResult(Response<MinutePrecResponse> response) {
+        dismissLoadingDialog();//关闭加载弹窗
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<DailyResponse.DailyBean> data = response.body().getDaily();
-            //判空处理
-            if (data != null && data.size() > 0) {
-                tvTempHeight.setText(data.get(0).getTempMax() + "℃");
-                tvTempLow.setText(" / " + data.get(0).getTempMin() + "℃");
+            precStr = response.body().getSummary() + "。";
 
-                dialogTempHeight = Integer.parseInt(data.get(0).getTempMax());//弹窗今日最高温
-                dialogTempLow = Integer.parseInt(data.get(0).getTempMin());//弹窗今日最低温
+            tvPrecipitation.setText(response.body().getSummary());
+            dialogPrecipitation = response.body().getSummary();//弹窗降水预告
+            if (response.body().getMinutely() != null && response.body().getMinutely().size() > 0) {
+                minutelyList.clear();
+                minutelyList.addAll(response.body().getMinutely());
+                mAdapterMinutePrec.notifyDataSetChanged();
 
-                //添加数据之前先清除
-                dailyListV7.clear();
-                //添加数据
-                dailyListV7.addAll(data);
-                //刷新列表
-                mAdapterDailyV7.notifyDataSetChanged();
-                //底部动画展示
-                runLayoutAnimation(rv);
+                checkAppVersion();//检查版本信息
+
             } else {
-                ToastUtils.showShortToast(context, "天气预报数据为空");
+                ToastUtils.showShortToast(context, "分钟级降水数据为空");
             }
-        } else {//异常状态码返回
+        } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
     }
@@ -1102,6 +1156,42 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     }
 
     /**
+     * 天气预报数据返回  V7
+     *
+     * @param response
+     */
+    @Override
+    public void getDailyResult(Response<DailyResponse> response) {
+        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+            List<DailyResponse.DailyBean> data = response.body().getDaily();
+            //判空处理
+            if (data != null && data.size() > 0) {
+                tvTempHeight.setText(data.get(0).getTempMax() + "℃");
+                tvTempLow.setText(" / " + data.get(0).getTempMin() + "℃");
+
+                tempMaxMin = "今日最高温：" + data.get(0).getTempMax() + "度，" +
+                        "最低温：" + data.get(0).getTempMin() + "度。";
+
+                dialogTempHeight = Integer.parseInt(data.get(0).getTempMax());//弹窗今日最高温
+                dialogTempLow = Integer.parseInt(data.get(0).getTempMin());//弹窗今日最低温
+
+                //添加数据之前先清除
+                dailyListV7.clear();
+                //添加数据
+                dailyListV7.addAll(data);
+                //刷新列表
+                mAdapterDailyV7.notifyDataSetChanged();
+                //底部动画展示
+                runLayoutAnimation(rv);
+            } else {
+                ToastUtils.showShortToast(context, "天气预报数据为空");
+            }
+        } else {//异常状态码返回
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+        }
+    }
+
+    /**
      * 空气质量返回  V7
      *
      * @param response
@@ -1111,6 +1201,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             AirNowResponse.NowBean data = response.body().getNow();
             if (response.body().getNow() != null) {
+
+                airStr = "空气质量：" + data.getAqi() + "，空气" + data.getCategory() + "。";
+
                 rpbAqi.setMaxProgress(300);//最大进度，用于计算
                 rpbAqi.setMinText("0");//设置显示最小值
                 rpbAqi.setMinTextSize(32f);
@@ -1151,6 +1244,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     public void getLifestyleResult(Response<LifestyleResponse> response) {
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             List<LifestyleResponse.DailyBean> data = response.body().getDaily();
+
             for (int i = 0; i < data.size(); i++) {
                 switch (data.get(i).getType()) {
                     case "5":
@@ -1181,6 +1275,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                         break;
                 }
             }
+            //字符串拼接
+            voiceStr = dateDetailStr + tempStr + tempMaxMin + precStr +
+                    airStr + tvComf.getText().toString() +
+                    tvAir.getText().toString() + warnStr;
+            //图标显示
+            ivVoiceBroadcast.setVisibility(View.VISIBLE);
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }
@@ -1198,6 +1298,8 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             if (data != null && data.size() > 0) {
                 warnBodyString = new Gson().toJson(response.body());
                 tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());//设置滚动标题和内容
+
+                warnStr = "灾害预警：" + data.get(0).getText();
             } else {//没有该城市预警有隐藏掉这个TextView
                 tvWarn.setVisibility(View.GONE);
             }
@@ -1207,50 +1309,87 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
     }
 
+
     /**
-     * 分钟级降水返回
+     * 添加到常用城市列表
      *
-     * @param response
+     * @param locationBean
      */
-    @Override
-    public void getMinutePrecResult(Response<MinutePrecResponse> response) {
-        dismissLoadingDialog();//关闭加载弹窗
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            tvPrecipitation.setText(response.body().getSummary());
-            dialogPrecipitation = response.body().getSummary();//弹窗降水预告
-            if (response.body().getMinutely() != null && response.body().getMinutely().size() > 0) {
-                minutelyList.clear();
-                minutelyList.addAll(response.body().getMinutely());
-                mAdapterMinutePrec.notifyDataSetChanged();
-
-
-                checkAppVersion();//检查版本信息
-
+    private void addCommonlyUsedCity(NewSearchCityResponse.LocationBean locationBean) {
+        if (flag) {//定位到的城市
+            List<ResidentCity> residentCityList = LitePal.findAll(ResidentCity.class);
+            if (residentCityList != null && residentCityList.size() > 0) {
+                //查询要添加的城市是否已经存在
+                List<ResidentCity> residentCities = LitePal
+                        .where("location = ? and parent_city = ?", locationBean.getName(), locationBean.getAdm2())
+                        .find(ResidentCity.class);
+                if (residentCities.size() == 0) {
+                    ResidentCity residentCity = new ResidentCity();
+                    residentCity.setLocation(locationBean.getName());//地区／城市名称
+                    residentCity.setParent_city(locationBean.getAdm2());//该地区／城市的上级城市
+                    residentCity.setAdmin_area(locationBean.getAdm1());//该地区／城市所属行政区域
+                    residentCity.setCnty(locationBean.getCountry());//该地区／城市所属国家名称
+                    residentCity.save();//保存数据到数据库中
+                }
             } else {
-                ToastUtils.showShortToast(context, "分钟级降水数据为空");
+                ResidentCity residentCity = new ResidentCity();
+                residentCity.setLocation(locationBean.getName());//地区／城市名称
+                residentCity.setParent_city(locationBean.getAdm2());//该地区／城市的上级城市
+                residentCity.setAdmin_area(locationBean.getAdm1());//该地区／城市所属行政区域
+                residentCity.setCnty(locationBean.getCountry());//该地区／城市所属国家名称
+                residentCity.save();//保存数据到数据库中
             }
-        } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+
         }
+
+        //加载常用城市数据
+        loadingCommonlyUsedCity();
+    }
+
+    /**
+     * 加载常用城市数据
+     */
+    private void loadingCommonlyUsedCity() {
+        residentCityList = LitePal.findAll(ResidentCity.class);
+        //先判断是否有常用城市
+        if (residentCityList != null && residentCityList.size() > 0) {
+            isChangeCity = true;
+        } else {
+            isChangeCity = false;
+        }
+        //配置适配器
+        changeCityAdapter = new MainChangeCommonlyCityAdapter(R.layout.item_main_city_change, residentCityList);
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        manager.setOrientation(RecyclerView.HORIZONTAL);
+        rvChangeCity.setLayoutManager(manager);
+        rvChangeCity.setAdapter(changeCityAdapter);
+        //常用城市点击
+        changeCityAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            showLoadingDialog();
+            district = residentCityList.get(position).getLocation();
+            mPresent.newSearchCity(district);
+            flag = false;
+            //隐藏列表
+            rvChangeCity.setVisibility(View.GONE);
+            changeCityState = false;
+        });
     }
 
     /**
      * 设置每日弹窗
      */
     private void setTipDialog() {
+
         boolean isShow = SPUtils.getBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
         if (isShow) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //当所有数据加载完成之后显示弹窗
-                    if (everyDayTipDialog != null) {
-                        return;
-                    }
-                    //弹出每日提醒弹窗
-                    showEveryDayTipDialog();
+            new Handler().postDelayed(() -> {
+                //当所有数据加载完成之后显示弹窗
+                if (everyDayTipDialog != null) {
+                    return;
                 }
-            },1000);
+                //设置每日提醒弹窗
+                setEveryDayTipDialog();
+            }, 1000);
         }
     }
 
@@ -1366,20 +1505,14 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     private void toggleBright() {
         // 三个参数分别为：起始值 结束值 时长，那么整个动画回调过来的值就是从0.5f--1f的
         animUtil.setValueAnimator(START_ALPHA, END_ALPHA, DURATION);
-        animUtil.addUpdateListener(new AnimationUtil.UpdateListener() {
-            @Override
-            public void progress(float progress) {
-                // 此处系统会根据上述三个值，计算每次回调的值是多少，我们根据这个值来改变透明度
-                bgAlpha = bright ? progress : (START_ALPHA + END_ALPHA - progress);
-                backgroundAlpha(bgAlpha);
-            }
+        animUtil.addUpdateListener(progress -> {
+            // 此处系统会根据上述三个值，计算每次回调的值是多少，我们根据这个值来改变透明度
+            bgAlpha = bright ? progress : (START_ALPHA + END_ALPHA - progress);
+            backgroundAlpha(bgAlpha);
         });
-        animUtil.addEndListner(new AnimationUtil.EndListener() {
-            @Override
-            public void endUpdate(Animator animator) {
-                // 在一次动画结束的时候，翻转状态
-                bright = !bright;
-            }
+        animUtil.addEndListner(animator -> {
+            // 在一次动画结束的时候，翻转状态
+            bright = !bright;
         });
         animUtil.startAnimator();
     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.llw.goodweather">
     <!-- 以下权限与application标签是平级的，放在manifest标签里面 -->
     <!-- 这个权限用于进行网络定位 -->
@@ -21,7 +22,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/icon_logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.SettingActivity"></activity>
         <activity android:name=".ui.WebActivity" />
         <activity android:name=".ui.WorldCityListActivity" />

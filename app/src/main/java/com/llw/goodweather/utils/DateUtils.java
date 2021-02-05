@@ -35,6 +35,14 @@ public class DateUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(new Date());
     }
+    /**
+     * 获取当前日期
+     * @return 日期
+     */
+    public static String getNowDateStr() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd号");
+        return sdf.format(new Date());
+    }
 
     /**
      * 获取当前日期  没有分隔符

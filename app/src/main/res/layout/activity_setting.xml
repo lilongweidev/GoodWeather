@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    android:background="@color/gray_white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     tools:context=".ui.SettingActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
-        app:contentInsetLeft="@dimen/dp_16"
         android:elevation="@dimen/dp_10"
+        app:contentInsetLeft="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@mipmap/icon_return"
@@ -32,29 +32,161 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!--每日一图-->
+    <!--每日弹窗-->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
         android:background="@color/white"
-        android:paddingLeft="@dimen/dp_16"
-        android:paddingRight="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_8"
-        android:paddingBottom="@dimen/dp_8"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_8">
+
         <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="每日弹窗"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_16"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:textSize="@dimen/sp_16" />
 
         <com.llw.mvplibrary.view.SwitchButton
             android:id="@+id/wb_everyday"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <!--语音播报-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_12"
+            android:text="语音播报" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_16">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="播报人"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16" />
+
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/ns_voicer"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                app:arrowTint="#000"
+                app:textTint="#000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp_1"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--设置语速-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="语速"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:value="50"
+                    app:haloColor="@color/blue_one"
+                    app:thumbColor="@color/blue"
+                    app:trackColorActive="@color/blue"
+                    app:trackColorInactive="@color/blue_one"
+                    android:valueFrom="0"
+                    android:valueTo="100" />
+            </LinearLayout>
+
+            <!--设置音调-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="音调"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_pitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:value="50"
+                    android:valueFrom="0"
+                    app:haloColor="@color/blue_one"
+                    app:thumbColor="@color/blue"
+                    app:trackColorActive="@color/blue"
+                    app:trackColorInactive="@color/blue_one"
+                    android:valueTo="100" />
+            </LinearLayout>
+
+            <!--设置音调-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="音量"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_volume"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.MaterialComponents.Light"
+                    android:value="50"
+                    android:valueFrom="0"
+                    app:haloColor="@color/blue_one"
+                    app:thumbColor="@color/blue"
+                    app:trackColorActive="@color/blue"
+                    app:trackColorInactive="@color/blue_one"
+                    android:valueTo="100" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

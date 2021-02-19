@@ -99,6 +99,11 @@ public class Constant {
     public static final String EVERYDAY_POP_BOOLEAN = "everydayPopBoolean";
 
     /**
+     * 语音搜索是否关闭
+     */
+    public static final String VOICE_SEARCH_BOOLEAN = "voiceSearchBoolean";
+
+    /**
      * 播报人
      */
     public static final String VOICE_NAME = "voiceName";

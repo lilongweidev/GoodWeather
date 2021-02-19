@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.SearchCityAdapter;
@@ -33,6 +34,7 @@ import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
+import com.llw.goodweather.utils.SpeechUtil;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.mvp.MvpActivity;
@@ -106,6 +108,11 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
      */
     @BindView(R.id.ll_history_content)
     LinearLayout llHistoryContent;
+    /**
+     * 语音搜索
+     */
+    @BindView(R.id.voice_search)
+    ImageView voiceSearch;
 
     /**
      * V7数据源
@@ -142,6 +149,8 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
         initView();//初始化页面数据
         initAutoComplete("history", editQuery);
+        //初始化语音播报
+        SpeechUtil.init(this);
     }
 
     private void initView() {
@@ -226,16 +235,13 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         rv.setLayoutManager(new LinearLayoutManager(context));
         rv.setAdapter(mAdapter);
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SPUtils.putString(Constant.LOCATION, mList.get(position).getName(), context);
-                //发送消息
-                EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getName(),
-                        mList.get(position).getAdm2()));//Adm2 代表市
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            SPUtils.putString(Constant.LOCATION, mList.get(position).getName(), context);
+            //发送消息
+            EventBus.getDefault().post(new SearchCityEvent(mList.get(position).getName(),
+                    mList.get(position).getAdm2()));//Adm2 代表市
 
-                finish();
-            }
+            finish();
         });
 
     }
@@ -406,7 +412,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
      *
      * @param view 控件
      */
-    @OnClick({R.id.iv_clear_search, R.id.clear_all_records, R.id.iv_arrow})
+    @OnClick({R.id.iv_clear_search, R.id.clear_all_records, R.id.voice_search, R.id.iv_arrow})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //清空输入的内容
@@ -417,6 +423,25 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
             //清除所有记录
             case R.id.clear_all_records:
                 showTipDialog("all", "确定要删除全部历史记录？");
+                break;
+            //语音搜索
+            case R.id.voice_search:
+                SpeechUtil.startDictation(cityName -> {
+                    //判断字符串是否包含句号
+                    if (!cityName.contains("。")) {
+
+                        editQuery.setText(cityName);
+
+                        showLoadingDialog();
+                        //添加数据
+                        mRecordsDao.addRecords(cityName);
+                        //搜索城市
+                        mPresent.newSearchCity(cityName);
+                        //数据保存
+                        saveHistory("history", editQuery);
+                    }
+
+                });
                 break;
             //向下展开
             case R.id.iv_arrow:

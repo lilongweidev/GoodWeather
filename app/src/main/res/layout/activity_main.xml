@@ -803,20 +803,19 @@
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     </LinearLayout>
 
-    <!--浮动按钮 跳转路线Activity-->
+    <!--浮动按钮 语音搜索-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_voice_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:visibility="gone"
         android:layout_margin="@dimen/dp_20"
         android:clickable="true"
         android:src="@mipmap/icon_voice_search"
-        app:backgroundTint="#FFF"
+        app:backgroundTint="@color/white"
         app:backgroundTintMode="screen"
         app:fabSize="mini"
-        app:hoveredFocusedTranslationZ="18dp"
-        app:pressedTranslationZ="18dp" />
+        app:hoveredFocusedTranslationZ="@dimen/dp_18"
+        app:pressedTranslationZ="@dimen/dp_18" />
 
 </FrameLayout>

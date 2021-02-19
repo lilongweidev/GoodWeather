@@ -69,6 +69,7 @@ import com.llw.goodweather.contract.MapWeatherContract;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
+import com.llw.goodweather.utils.SpeechUtil;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
@@ -152,6 +153,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     ImageView ivClose;//关闭图标
     @BindView(R.id.lay_search)
     RelativeLayout laySearch;//搜索布局
+    @BindView(R.id.voice_search)
+    ImageView voiceSearch;//语音搜索
 
 
     private LocationClient mLocationClient;//定位
@@ -193,6 +196,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
         initView();//初始化控件
         initLocation();//初始化定位
         initMapOnClick();//初始化地图点击
+        //初始化语音播报
+        SpeechUtil.init(context);
     }
 
     /**
@@ -237,12 +242,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                             //先收缩
                             initClose();
                             //再起一个线程 500毫秒后隐藏这个按钮
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scaleAnimation(laySearch, "hide");
-                                }
-                            }, 500);
+                            new Handler().postDelayed(() -> scaleAnimation(laySearch, "hide"), 500);
                         } else {//直接隐藏
                             scaleAnimation(laySearch, "hide");
                         }
@@ -266,12 +266,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
 
         //横向滚动监听
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            hsv.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    watched.notifyWatcher(scrollX);
-                }
-            });
+            hsv.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) ->
+                    watched.notifyWatcher(scrollX));
         }
 
         //获取屏幕宽高
@@ -288,21 +284,18 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
         /**
          * 输入法键盘的搜索监听
          */
-        edSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String city = edSearch.getText().toString();
-                    if (!TextUtils.isEmpty(city)) {
-                        geoCoder.geocode(new GeoCodeOption()
-                                .city(city)//城市名称
-                                .address(city));//详细地址
-                    } else {
-                        ToastUtils.showShortToast(context, "请输入城市名称");
-                    }
+        edSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String city = edSearch.getText().toString();
+                if (!TextUtils.isEmpty(city)) {
+                    geoCoder.geocode(new GeoCodeOption()
+                            .city(city)//城市名称
+                            .address(city));//详细地址
+                } else {
+                    ToastUtils.showShortToast(context, "请输入城市名称");
                 }
-                return false;
             }
+            return false;
         });
     }
 
@@ -406,7 +399,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     /**
      * 点击事件
      */
-    @OnClick({R.id.btn_auto_location, R.id.iv_search, R.id.iv_close, R.id.tv_more_daily})
+    @OnClick({R.id.btn_auto_location, R.id.iv_search, R.id.iv_close, R.id.voice_search, R.id.tv_more_daily})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_auto_location://重新定位
@@ -421,11 +414,24 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             case R.id.iv_close://点击收缩
                 initClose();
                 break;
+            case R.id.voice_search://语音搜索
+                SpeechUtil.startDictation(cityName -> {
+                    if (cityName.isEmpty()) {
+                        return;
+                    }
+                    //判断字符串是否包含句号
+                    if (!cityName.contains("。")) {
+                        geoCoder.geocode(new GeoCodeOption().city(cityName).address(cityName));
+                    }
+                });
+                break;
             case R.id.tv_more_daily://15日天气预报详情
                 Intent intent = new Intent(context, MoreDailyActivity.class);
                 intent.putExtra("locationId", locationId);
                 intent.putExtra("cityName", tvCity.getText().toString());
                 startActivity(intent);
+                break;
+            default:
                 break;
         }
 
@@ -520,6 +526,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                     }
                 });
                 break;
+                default:break;
         }
 
     }

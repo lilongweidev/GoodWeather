@@ -1,6 +1,7 @@
 package com.llw.goodweather.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -77,12 +78,14 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
     /**
      * 动态权限申请  使用这个框架需要制定JDK版本，建议用1.8
      */
+    @SuppressLint("CheckResult")
     private void permissionsRequest() {
         //实例化这个权限请求框架，否则会报错
         rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.RECORD_AUDIO)
                 .subscribe(granted -> {
                     if (granted) {//申请成功
                         //得到权限可以进入APP

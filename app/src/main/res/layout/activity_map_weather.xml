@@ -114,7 +114,8 @@
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_80">
+                android:layout_marginTop="@dimen/dp_80"
+                android:overScrollMode="never">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -168,8 +169,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/dp_12"
                             android:layout_marginBottom="@dimen/dp_12"
+                            android:overScrollMode="never"
                             android:paddingLeft="@dimen/dp_12"
-                            android:paddingRight="@dimen/dp_12" />
+                            android:paddingRight="@dimen/dp_12"
+                            android:scrollbars="none" />
                         <!--点分割线-->
                         <View
                             android:layout_width="match_parent"
@@ -345,14 +348,26 @@
                 android:background="@drawable/shape_blue_8"
                 android:orientation="vertical"
                 android:padding="@dimen/dp_12">
-                <!--城市-->
-                <TextView
-                    android:id="@+id/tv_city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="城市"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_16" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!--城市-->
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="城市"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_16" />
+
+                    <ImageView
+                        android:id="@+id/voice_search"
+                        android:layout_width="@dimen/dp_40"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/icon_voice_search_white" />
+                </RelativeLayout>
 
                 <!--主要天气数据-->
                 <LinearLayout

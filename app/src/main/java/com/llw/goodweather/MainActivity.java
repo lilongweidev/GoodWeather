@@ -1,6 +1,7 @@
 package com.llw.goodweather;
 
 import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -112,7 +115,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import retrofit2.Response;
 
-import static com.llw.goodweather.utils.GlideUtil.loadImgListener;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimationRight;
 
@@ -515,6 +517,13 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
 
         updateWallpaper();
 
+        //是否显示语音搜索按钮
+        if (SPUtils.getBoolean(Constant.VOICE_SEARCH_BOOLEAN, true, context)) {
+            fabVoiceSearch.show();
+        } else {
+            fabVoiceSearch.hide();
+        }
+
     }
 
     //绑定布局文件
@@ -884,6 +893,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             }
         }
 
+
     }
 
     /**
@@ -893,7 +903,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      */
     @OnClick({R.id.iv_map, R.id.iv_add, R.id.tv_warn, R.id.iv_voice_broadcast,
             R.id.tv_city, R.id.tv_more_daily, R.id.tv_more_air, R.id.tv_more_lifestyle,
-            R.id.tv_prec_more,R.id.fab_voice_search})
+            R.id.tv_prec_more, R.id.fab_voice_search})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_map://地图天气
@@ -954,7 +964,25 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 }
                 break;
             case R.id.fab_voice_search://语音搜索
-
+                SpeechUtil.startDictation(cityName -> {
+                    if (cityName.isEmpty()) {
+                        return;
+                    }
+                    //判断字符串是否包含句号
+                    if (!cityName.contains("。")) {
+                        //然后判断成员变量和临时变量是否一样，不一样则赋值。
+                        if (!district.equals(cityName)) {
+                            district = cityName;
+                            Log.d("city",district);
+                            //加载弹窗
+                            showLoadingDialog();
+                            ToastUtils.showShortToast(context, "正在搜索城市："+district+"，请稍后...");
+                            flag = false;//不属于定位，则不需要显示定位图标
+                            //搜索城市
+                            mPresent.newSearchCity(district);
+                        }
+                    }
+                });
                 break;
             default:
                 break;
@@ -977,6 +1005,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             startActivity(intent);
         }
     }
+
 
     /**
      * 定位结果返回

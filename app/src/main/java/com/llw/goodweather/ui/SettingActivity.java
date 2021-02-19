@@ -2,7 +2,6 @@ package com.llw.goodweather.ui;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.slider.Slider;
@@ -32,7 +31,7 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.wb_everyday)
-    SwitchButton wbEveryday;
+    SwitchButton wbEveryday;//每日弹窗开关
     @BindView(R.id.ns_voicer)
     NiceSpinner nsVoicer;//设置播报人
     @BindView(R.id.slider_speed)
@@ -41,6 +40,8 @@ public class SettingActivity extends BaseActivity {
     Slider sliderPitch;//音调
     @BindView(R.id.slider_volume)
     Slider sliderVolume;//音量
+    @BindView(R.id.wb_voice_search)
+    SwitchButton wbVoiceSearch;//语音搜索开关
 
 
     //播报人
@@ -65,26 +66,47 @@ public class SettingActivity extends BaseActivity {
         //黑色字体
         StatusBarUtil.StatusBarLightMode(context);
         Back(toolbar);
-
-        boolean isChecked = SPUtils.getBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
-
-        wbEveryday.setChecked(isChecked);
-
-        wbEveryday.setOnCheckedChangeListener((view, isChecked1) -> {
-            if (isChecked1) {
-                SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
-            } else {
-                SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, false, context);
-            }
-        });
+        //设置Switch
+        setSwitch(wbEveryday,1);
+        setSwitch(wbVoiceSearch,2);
 
         //初始化Spinner
         initSpinner();
 
         //设置Slider
-        setSlider(sliderSpeed,1);
-        setSlider(sliderPitch,2);
-        setSlider(sliderVolume,3);
+        setSlider(sliderSpeed, 1);
+        setSlider(sliderPitch, 2);
+        setSlider(sliderVolume, 3);
+    }
+
+    /**
+     * 设置Switch
+     */
+    private void setSwitch(SwitchButton switchButton, final int type) {
+
+        wbEveryday.setChecked(SPUtils.getBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context));
+        wbVoiceSearch.setChecked(SPUtils.getBoolean(Constant.VOICE_SEARCH_BOOLEAN, true, context));
+
+        switchButton.setOnCheckedChangeListener((view, isChecked) -> {
+            switch (type) {
+                case 1:
+                    if (isChecked) {
+                        SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, true, context);
+                    } else {
+                        SPUtils.putBoolean(Constant.EVERYDAY_POP_BOOLEAN, false, context);
+                    }
+                    break;
+                case 2:
+                    if (isChecked) {
+                        SPUtils.putBoolean(Constant.VOICE_SEARCH_BOOLEAN, true, context);
+                    } else {
+                        SPUtils.putBoolean(Constant.VOICE_SEARCH_BOOLEAN, false, context);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     /**
@@ -92,9 +114,9 @@ public class SettingActivity extends BaseActivity {
      */
     private void setSlider(Slider slider, final int type) {
         //获取之前设置的进度
-        speedValue =  SPUtils.getString(Constant.SPEED,"50",context);
-        pitchValue = SPUtils.getString(Constant.PITCH,"50",context);
-        volumeValue = SPUtils.getString(Constant.VOLUME,"50",context);
+        speedValue = SPUtils.getString(Constant.SPEED, "50", context);
+        pitchValue = SPUtils.getString(Constant.PITCH, "50", context);
+        volumeValue = SPUtils.getString(Constant.VOLUME, "50", context);
         //设置进度
         sliderSpeed.setValue(Float.parseFloat(speedValue));
         sliderPitch.setValue(Float.parseFloat(pitchValue));
@@ -104,13 +126,13 @@ public class SettingActivity extends BaseActivity {
         slider.addOnChangeListener((slider1, value, fromUser) -> {
             switch (type) {
                 case 1://设置语速 范围 1~100
-                    SPUtils.putString(Constant.SPEED,Float.toString(value),context);
+                    SPUtils.putString(Constant.SPEED, Float.toString(value), context);
                     break;
                 case 2://设置音调  范围 1~100
-                    SPUtils.putString(Constant.PITCH,Float.toString(value),context);
+                    SPUtils.putString(Constant.PITCH, Float.toString(value), context);
                     break;
                 case 3://设置音量  范围 1~100
-                    SPUtils.putString(Constant.VOLUME,Float.toString(value),context);
+                    SPUtils.putString(Constant.VOLUME, Float.toString(value), context);
                     break;
                 default:
                     break;

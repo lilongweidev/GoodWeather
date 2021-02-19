@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".ui.SearchCityActivity">
 
@@ -25,48 +25,62 @@
         app:navigationIcon="@mipmap/icon_return"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
-        <!--输入框布局-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_30"
-            android:layout_marginRight="@dimen/dp_12"
-            android:layout_weight="1"
-            android:background="@drawable/shape_gray_bg_14"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp_12"
-            android:paddingRight="@dimen/dp_12">
-            <!--搜索图标-->
-            <ImageView
-                android:layout_width="@dimen/dp_16"
-                android:layout_height="@dimen/dp_16"
-                android:src="@mipmap/icon_search" />
-            <!--输入框-->
-            <AutoCompleteTextView
-                android:id="@+id/edit_query"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <!--输入框布局-->
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_12"
                 android:layout_weight="1"
-                android:background="@null"
-                android:completionThreshold="1"
-                android:dropDownHorizontalOffset="5dp"
-                android:hint="输入城市关键字"
-                android:imeOptions="actionSearch"
-                android:paddingLeft="@dimen/dp_8"
-                android:paddingRight="@dimen/dp_4"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textCursorDrawable="@drawable/cursor_style"
-                android:textSize="@dimen/sp_14" />
-            <!--清除输入的内容-->
+                android:background="@drawable/shape_gray_bg_14"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingRight="@dimen/dp_12">
+                <!--搜索图标-->
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_search" />
+                <!--输入框-->
+                <AutoCompleteTextView
+                    android:id="@+id/edit_query"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:completionThreshold="1"
+                    android:dropDownHorizontalOffset="5dp"
+                    android:hint="输入城市关键字"
+                    android:imeOptions="actionSearch"
+                    android:paddingLeft="@dimen/dp_8"
+                    android:paddingRight="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@drawable/cursor_style"
+                    android:textSize="@dimen/sp_14" />
+                <!--清除输入的内容-->
+                <ImageView
+                    android:id="@+id/iv_clear_search"
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_delete"
+                    android:visibility="gone" />
+            </LinearLayout>
+            <!--语音搜索-->
             <ImageView
-                android:id="@+id/iv_clear_search"
-                android:layout_width="@dimen/dp_16"
-                android:layout_height="@dimen/dp_16"
-                android:src="@mipmap/icon_delete"
-                android:visibility="gone" />
+                android:id="@+id/voice_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_12"
+                android:src="@mipmap/icon_voice_search" />
         </LinearLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
 

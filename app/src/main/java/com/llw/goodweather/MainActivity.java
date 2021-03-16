@@ -1326,10 +1326,12 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
             List<WarningResponse.WarningBean> data = response.body().getWarning();
             if (data != null && data.size() > 0) {
                 warnBodyString = new Gson().toJson(response.body());
-                tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());//设置滚动标题和内容
-
+                //设置滚动标题和内容
+                tvWarn.setText(data.get(0).getTitle() + "   " + data.get(0).getText());
+                tvWarn.setVisibility(View.VISIBLE);//当灾害预警有值时，显示这个TextView
                 warnStr = "灾害预警：" + data.get(0).getText();
-            } else {//没有该城市预警有隐藏掉这个TextView
+            } else {
+                //没有该城市预警有隐藏掉这个TextView
                 tvWarn.setVisibility(View.GONE);
             }
 

@@ -25,7 +25,7 @@ public class MoreDailyContract {
          *
          * @param location 城市id
          */
-        public void worldCity(String location) {
+        public void dailyWeather(String location) {
             ApiService service = ServiceGenerator.createService(ApiService.class, 3);
             service.dailyWeather("15d", location).enqueue(new NetCallBack<DailyResponse>() {
                 @Override

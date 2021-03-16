@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * dp sp px 转换 view 测量工个类
+ * dp sp px 转换 view 测量工具类
  */
 public final class SizeUtils {
 

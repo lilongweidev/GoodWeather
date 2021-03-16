@@ -72,7 +72,7 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
         snapHelper.attachToRecyclerView(rv);
         rv.setAdapter(mAdapter);
         tvTitle.setText(getIntent().getStringExtra("cityName"));
-        mPresent.worldCity(getIntent().getStringExtra("locationId"));
+        mPresent.dailyWeather(getIntent().getStringExtra("locationId"));
     }
 
     @Override

@@ -144,19 +144,16 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
         //获取必应壁纸
         mPresent.biying();
 
-        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                //这里的列表数据实际上有32条，有两条假数据，就是首尾这两条，所以点击的时候要做判断处理
-                if (position == 0 || position == mList.size() - 1) {//是否为第一条或者最后一条
-                    startActivity(new Intent(context,AboutUsActivity.class));
-                } else {
-                    Intent intent = new Intent(context, ImageActivity.class);
-                    intent.putExtra("position", position - 1);
-                    startActivity(intent);
-                }
-
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            //这里的列表数据实际上有32条，有两条假数据，就是首尾这两条，所以点击的时候要做判断处理
+            if (position == 0 || position == mList.size() - 1) {//是否为第一条或者最后一条
+                startActivity(new Intent(context,AboutUsActivity.class));
+            } else {
+                Intent intent = new Intent(context, ImageActivity.class);
+                intent.putExtra("position", position - 1);
+                startActivity(intent);
             }
+
         });
 
         //滑动监听

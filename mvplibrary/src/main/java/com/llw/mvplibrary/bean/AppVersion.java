@@ -4,6 +4,7 @@ import org.litepal.crud.LitePalSupport;
 
 /**
  * 应用版本更新
+ * @author llw
  */
 public class AppVersion extends LitePalSupport {
 

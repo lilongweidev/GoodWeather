@@ -59,7 +59,8 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" /> <!-- 下载APK广播 -->
+            android:process=":remote" />
+        <!-- 下载APK广播 -->
         <receiver
             android:name=".receiver.DownloadApkReceiver"
             android:enabled="true"
@@ -67,7 +68,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
-        </receiver> <!-- Android7.0以后读取文件需要配置Provider -->
+        </receiver>
+        <!-- Android7.0以后读取文件需要配置Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.llw.goodweather.fileprovider"

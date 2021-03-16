@@ -1251,7 +1251,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 tvAirInfo.setText("空气" + data.getCategory());
 
                 tvPm10.setText(data.getPm10());//PM10
-                tvPm25.setText(data.getPm10());//PM2.5
+                tvPm25.setText(data.getPm2p5());//PM2.5
                 tvNo2.setText(data.getNo2());//二氧化氮
                 tvSo2.setText(data.getSo2());//二氧化硫
                 tvO3.setText(data.getO3());//臭氧
@@ -1582,6 +1582,5 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 }

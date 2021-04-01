@@ -526,7 +526,8 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                     }
                 });
                 break;
-                default:break;
+            default:
+                break;
         }
 
     }
@@ -884,7 +885,9 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mLocationClient.stop();// 退出时销毁定位
+        if (mLocationClient != null) {
+            mLocationClient.stop();// 退出时停止定位
+        }
         mBaiduMap.setMyLocationEnabled(false);// 关闭定位图层
         mapView.onDestroy();// 在activity执行onDestroy时必须调用mMapView.onDestroy()
     }

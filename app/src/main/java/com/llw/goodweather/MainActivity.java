@@ -907,6 +907,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_map://地图天气
+                if (!isOpenLocationServiceEnable()) {
+                    ToastUtils.showShortToast(context, "打开位置信息才能进入地图天气");
+                    return;
+                }
                 startActivity(new Intent(context, MapWeatherActivity.class));
                 break;
             case R.id.iv_add://更多功能弹窗
@@ -973,10 +977,10 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                         //然后判断成员变量和临时变量是否一样，不一样则赋值。
                         if (!district.equals(cityName)) {
                             district = cityName;
-                            Log.d("city",district);
+                            Log.d("city", district);
                             //加载弹窗
                             showLoadingDialog();
-                            ToastUtils.showShortToast(context, "正在搜索城市："+district+"，请稍后...");
+                            ToastUtils.showShortToast(context, "正在搜索城市：" + district + "，请稍后...");
                             flag = false;//不属于定位，则不需要显示定位图标
                             //搜索城市
                             mPresent.newSearchCity(district);
@@ -1059,7 +1063,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
     @Override
     public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
         refresh.finishRefresh();//关闭刷新
-        mLocationClient.stop();//数据返回后关闭定位
+        if (mLocationClient != null) {
+            mLocationClient.stop();//数据返回后关闭定位
+        }
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 NewSearchCityResponse.LocationBean locationBean = response.body().getLocation().get(0);
@@ -1463,6 +1469,9 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
      */
     @Override
     public void onDestroy() {
+        if (mLocationClient != null) {
+            mLocationClient.stop();//数据返回后关闭定位
+        }
         wwBig.stop();//停止大风车
         wwSmall.stop();//停止小风车
         EventBus.getDefault().unregister(this);//解注

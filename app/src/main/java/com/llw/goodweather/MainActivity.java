@@ -1066,6 +1066,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
         if (mLocationClient != null) {
             mLocationClient.stop();//数据返回后关闭定位
         }
+
         if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
             if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
                 NewSearchCityResponse.LocationBean locationBean = response.body().getLocation().get(0);

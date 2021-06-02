@@ -25,7 +25,7 @@ public class MoreLifestyleContract {
          *
          * @param location 城市id
          */
-        public void worldCity(String location) {
+        public void lifestyle(String location) {
             ApiService service = ServiceGenerator.createService(ApiService.class, 3);
             service.lifestyle("0", location).enqueue(new NetCallBack<LifestyleResponse>() {
                 @Override

@@ -1,5 +1,6 @@
 package com.llw.goodweather.ui;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -249,28 +250,21 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     /**
      * 历史记录布局
      */
+    @SuppressLint("CheckResult")
     private void initTagFlowLayout() {
-        Observable.create(new ObservableOnSubscribe<List<String>>() {
-            @Override
-            public void subscribe(ObservableEmitter<List<String>> emitter) throws Exception {
-                emitter.onNext(mRecordsDao.getRecordsByNumber(DEFAULT_RECORD_NUMBER));
-            }
-        }).subscribeOn(Schedulers.io())
+        Observable.create((ObservableOnSubscribe<List<String>>) emitter -> emitter.onNext(mRecordsDao.getRecordsByNumber(DEFAULT_RECORD_NUMBER))).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<String>>() {
-                    @Override
-                    public void accept(List<String> s) throws Exception {
-                        recordList.clear();
-                        recordList = s;
-                        if (null == recordList || recordList.size() == 0) {
-                            llHistoryContent.setVisibility(View.GONE);
-                        } else {
-                            llHistoryContent.setVisibility(View.VISIBLE);
-                        }
-                        if (mRecordsAdapter != null) {
-                            mRecordsAdapter.setData(recordList);
-                            mRecordsAdapter.notifyDataChanged();
-                        }
+                .subscribe(s -> {
+                    recordList.clear();
+                    recordList = s;
+                    if (null == recordList || recordList.size() == 0) {
+                        llHistoryContent.setVisibility(View.GONE);
+                    } else {
+                        llHistoryContent.setVisibility(View.VISIBLE);
+                    }
+                    if (mRecordsAdapter != null) {
+                        mRecordsAdapter.setData(recordList);
+                        mRecordsAdapter.notifyDataChanged();
                     }
                 });
     }

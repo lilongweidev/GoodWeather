@@ -47,7 +47,8 @@ public class MoreLifestyleActivity extends MvpActivity<MoreLifestyleContract.Mor
         Back(toolbar);
         showLoadingDialog();
         tvTitle.setText(getIntent().getStringExtra("cityName"));
-        mPresent.worldCity(getIntent().getStringExtra("locationId"));
+        //更多生活指数
+        mPresent.lifestyle(getIntent().getStringExtra("locationId"));
     }
 
     @Override

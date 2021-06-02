@@ -1,6 +1,5 @@
 package com.llw.mvplibrary.base;
 
-import com.llw.mvplibrary.base.BaseView;
 
 import java.lang.ref.WeakReference;
 
@@ -10,6 +9,7 @@ import java.lang.ref.WeakReference;
  */
 public class BasePresenter<V extends BaseView> {
     private WeakReference<V> mWeakReference;
+
 
     /**
      * 关联view

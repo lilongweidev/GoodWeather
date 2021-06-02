@@ -52,7 +52,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.CommonlyUsedCityActivity" />
         <activity android:name=".ui.WorldCityWeatherActivity" />
-        <activity android:name=".ui.SearchCityActivity" /> <!-- 百度定位AK -->
+        <activity android:name=".ui.SearchCityActivity" />
+
+        <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Fh0NIFb6Tg8f7altVIpdGoDH0BR2myG4" /> <!-- 百度定位服务 -->

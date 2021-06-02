@@ -181,7 +181,9 @@ public class FlowLayout extends ViewGroup {
 
         for (int i = 0; i < cCount; i++) {
             View child = getChildAt(i);
-            if (child.getVisibility() == View.GONE) continue;
+            if (child.getVisibility() == View.GONE) {
+                continue;
+            }
             MarginLayoutParams lp = (MarginLayoutParams) child
                     .getLayoutParams();
 

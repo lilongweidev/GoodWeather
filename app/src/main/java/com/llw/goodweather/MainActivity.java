@@ -1092,6 +1092,7 @@ public class MainActivity extends MvpActivity<WeatherContract.WeatherPresenter>
                 ToastUtils.showShortToast(context, "数据为空");
             }
         } else {
+            dismissLoadingDialog();
             tvCity.setText("查询城市失败");
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
         }

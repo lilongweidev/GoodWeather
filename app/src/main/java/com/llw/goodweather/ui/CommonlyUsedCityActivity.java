@@ -225,14 +225,14 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
      * @param response
      */
     @Override
-    public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
+    public void getNewSearchCityResult(NewSearchCityResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<NewSearchCityResponse.LocationBean> data = response.body().getLocation();
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<NewSearchCityResponse.LocationBean> data = response.getLocation();
             if (data != null && data.size() > 0) {
                 rvCommonlyUsed.setVisibility(View.GONE);//隐藏常用城市列表
                 mList.clear();
-                mList.addAll(response.body().getLocation());
+                mList.addAll(response.getLocation());
                 mAdapterAdd.notifyDataSetChanged();
                 rvSearch.setVisibility(View.VISIBLE);//显示搜索城市列表
                 layNormal.setVisibility(View.GONE);
@@ -240,7 +240,7 @@ public class CommonlyUsedCityActivity extends MvpActivity<SearchCityContract.Sea
                 ToastUtils.showShortToast(context, "没有找到相关城市");
             }
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

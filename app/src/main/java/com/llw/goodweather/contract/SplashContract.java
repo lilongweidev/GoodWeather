@@ -1,17 +1,14 @@
 package com.llw.goodweather.contract;
 
+import android.annotation.SuppressLint;
+
 import com.llw.goodweather.api.ApiService;
 import com.llw.goodweather.bean.BiYingImgResponse;
-import com.llw.goodweather.bean.NewSearchCityResponse;
-import com.llw.goodweather.bean.NowResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
 import com.llw.mvplibrary.bean.AppVersion;
-import com.llw.mvplibrary.net.NetCallBack;
-import com.llw.mvplibrary.net.ServiceGenerator;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import com.llw.mvplibrary.newnet.NetworkApi;
+import com.llw.mvplibrary.newnet.observer.BaseObserver;
 
 /**
  * 欢迎页订阅器
@@ -25,57 +22,59 @@ public class SplashContract {
         /**
          * 获取最新的APP版本信息
          */
+        @SuppressLint("CheckResult")
         public void getAppInfo() {//注意这里的4表示新的搜索城市地址接口
-            ApiService service = ServiceGenerator.createService(ApiService.class, 5);
-            service.getAppInfo().enqueue(new NetCallBack<AppVersion>() {
+            ApiService service = NetworkApi.createService(ApiService.class, 5);
+            service.getAppInfo().compose(NetworkApi.applySchedulers(new BaseObserver<AppVersion>() {
                 @Override
-                public void onSuccess(Call<AppVersion> call, Response<AppVersion> response) {
+                public void onSuccess(AppVersion appVersion) {
                     if (getView() != null) {
-                        getView().getAppInfoResult(response);
+                        getView().getAppInfoResult(appVersion);
                     }
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailure(Throwable e) {
                     if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }
-            });
+            }));
         }
 
         /**
          * 获取必应  每日一图
          */
+        @SuppressLint("CheckResult")
         public void biying() {
-            ApiService service = ServiceGenerator.createService(ApiService.class, 1);
-            service.biying().enqueue(new NetCallBack<BiYingImgResponse>() {
+            ApiService service = NetworkApi.createService(ApiService.class, 1);
+            service.biying().compose(NetworkApi.applySchedulers(new BaseObserver<BiYingImgResponse>() {
                 @Override
-                public void onSuccess(Call<BiYingImgResponse> call, Response<BiYingImgResponse> response) {
+                public void onSuccess(BiYingImgResponse biYingImgResponse) {
                     if (getView() != null) {
-                        getView().getBiYingResult(response);
+                        getView().getBiYingResult(biYingImgResponse);
                     }
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailure(Throwable e) {
                     if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }
-            });
+            }));
         }
     }
 
     public interface ISplashView extends BaseView {
         //APP信息返回
-        void getAppInfoResult(Response<AppVersion> response);
+        void getAppInfoResult(AppVersion response);
 
         /**
          * 获取必应每日一图返回
          * @param response BiYingImgResponse
          */
-        void getBiYingResult(Response<BiYingImgResponse> response);
+        void getBiYingResult(BiYingImgResponse response);
 
         //错误返回
         void getDataFailed();

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/environmentName"
+        android:entryValues="@array/environmentValues"
+        android:icon="@drawable/ic_network_settings"
+        android:key="network_environment"
+        android:summary="请您选择您需要使用的网络环境，选择完后会重启APP生效"
+        android:title="设置网络环境" />
+</PreferenceScreen>

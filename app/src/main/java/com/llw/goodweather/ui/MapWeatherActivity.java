@@ -415,7 +415,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                 initClose();
                 break;
             case R.id.voice_search://语音搜索
-                SpeechUtil.startDictation(cityName -> {
+                SpeechUtil.startDictation(this, cityName -> {
                     if (cityName.isEmpty()) {
                         return;
                     }
@@ -654,11 +654,11 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getNewSearchCityResult(Response<NewSearchCityResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            if (response.body().getLocation() != null && response.body().getLocation().size() > 0) {
-                tvCity.setText(response.body().getLocation().get(0).getName());//城市
-                locationId = response.body().getLocation().get(0).getId();//城市Id
+    public void getNewSearchCityResult(NewSearchCityResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            if (response.getLocation() != null && response.getLocation().size() > 0) {
+                tvCity.setText(response.getLocation().get(0).getName());//城市
+                locationId = response.getLocation().get(0).getId();//城市Id
                 showLoadingDialog();
                 mPresent.nowWeather(locationId);//查询实况天气
                 mPresent.airNowWeather(locationId);//空气质量
@@ -670,7 +670,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             }
         } else {
             tvCity.setText("查询城市失败");
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -680,39 +680,34 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getNowResult(Response<NowResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {//200则成功返回数据
-            NowResponse data = response.body();
-            if (data != null) {
-                Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
-                tvTemperature.setText(response.body().getNow().getTemp() + "°");//温度
-                tvTemperature.setTypeface(typeface);//使用字体
-                tvWeatherStateTv.setText(data.getNow().getText());//天气状态文字描述
-                WeatherUtil.changeIcon(ivWeather, Integer.parseInt(data.getNow().getIcon()));
-                tvWindInfo.setText(data.getNow().getWindDir() + data.getNow().getWindScale() + "级");
+    public void getNowResult(NowResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {//200则成功返回数据
+            Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Light.ttf");
+            tvTemperature.setText(response.getNow().getTemp() + "°");//温度
+            tvTemperature.setTypeface(typeface);//使用字体
+            tvWeatherStateTv.setText(response.getNow().getText());//天气状态文字描述
+            WeatherUtil.changeIcon(ivWeather, Integer.parseInt(response.getNow().getIcon()));
+            tvWindInfo.setText(response.getNow().getWindDir() + response.getNow().getWindScale() + "级");
 
-                tvHumidity.setText(data.getNow().getHumidity() + "%");//湿度
-                tvPressure.setText(data.getNow().getPressure() + "hPa");//大气压
+            tvHumidity.setText(response.getNow().getHumidity() + "%");//湿度
+            tvPressure.setText(response.getNow().getPressure() + "hPa");//大气压
 
-                //今日详情
-                todayDetailList.clear();
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_temp, data.getNow().getFeelsLike() + "°", "体感温度"));
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_precip, data.getNow().getPrecip() + "mm", "降水量"));
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_humidity, data.getNow().getHumidity() + "%", "湿度"));
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_pressure, data.getNow().getPressure() + "hPa", "大气压强"));
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_vis, data.getNow().getVis() + "KM", "能见度"));
-                todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_cloud, data.getNow().getCloud() + "%", "云量"));
+            //今日详情
+            todayDetailList.clear();
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_temp, response.getNow().getFeelsLike() + "°", "体感温度"));
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_precip, response.getNow().getPrecip() + "mm", "降水量"));
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_humidity, response.getNow().getHumidity() + "%", "湿度"));
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_pressure, response.getNow().getPressure() + "hPa", "大气压强"));
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_vis, response.getNow().getVis() + "KM", "能见度"));
+            todayDetailList.add(new TodayDetailBean(R.mipmap.icon_today_cloud, response.getNow().getCloud() + "%", "云量"));
 
-                TodayDetailAdapter adapter = new TodayDetailAdapter(R.layout.item_today_detail, todayDetailList);
-                rvTodayDetail.setLayoutManager(new GridLayoutManager(context, 3));
-                rvTodayDetail.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+            TodayDetailAdapter adapter = new TodayDetailAdapter(R.layout.item_today_detail, todayDetailList);
+            rvTodayDetail.setLayoutManager(new GridLayoutManager(context, 3));
+            rvTodayDetail.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
-            } else {
-                ToastUtils.showShortToast(context, "暂无实况天气数据");
-            }
         } else {//其他状态返回提示文字
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -722,9 +717,9 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getWeatherHourlyResult(Response<HourlyResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<HourlyResponse.HourlyBean> hourlyWeatherList = response.body().getHourly();
+    public void getWeatherHourlyResult(HourlyResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<HourlyResponse.HourlyBean> hourlyWeatherList = response.getHourly();
             List<HourlyResponse.HourlyBean> data = new ArrayList<>();
             if (hourlyWeatherList.size() > 23) {
                 for (int i = 0; i < 24; i++) {
@@ -771,7 +766,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
             tvLineMaxTmp.setText(maxTmp + "°");
             tvLineMinTmp.setText(minTmp + "°");
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -781,9 +776,9 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getDailyResult(Response<DailyResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<DailyResponse.DailyBean> data = response.body().getDaily();
+    public void getDailyResult(DailyResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<DailyResponse.DailyBean> data = response.getDaily();
             if (data != null && data.size() > 0) {//判空处理
 
                 for (int i = 0; i < data.size(); i++) {
@@ -800,7 +795,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
         } else {//异常状态码返回
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -810,10 +805,10 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getAirNowResult(Response<AirNowResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            AirNowResponse.NowBean data = response.body().getNow();
-            if (response.body().getNow() != null) {
+    public void getAirNowResult(AirNowResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            AirNowResponse.NowBean data = response.getNow();
+            if (response.getNow() != null) {
                 dismissLoadingDialog();
                 tvAir.setText("AQI " + data.getCategory());
                 tvTodayInfo.setText("今天，白天" + dayInfo + "，晚上" + nightInfo +
@@ -823,7 +818,7 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
                 ToastUtils.showShortToast(context, "空气质量数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -833,29 +828,23 @@ public class MapWeatherActivity extends MvpActivity<MapWeatherContract.MapWeathe
      * @param response
      */
     @Override
-    public void getSunMoonResult(Response<SunMoonResponse> response) {
+    public void getSunMoonResult(SunMoonResponse response) {
 
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            String sunRise = updateTime(response.getSunrise());
+            String moonRise = updateTime(response.getMoonrise());
+            String sunSet = updateTime(response.getSunset());
+            String moonSet = updateTime(response.getMoonset());
+            String currentTime = updateTime(null);
 
-            SunMoonResponse data = response.body();
-            if (data != null) {
-                String sunRise = updateTime(data.getSunrise());
-                String moonRise = updateTime(data.getMoonrise());
-                String sunSet = updateTime(data.getSunset());
-                String moonSet = updateTime(data.getMoonset());
-                String currentTime = updateTime(null);
-
-                sunView.setTimes(sunRise, sunSet, currentTime);
-                moonView.setTimes(moonRise, moonSet, currentTime);
-                if (data.getMoonPhase() != null && data.getMoonPhase().size() > 0) {
-                    tvMoonState.setText(data.getMoonPhase().get(0).getName());
-                }
-
-            } else {
-                ToastUtils.showShortToast(context, "日出日落数据为空");
+            sunView.setTimes(sunRise, sunSet, currentTime);
+            moonView.setTimes(moonRise, moonSet, currentTime);
+            if (response.getMoonPhase() != null && response.getMoonPhase().size() > 0) {
+                tvMoonState.setText(response.getMoonPhase().get(0).getName());
             }
+
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

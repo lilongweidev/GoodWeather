@@ -104,10 +104,10 @@ public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCi
      * @param response
      */
     @Override
-    public void getWorldCityResult(Response<WorldCityResponse> response) {
+    public void getWorldCityResult(WorldCityResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<WorldCityResponse.TopCityListBean> data = response.body().getTopCityList();
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<WorldCityResponse.TopCityListBean> data = response.getTopCityList();
             if (data != null && data.size() > 0) {
                 mList.clear();
                 mList.addAll(data);
@@ -117,7 +117,7 @@ public class WorldCityListActivity extends MvpActivity<WorldCityContract.WorldCi
             }
 
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

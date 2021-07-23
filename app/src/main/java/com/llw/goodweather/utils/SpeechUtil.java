@@ -116,7 +116,6 @@ public class SpeechUtil {
         // 使用SpeechRecognizer对象，可根据回调消息自定义界面；
         mIat = SpeechRecognizer.createRecognizer(mContext, mInitListener);
         // 使用UI听写功能，请根据sdk文件目录下的notice.txt,放置布局文件和图片资源
-        mIatDialog = new RecognizerDialog(mContext, mInitListener);
         mSharedPreferences = mContext.getSharedPreferences("ASR",
                 Activity.MODE_PRIVATE);
     }
@@ -390,7 +389,7 @@ public class SpeechUtil {
     /**
      * 开始听写
      */
-    public static void startDictation(SpeechCallback speechCallback){
+    public static void startDictation(Context context,SpeechCallback speechCallback){
         mSpeechCallback = speechCallback;
         if( null == mIat ){
             // 创建单例失败，与 21001 错误为同样原因，参考 http://bbs.xfyun.cn/forum.php?mod=viewthread&tid=9688
@@ -400,6 +399,7 @@ public class SpeechUtil {
 
         mIatResults.clear();//清除数据
         setDictationParam(); // 设置参数
+        mIatDialog = new RecognizerDialog(context, mInitListener);
         mIatDialog.setListener(mRecognizerDialogListener);//设置监听
 
         mIatDialog.show();// 显示对话框

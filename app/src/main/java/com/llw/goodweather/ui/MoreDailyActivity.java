@@ -91,10 +91,10 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
      * @param response
      */
     @Override
-    public void getMoreDailyResult(Response<DailyResponse> response) {
+    public void getMoreDailyResult(DailyResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<DailyResponse.DailyBean> data = response.body().getDaily();
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<DailyResponse.DailyBean> data = response.getDaily();
             //判空处理
             if (data != null && data.size() > 0) {
                 //添加数据之前先清除
@@ -115,7 +115,7 @@ public class MoreDailyActivity extends MvpActivity<MoreDailyContract.MoreDailyPr
                 ToastUtils.showShortToast(context, "天气预报数据为空");
             }
         } else {//异常状态码返回
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

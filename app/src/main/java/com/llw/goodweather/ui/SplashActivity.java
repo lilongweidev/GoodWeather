@@ -89,8 +89,6 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
                 .subscribe(granted -> {
                     if (granted) {//申请成功
                         //得到权限可以进入APP
-                        //加载世界国家数据到本地数据库,已有则不加载
-                        initCountryData();
                         //请求版本更新
                         mPresent.getAppInfo();
                         //获取必应壁纸
@@ -140,13 +138,10 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
      * 进入主页面
      */
     private void goToMain() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
-            }
+        new Handler().postDelayed(() -> {
+            finish();
+            Intent intent = new Intent(context, MainActivity.class);
+            startActivity(intent);
         }, 1000);
     }
 
@@ -161,23 +156,23 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
      * @param response
      */
     @Override
-    public void getAppInfoResult(Response<AppVersion> response) {
-        if (response.body() != null) {
+    public void getAppInfoResult(AppVersion response) {
+        if (response != null) {
             AppVersion appVersion = new AppVersion();
             //应用名称
-            appVersion.setName(response.body().getName());
+            appVersion.setName(response.getName());
             //应用版本 对应code
-            appVersion.setVersion(response.body().getVersion());
+            appVersion.setVersion(response.getVersion());
             //应用版本名
-            appVersion.setVersionShort(response.body().getVersionShort());
+            appVersion.setVersionShort(response.getVersionShort());
             //更新日志
-            appVersion.setChangelog(response.body().getChangelog());
+            appVersion.setChangelog(response.getChangelog());
             //更新地址
-            appVersion.setUpdate_url(response.body().getUpdate_url());
+            appVersion.setUpdate_url(response.getUpdate_url());
             //安装地址
-            appVersion.setInstall_url(response.body().getInstall_url());
+            appVersion.setInstall_url(response.getInstall_url());
             //APK大小
-            appVersion.setAppSize(String.valueOf(response.body().getBinary().getFsize()));
+            appVersion.setAppSize(String.valueOf(response.getBinary().getFsize()));
 
             //添加数据前先判断是否已经有数据了
             if (LitePal.find(AppVersion.class, 1) != null) {
@@ -196,12 +191,14 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
      * @param response BiYingImgResponse
      */
     @Override
-    public void getBiYingResult(Response<BiYingImgResponse> response) {
-        if (response.body().getImages() != null) {
+    public void getBiYingResult(BiYingImgResponse response) {
+        if (response.getImages() != null) {
             //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
-            String biyingUrl = "http://cn.bing.com" + response.body().getImages().get(0).getUrl();
+            String biyingUrl = "http://cn.bing.com" + response.getImages().get(0).getUrl();
             SPUtils.putString(Constant.EVERYDAY_TIP_IMG,biyingUrl,context);
 
+            //加载世界国家数据到本地数据库,已有则不加载
+            initCountryData();
         } else {
             ToastUtils.showShortToast(context, "未获取到必应的图片");
         }

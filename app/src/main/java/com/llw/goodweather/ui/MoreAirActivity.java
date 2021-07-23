@@ -102,11 +102,11 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
      * @param response
      */
     @Override
-    public void getSearchCityIdResult(Response<NewSearchCityResponse> response) {
+    public void getSearchCityIdResult(NewSearchCityResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
             showLoadingDialog();
-            List<NewSearchCityResponse.LocationBean> data = response.body().getLocation();
+            List<NewSearchCityResponse.LocationBean> data = response.getLocation();
             if (data != null && data.size() > 0) {
                 mPresent.air(data.get(0).getId());//查询该站点的空气质量数据
                 mPresent.airFive(data.get(0).getId());//查询该站点的空气质量数据
@@ -115,7 +115,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
             }
 
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -125,13 +125,13 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
      * @param response
      */
     @Override
-    public void getMoreAirResult(Response<AirNowResponse> response) {
+    public void getMoreAirResult(AirNowResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            AirNowResponse.NowBean data = response.body().getNow();
-            List<AirNowResponse.StationBean> station = response.body().getStation();
-            if (response.body().getNow() != null) {
-                String time = DateUtils.updateTime(response.body().getUpdateTime());//截去前面的字符，保留后面所有的字符，就剩下 22:00
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            AirNowResponse.NowBean data = response.getNow();
+            List<AirNowResponse.StationBean> station = response.getStation();
+            if (response.getNow() != null) {
+                String time = DateUtils.updateTime(response.getUpdateTime());//截去前面的字符，保留后面所有的字符，就剩下 22:00
                 tvOldTime.setText("最近更新时间：" + WeatherUtil.showTimeInfo(time) + time);
                 showAirBasicData(data);//展示基础数据
 
@@ -149,7 +149,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
                 ToastUtils.showShortToast(context, "空气质量数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 
@@ -159,9 +159,9 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
      * @param response
      */
     @Override
-    public void getMoreAirFiveResult(Response<MoreAirFiveResponse> response) {
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<MoreAirFiveResponse.DailyBean> data = response.body().getDaily();
+    public void getMoreAirFiveResult(MoreAirFiveResponse response) {
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<MoreAirFiveResponse.DailyBean> data = response.getDaily();
             if (data != null && data.size() > 0) {
                 MoreAirFiveAdapter adapter = new MoreAirFiveAdapter(R.layout.item_more_air_five_list, data);
                 LinearLayoutManager manager = new LinearLayoutManager(context);
@@ -172,7 +172,7 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
                 ToastUtils.showShortToast(context, "未来5天空气质量数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

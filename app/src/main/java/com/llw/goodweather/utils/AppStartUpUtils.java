@@ -11,6 +11,7 @@ import java.util.Date;
  * @author llw
  */
 public class AppStartUpUtils {
+
     /**
      * 判断是否是首次启动
      *
@@ -35,7 +36,6 @@ public class AppStartUpUtils {
      * @return
      */
     public static boolean isTodayFirstStartApp(Context context) {
-
         String saveDate = SPUtils.getString(Constant.START_UP_APP_TIME, "2020-08-27", context);
         String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         //第一次打开
@@ -45,6 +45,5 @@ public class AppStartUpUtils {
         } else {
             return false;
         }
-
     }
 }

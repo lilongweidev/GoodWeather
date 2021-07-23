@@ -1,15 +1,13 @@
 package com.llw.goodweather.contract;
 
+import android.annotation.SuppressLint;
+
 import com.llw.goodweather.api.ApiService;
 import com.llw.goodweather.bean.DailyResponse;
-import com.llw.goodweather.bean.WorldCityResponse;
 import com.llw.mvplibrary.base.BasePresenter;
 import com.llw.mvplibrary.base.BaseView;
-import com.llw.mvplibrary.net.NetCallBack;
-import com.llw.mvplibrary.net.ServiceGenerator;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import com.llw.mvplibrary.newnet.NetworkApi;
+import com.llw.mvplibrary.newnet.observer.BaseObserver;
 
 /**
  * 更多天气预报订阅器
@@ -25,23 +23,24 @@ public class MoreDailyContract {
          *
          * @param location 城市id
          */
+        @SuppressLint("CheckResult")
         public void dailyWeather(String location) {
-            ApiService service = ServiceGenerator.createService(ApiService.class, 3);
-            service.dailyWeather("15d", location).enqueue(new NetCallBack<DailyResponse>() {
+            ApiService service = NetworkApi.createService(ApiService.class, 3);
+            service.dailyWeather("15d", location).compose(NetworkApi.applySchedulers(new BaseObserver<DailyResponse>() {
                 @Override
-                public void onSuccess(Call<DailyResponse> call, Response<DailyResponse> response) {
+                public void onSuccess(DailyResponse dailyResponse) {
                     if (getView() != null) {
-                        getView().getMoreDailyResult(response);
+                        getView().getMoreDailyResult(dailyResponse);
                     }
                 }
 
                 @Override
-                public void onFailed() {
+                public void onFailure(Throwable e) {
                     if (getView() != null) {
                         getView().getDataFailed();
                     }
                 }
-            });
+            }));
         }
 
     }
@@ -49,7 +48,7 @@ public class MoreDailyContract {
     public interface IMoreDailyView extends BaseView {
 
         //更多天气预报返回数据 V7
-        void getMoreDailyResult(Response<DailyResponse> response);
+        void getMoreDailyResult(DailyResponse response);
 
         //错误返回
         void getDataFailed();

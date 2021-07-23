@@ -13,6 +13,7 @@ import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.llw.goodweather.utils.GlideUtil;
 import com.llw.mvplibrary.BaseApplication;
+import com.llw.mvplibrary.newnet.NetworkApi;
 import com.llw.mvplibrary.utils.ActivityManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -101,6 +102,9 @@ public class WeatherApplication extends BaseApplication {
 
             }
         });
+
+        //初始化网络框架
+        NetworkApi.init(new NetworkRequiredInfo(this));
 
         //初始化数据库
         LitePal.initialize(this);

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MVP Library</string>
+    <string name="network_environment_setting">网络环境设置</string>
+    <string name="network_change_tip">您已经更改了网络环境，在您退出当前页面的时候APP将会重启切换环境！</string>
 </resources>

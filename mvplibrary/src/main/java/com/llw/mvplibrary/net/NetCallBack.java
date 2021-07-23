@@ -19,7 +19,7 @@ public abstract class NetCallBack<T> implements Callback<T> {//这里实现了re
     //访问成功回调
     @Override
     public void onResponse(Call<T> call, Response<T> response) {//数据返回
-        if (response != null && response.body() != null && response.isSuccessful()) {
+        if (response.body() != null && response.isSuccessful()) {
 
             onSuccess(call, response);
 

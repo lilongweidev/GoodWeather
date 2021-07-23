@@ -67,10 +67,10 @@ public class MoreLifestyleActivity extends MvpActivity<MoreLifestyleContract.Mor
      * @param response
      */
     @Override
-    public void getMoreLifestyleResult(Response<LifestyleResponse> response) {
+    public void getMoreLifestyleResult(LifestyleResponse response) {
         dismissLoadingDialog();
-        if (response.body().getCode().equals(Constant.SUCCESS_CODE)) {
-            List<LifestyleResponse.DailyBean> data = response.body().getDaily();
+        if (response.getCode().equals(Constant.SUCCESS_CODE)) {
+            List<LifestyleResponse.DailyBean> data = response.getDaily();
             if (data != null && data.size() > 0) {
                 MoreLifestyleAdapter adapter = new MoreLifestyleAdapter(R.layout.item_more_lifestyle_list, data);
                 rv.setLayoutManager(new LinearLayoutManager(context));
@@ -80,7 +80,7 @@ public class MoreLifestyleActivity extends MvpActivity<MoreLifestyleContract.Mor
                 ToastUtils.showShortToast(context, "生活质量数据为空");
             }
         } else {
-            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.body().getCode()));
+            ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
     }
 

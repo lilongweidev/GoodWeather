@@ -56,15 +56,24 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     //权限请求框架
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
-    api 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    api "io.reactivex.rxjava2:rxjava:2.0.0"
+
     //状态栏
     api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     //支持okhttp
     api 'com.squareup.okhttp3:okhttp:3.8.1'
-    api 'com.squareup.retrofit2:retrofit:2.4.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+
+    //retrofit2
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
+    //这里用api 是为了让其他模块也可以使用gson
+    api 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //日志拦截器
+    api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //rxjava
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    api 'io.reactivex.rxjava2:rxjava:2.2.12'
+    api 'androidx.preference:preference:1.0.0'
+
     //阿里巴巴 FastJson
     api 'com.alibaba:fastjson:1.2.57'
     //下拉刷新框架

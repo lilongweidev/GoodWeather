@@ -5,6 +5,8 @@ buildscript {
         //新增
         mavenCentral()
         jcenter()
+        //新增友盟+应用性能监控maven
+        maven { url 'https://repo1.maven.org/maven2/' }
 
     }
     dependencies {
@@ -16,14 +18,12 @@ buildscript {
 
 allprojects {
     repositories {
-        //新增
         maven { url "https://jitpack.io" }
-        //新增
         mavenCentral()
-
         google()
         jcenter()
-
+        //新增友盟+应用性能监控maven
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
 }
 

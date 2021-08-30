@@ -23,6 +23,7 @@ import com.iflytek.cloud.msc.util.FileUtil;
 import com.iflytek.cloud.msc.util.log.DebugLog;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.umeng.umcrash.UMCrash;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -212,6 +213,7 @@ public class SpeechUtil {
             memoryFile.writeBytes(data, 0, (int) mTotalSize, data.length);
             mTotalSize += data.length;
         } catch (Exception e) {
+            UMCrash.generateCustomLog(e,"UmengException");
             e.printStackTrace();
         }
     }

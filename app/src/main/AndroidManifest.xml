@@ -9,11 +9,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/><!--获取手机状态-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 读取扩展存储 -->
-    <uses-permission android:name="android.permission.INTERNET" /><!--网络访问-->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /><!--应用安装-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" /><!--录音-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络访问 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 应用安装 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
 
     <application
         android:name=".WeatherApplication"
@@ -26,7 +28,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.SettingActivity"></activity>
+        <activity android:name=".ui.PrivacyPolicyActivity"></activity>
+        <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.WebActivity" />
         <activity android:name=".ui.WorldCityListActivity" />
         <activity android:name=".ui.ImageActivity" />
@@ -53,17 +56,14 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ui.CommonlyUsedCityActivity" />
         <activity android:name=".ui.WorldCityWeatherActivity" />
-        <activity android:name=".ui.SearchCityActivity" />
-
-        <!-- 百度定位AK -->
+        <activity android:name=".ui.SearchCityActivity" /> <!-- 百度定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Fh0NIFb6Tg8f7altVIpdGoDH0BR2myG4" /> <!-- 百度定位服务 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
-        <!-- 下载APK广播 -->
+            android:process=":remote" /> <!-- 下载APK广播 -->
         <receiver
             android:name=".receiver.DownloadApkReceiver"
             android:enabled="true"
@@ -71,8 +71,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
-        </receiver>
-        <!-- Android7.0以后读取文件需要配置Provider -->
+        </receiver> <!-- Android7.0以后读取文件需要配置Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.llw.goodweather.fileprovider"

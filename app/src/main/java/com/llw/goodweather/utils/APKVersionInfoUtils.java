@@ -1,6 +1,7 @@
 package com.llw.goodweather.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 /**
@@ -45,5 +46,25 @@ public class APKVersionInfoUtils {
         return verName;
     }
 
+    public static String getSubVersion(Context context) {
+        String subVersion = null;
+        if (isApkInDebug(context)) {
+            subVersion = "debug";
+        } else {
+            subVersion = "release";
+        }
+        return subVersion;
+    }
+
+    //判断当前应用是否是debug状态
+    public static boolean isApkInDebug(Context context) {
+
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

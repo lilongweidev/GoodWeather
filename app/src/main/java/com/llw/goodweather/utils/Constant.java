@@ -123,5 +123,14 @@ public class Constant {
      */
     public static final String VOLUME = "volume";
 
+    /**
+     * 是否同意隐私协议
+     */
+    public static final String AGREE= "agree";
+
+    /**
+     * 友盟SDK  AppKey
+     */
+    public static final String U_MENG_APPKEY = "612a33dc4bede245d9edf7c4";
 
 }

@@ -12,6 +12,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.llw.goodweather.MainActivity;
 import com.llw.goodweather.R;
@@ -24,7 +25,10 @@ import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.bean.Country;
 import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.utils.SizeUtils;
+import com.llw.mvplibrary.view.dialog.AlertDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.commonsdk.UMConfigure;
 
 import org.litepal.LitePal;
 
@@ -43,18 +47,20 @@ import retrofit2.Response;
  * @author llw
  */
 public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> implements SplashContract.ISplashView {
-
     /**
      * 权限请求框架
      */
     private RxPermissions rxPermissions;
+    private static AlertDialog privacyPolicyDialog;
 
     @Override
     public void initData(Bundle savedInstanceState) {
         //透明状态栏
         StatusBarUtil.transparencyBar(context);
-        permissionVersion();//权限判断
+        agreePrivacyPolicy();
     }
+
+
 
     @Override
     public int getLayoutId() {
@@ -71,7 +77,7 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
             permissionsRequest();
         } else {//6.0以下
             //发现只要权限在AndroidManifest.xml中注册过，均会认为该权限granted  提示一下即可
-            ToastUtils.showShortToast(this, "你的版本在Android6.0以下，不需要动态申请权限。");
+            ToastUtils.showShortToast(this, "你的手机版本在Android6.0以下，不需要动态申请权限。");
         }
     }
 
@@ -85,7 +91,8 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
         rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO)
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_PHONE_STATE)
                 .subscribe(granted -> {
                     if (granted) {//申请成功
                         //得到权限可以进入APP
@@ -210,5 +217,45 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
     }
 
 
+    /**
+     * 同意隐私政策
+     */
+    private void agreePrivacyPolicy() {
+        boolean isAgree = SPUtils.getBoolean(Constant.AGREE, false,context);
+        if (isAgree) {
+            //权限请求判断
+            permissionVersion();
+        } else {
+            //隐私协议
+            showPrivacyPolicyDialog();
+        }
+    }
+
+    /**
+     * 显示隐私政策入口弹窗
+     */
+    public void showPrivacyPolicyDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .addDefaultAnimation()
+                .setContentView(R.layout.dialog_privacy_policy)
+                .setCancelable(true)
+                .setWidthAndHeight(SizeUtils.dp2px(SplashActivity.this, 280), LinearLayout.LayoutParams.WRAP_CONTENT)
+                .setOnClickListener(R.id.tv_privacy_policy, v -> {
+                    startActivity(new Intent(this, PrivacyPolicyActivity.class));
+                }).setOnClickListener(R.id.tv_no_used, v -> {
+                    ToastUtils.showShortToast(context,"不同意隐私政策，无法正常使用App，请退出App，重新进入。");
+                    privacyPolicyDialog.dismiss();
+                }).setOnClickListener(R.id.tv_agree, v -> {
+                    //已同意隐私政策
+                    SPUtils.putBoolean(Constant.AGREE, true,context);
+                    //友盟SDK初始化
+                    UMConfigure.init(this, Constant.U_MENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+                    //权限请求判断
+                    permissionVersion();
+                    privacyPolicyDialog.dismiss();
+                });
+        privacyPolicyDialog = builder.create();
+        privacyPolicyDialog.show();
+    }
 
 }

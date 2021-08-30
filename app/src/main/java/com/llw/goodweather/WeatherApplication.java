@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -11,8 +12,12 @@ import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
+import com.llw.goodweather.utils.APKVersionInfoUtils;
+import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.GlideUtil;
+import com.llw.goodweather.utils.SPUtils;
 import com.llw.mvplibrary.BaseApplication;
+import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.newnet.NetworkApi;
 import com.llw.mvplibrary.utils.ActivityManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -24,6 +29,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.uc.crashsdk.export.CrashApi;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.umcrash.UMCrash;
+import com.umeng.umcrash.UMCrashCallback;
 
 import org.litepal.LitePal;
 
@@ -119,6 +128,41 @@ public class WeatherApplication extends BaseApplication {
         CrashReport.initCrashReport(getApplicationContext(), "d3637c0f25", true);
         //配置讯飞语音SDK
         SpeechUtility.createUtility(this, SpeechConstant.APPID +"=6018c2cb");
+
+        //用户是否同意隐私政策
+        boolean isAgree = SPUtils.getBoolean(Constant.AGREE, false,context);
+        if (isAgree) {
+            //友盟SDK初始化
+            UMConfigure.init(this, Constant.U_MENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+        } else {
+            //预初始化
+            UMConfigure.preInit(this, Constant.U_MENG_APPKEY,"Umeng");
+        }
+        //友盟配置
+        umengConfig();
+    }
+
+    /**
+     * 友盟配置
+     */
+    private void umengConfig() {
+        //设置App版本
+        UMCrash.setAppVersion(
+                APKVersionInfoUtils.getVerName(this),
+                APKVersionInfoUtils.getSubVersion(this), Build.ID);
+
+        //针对于Native崩溃信息采集
+//        final Bundle customInfo = new Bundle();
+//        customInfo.putBoolean("mCallNativeDefaultHandler",true);
+//        CrashApi.getInstance().updateCustomInfo(customInfo);
+
+        //崩溃回调
+        UMCrash.registerUMCrashCallback(new UMCrashCallback(){
+            @Override
+            public String onCallback(){
+                return "App程序崩溃了";
+            }
+        });
     }
 
 

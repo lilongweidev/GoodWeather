@@ -3,7 +3,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.mvplibrary.bean.ResidentCity;
 
@@ -22,8 +22,5 @@ public class CommonlyCityAdapter extends BaseQuickAdapter<ResidentCity, BaseView
     @Override
     protected void convert(BaseViewHolder helper, ResidentCity item) {
         helper.setText(R.id.tv_city_name, item.getLocation());
-        //添加点击事件
-        helper.addOnClickListener(R.id.tv_city_name)
-                .addOnClickListener(R.id.btn_delete);
     }
 }

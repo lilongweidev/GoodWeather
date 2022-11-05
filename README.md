@@ -89,7 +89,8 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（三十二）快捷切换常用城市](https://blog.csdn.net/qq_38436214/article/details/113498027)<br>
 [Android 天气APP（三十三）语音播报](https://blog.csdn.net/qq_38436214/article/details/113544891)<br>
 [Android 天气APP（三十四）语音搜索](https://blog.csdn.net/qq_38436214/article/details/113699279)<br>
-[Android 天气APP（三十五）修复BUG、升级网络请求框架](https://blog.csdn.net/qq_38436214/article/details/119295627?spm=1001.2014.3001.5501)<br>
+[Android 天气APP（三十五）修复BUG、升级网络请求框架](https://blog.csdn.net/qq_38436214/article/details/119295627)<br>
+[Android 天气APP（三十六）运行到本地AS、更新项目版本依赖、去掉ButterKnife](https://blog.csdn.net/qq_38436214/article/details/127673536)<br>
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
 
@@ -98,7 +99,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 博主：[初学者-Study](https://blog.csdn.net/qq_38436214)<br>
 
 ## 版本说明
-### V 2.8 (最新版本)
+### V 2.9 (最新版本)
+* 新版AS正常编译、更新项目版本依赖、去掉ButterKnife，使用ViewBinding<br>
+### V 2.8
 * 增加友盟+性能监控SDK<br>
 ### V 2.7 
 * 修复UI显示问题、资源图片处理、优化网络请求框架<br>

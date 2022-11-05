@@ -1,5 +1,6 @@
 package com.llw.mvplibrary;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,7 +11,9 @@ import com.llw.mvplibrary.utils.ActivityManager;
  */
 public class BaseApplication extends Application {
     private static ActivityManager activityManager;
+    @SuppressLint("StaticFieldLeak")
     private  static BaseApplication application;
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
 
     @Override
@@ -28,8 +31,6 @@ public class BaseApplication extends Application {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
-
 
     public static ActivityManager getActivityManager() {
         return activityManager;

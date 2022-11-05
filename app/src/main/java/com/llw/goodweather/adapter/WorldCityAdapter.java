@@ -3,7 +3,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.WorldCityResponse;
 
@@ -23,7 +23,5 @@ public class WorldCityAdapter extends BaseQuickAdapter<WorldCityResponse.TopCity
     protected void convert(BaseViewHolder helper, WorldCityResponse.TopCityListBean item) {
         //名称
         helper.setText(R.id.tv_city, item.getName());
-        //点击事件
-        helper.addOnClickListener(R.id.tv_city);
     }
 }

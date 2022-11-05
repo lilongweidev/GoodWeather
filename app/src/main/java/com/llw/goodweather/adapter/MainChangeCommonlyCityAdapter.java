@@ -4,7 +4,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.mvplibrary.bean.ResidentCity;
 
@@ -22,8 +22,6 @@ public class MainChangeCommonlyCityAdapter extends BaseQuickAdapter<ResidentCity
 
     @Override
     protected void convert(BaseViewHolder helper, ResidentCity item) {
-        helper.setText(R.id.tv_city, item.getLocation())
-                .addOnClickListener(R.id.tv_city);
-
+        helper.setText(R.id.tv_city, item.getLocation());
     }
 }

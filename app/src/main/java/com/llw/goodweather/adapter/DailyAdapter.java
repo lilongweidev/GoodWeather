@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.DailyResponse;
 import com.llw.goodweather.utils.DateUtils;
@@ -39,7 +39,5 @@ public class DailyAdapter extends BaseQuickAdapter<DailyResponse.DailyBean, Base
         int code = Integer.parseInt(item.getIconDay());
         //调用工具类中写好的方法
         WeatherUtil.changeIcon(weatherStateIcon, code);
-        //绑定点击事件的id
-        helper.addOnClickListener(R.id.item_forecast);
     }
 }

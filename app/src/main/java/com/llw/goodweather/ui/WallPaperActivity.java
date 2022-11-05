@@ -1,46 +1,33 @@
 package com.llw.goodweather.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.WallPaperAdapter;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.bean.WallPaperResponse;
 import com.llw.goodweather.contract.WallPaperContract;
+import com.llw.goodweather.databinding.ActivityWallPaperBinding;
 import com.llw.goodweather.utils.CameraUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.WallPaper;
-import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.mvp.MvpVBActivity;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
-
 import org.litepal.LitePal;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import retrofit2.Response;
 
 import static com.llw.goodweather.utils.Constant.SELECT_PHOTO;
 
@@ -49,30 +36,8 @@ import static com.llw.goodweather.utils.Constant.SELECT_PHOTO;
  *
  * @author llw
  */
-public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPresenter> implements WallPaperContract.IWallPaperView {
-
-
-    /**
-     * 标题
-     */
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    /**
-     * 数据列表
-     */
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    /**
-     * AppBarLayout布局
-     */
-    @BindView(R.id.appbar)
-    AppBarLayout appbar;
-    /**
-     * 底部浮动按钮
-     */
-    @BindView(R.id.fab_setting)
-    FloatingActionButton fabSetting;
-
+public class WallPaperActivity extends MvpVBActivity<ActivityWallPaperBinding, WallPaperContract.WallPaperPresenter>
+        implements WallPaperContract.IWallPaperView {
 
     /**
      * 壁纸数据列表
@@ -109,17 +74,21 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         //加载弹窗
         showLoadingDialog();
         //高亮状态栏
         StatusBarUtil.StatusBarLightMode(this);
         //左上角的返回
-        Back(toolbar);
+        Back(binding.toolbar);
         initWallPaperList();
 
+        binding.fabSetting.setOnClickListener(v -> {
+            binding.fabSetting.hide();
+            int type = SPUtils.getInt(Constant.WALLPAPER_TYPE, 4, context);
+            showSettingDialog(type);
+        });
     }
-
 
     /**
      * 初始化列表数据
@@ -136,14 +105,14 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
         //瀑布流
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         //设置布局管理
-        rv.setLayoutManager(manager);
+        binding.rv.setLayoutManager(manager);
         //设置数据适配器
-        rv.setAdapter(mAdapter);
+        binding.rv.setAdapter(mAdapter);
         //请求数据
         mPresent.getWallPaper();
         //获取必应壁纸
         mPresent.biying();
-
+        mAdapter.addChildClickViewIds(R.id.item_wallpaper);//添加点击事件
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             //这里的列表数据实际上有32条，有两条假数据，就是首尾这两条，所以点击的时候要做判断处理
             if (position == 0 || position == mList.size() - 1) {//是否为第一条或者最后一条
@@ -157,24 +126,18 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
         });
 
         //滑动监听
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (dy <= 0) {
-                    fabSetting.show();
+                    binding.fabSetting.show();
                 } else {//上滑
-                    fabSetting.hide();
+                    binding.fabSetting.hide();
                 }
             }
         });
 
-    }
-
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_wall_paper;
     }
 
     @Override
@@ -256,15 +219,6 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
         ToastUtils.showShortToast(context, "请求超时");
     }
 
-
-    @OnClick(R.id.fab_setting)
-    public void onViewClicked() {
-        fabSetting.hide();
-        int type = SPUtils.getInt(Constant.WALLPAPER_TYPE, 4, context);
-        showSettingDialog(type);
-    }
-
-
     /**
      * 壁纸底部弹窗弹窗
      */
@@ -280,11 +234,9 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 //壁纸列表
                 .setOnClickListener(R.id.lay_wallpaper_list, v -> {
-
                     Intent intent = new Intent(context, ImageActivity.class);
                     intent.putExtra("position", 0);
                     startActivity(intent);
-
                     bottomSettingDialog.dismiss();
                     //每日一图
                 }).setOnClickListener(R.id.lay_everyday_wallpaper, v -> {
@@ -306,44 +258,31 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
                     bottomSettingDialog.dismiss();
                 });
 
-
         bottomSettingDialog = builder.create();
-
         ImageView iv_wallpaper_list = (ImageView) bottomSettingDialog.getView(R.id.iv_wallpaper_list);
         ImageView iv_everyday_wallpaper = (ImageView) bottomSettingDialog.getView(R.id.iv_everyday_wallpaper);
         ImageView iv_upload_wallpaper = (ImageView) bottomSettingDialog.getView(R.id.iv_upload_wallpaper);
         ImageView iv_default_wallpaper = (ImageView) bottomSettingDialog.getView(R.id.iv_default_wallpaper);
         switch (type) {
-            //壁纸列表
-            case 1:
+            case 1://壁纸列表
                 iv_wallpaper_list.setVisibility(View.VISIBLE);
                 break;
-            //每日一图
-            case 2:
+            case 2://每日一图
                 iv_everyday_wallpaper.setVisibility(View.VISIBLE);
                 break;
-            //手动上传
-            case 3:
+            case 3://手动上传
                 iv_upload_wallpaper.setVisibility(View.VISIBLE);
                 break;
-            //默认壁纸
-            case 4:
+            case 4://默认壁纸
                 iv_default_wallpaper.setVisibility(View.VISIBLE);
                 break;
             default:
                 iv_default_wallpaper.setVisibility(View.GONE);
                 break;
         }
-
         bottomSettingDialog.show();
-
         //弹窗关闭监听
-        bottomSettingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                fabSetting.show();
-            }
-        });
+        bottomSettingDialog.setOnDismissListener(dialog -> binding.fabSetting.show());
     }
 
 
@@ -394,6 +333,5 @@ public class WallPaperActivity extends MvpActivity<WallPaperContract.WallPaperPr
             ToastUtils.showShortToast(context, "图片获取失败");
         }
     }
-
 
 }

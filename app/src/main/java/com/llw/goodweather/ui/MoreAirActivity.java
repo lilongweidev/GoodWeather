@@ -1,15 +1,8 @@
 package com.llw.goodweather.ui;
 
-import android.os.Build;
-import android.os.Bundle;
-import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.MoreAirFiveAdapter;
 import com.llw.goodweather.adapter.MoreAirStationAdapter;
@@ -17,78 +10,31 @@ import com.llw.goodweather.bean.AirNowResponse;
 import com.llw.goodweather.bean.MoreAirFiveResponse;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.contract.MoreAirContract;
+import com.llw.goodweather.databinding.ActivityMoreAirBinding;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.DateUtils;
-import com.llw.mvplibrary.view.LineProgressbar;
+import com.llw.mvplibrary.mvp.MvpVBActivity;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.goodweather.utils.WeatherUtil;
-import com.llw.mvplibrary.mvp.MvpActivity;
-import com.llw.mvplibrary.view.RoundProgressBar;
-
 import java.util.List;
-
-import butterknife.BindView;
-import retrofit2.Response;
 
 /**
  * 更多空气质量信息
  *
  * @author llw
  */
-public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresenter> implements MoreAirContract.IMoreAirView {
-
-    @BindView(R.id.tv_title)
-    TextView tvTitle;//标题
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;//toolbar
-    @BindView(R.id.rpb_aqi)
-    RoundProgressBar rpbAqi;//圆环进度条
-    @BindView(R.id.tv_pm10)
-    TextView tvPm10;//pm10
-    @BindView(R.id.tv_pm25)
-    TextView tvPm25;//pm2.5
-    @BindView(R.id.tv_no2)
-    TextView tvNo2;//二氧化氮
-    @BindView(R.id.tv_so2)
-    TextView tvSo2;//二氧化硫
-    @BindView(R.id.tv_o3)
-    TextView tvO3;//臭氧
-    @BindView(R.id.tv_co)
-    TextView tvCo;//一氧化碳
-    @BindView(R.id.tv_old_time)
-    TextView tvOldTime;//最近更新时间
-    @BindView(R.id.rv_station)
-    RecyclerView rvStation;//检测站数据列表
-    @BindView(R.id.progress_pm10)
-    LineProgressbar progressPm10;//pm10含量进度条展示
-    @BindView(R.id.progress_pm25)
-    LineProgressbar progressPm25;//pm2.5含量进度条展示
-    @BindView(R.id.progress_no2)
-    LineProgressbar progressNo2;//二氧化氮含量进度条展示
-    @BindView(R.id.progress_so2)
-    LineProgressbar progressSo2;//二氧化硫含量进度条展示
-    @BindView(R.id.progress_o3)
-    LineProgressbar progressO3;//臭氧含量进度条展示
-    @BindView(R.id.progress_co)
-    LineProgressbar progressCo;//一氧化碳含量进度条展示
-    @BindView(R.id.rv_five_air)
-    RecyclerView rvFiveAir;//最近5天空气质量列表
+public class MoreAirActivity extends MvpVBActivity<ActivityMoreAirBinding, MoreAirContract.MoreAirPresenter> implements MoreAirContract.IMoreAirView {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         StatusBarUtil.transparencyBar(context);//透明状态栏
-        Back(toolbar);
+        Back(binding.toolbar);
         showLoadingDialog();
         String stationName = getIntent().getStringExtra("stationName");
-        tvTitle.setText(stationName + " - " + getIntent().getStringExtra("cityName"));
+        binding.tvTitle.setText(stationName + " - " + getIntent().getStringExtra("cityName"));
         mPresent.searchCityId(stationName);//搜索城市返回Id
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_more_air;
     }
 
     @Override
@@ -132,19 +78,18 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
             List<AirNowResponse.StationBean> station = response.getStation();
             if (response.getNow() != null) {
                 String time = DateUtils.updateTime(response.getUpdateTime());//截去前面的字符，保留后面所有的字符，就剩下 22:00
-                tvOldTime.setText("最近更新时间：" + WeatherUtil.showTimeInfo(time) + time);
+                binding.tvOldTime.setText("最近更新时间：" + WeatherUtil.showTimeInfo(time) + time);
                 showAirBasicData(data);//展示基础数据
 
                 //展示检测站列表数据
                 MoreAirStationAdapter mAdapter = new MoreAirStationAdapter(R.layout.item_more_air_station_list, station);
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
                 linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-                rvStation.setLayoutManager(linearLayoutManager);
+                binding.rvStation.setLayoutManager(linearLayoutManager);
                 PagerSnapHelper snapHelper = new PagerSnapHelper();
-                rvStation.setOnFlingListener(null);//避免抛异常
-                snapHelper.attachToRecyclerView(rvStation);//滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
-                rvStation.setAdapter(mAdapter);
-
+                binding.rvStation.setOnFlingListener(null);//避免抛异常
+                snapHelper.attachToRecyclerView(binding.rvStation);//滚动对齐，使RecyclerView像ViewPage一样，一次滑动一项,居中
+                binding.rvStation.setAdapter(mAdapter);
             } else {
                 ToastUtils.showShortToast(context, "空气质量数据为空");
             }
@@ -166,8 +111,8 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
                 MoreAirFiveAdapter adapter = new MoreAirFiveAdapter(R.layout.item_more_air_five_list, data);
                 LinearLayoutManager manager = new LinearLayoutManager(context);
                 manager.setOrientation(RecyclerView.HORIZONTAL);
-                rvFiveAir.setLayoutManager(manager);
-                rvFiveAir.setAdapter(adapter);
+                binding.rvFiveAir.setLayoutManager(manager);
+                binding.rvFiveAir.setAdapter(adapter);
             } else {
                 ToastUtils.showShortToast(context, "未来5天空气质量数据为空");
             }
@@ -182,33 +127,33 @@ public class MoreAirActivity extends MvpActivity<MoreAirContract.MoreAirPresente
      * @param data 数据源
      */
     private void showAirBasicData(AirNowResponse.NowBean data) {
-        rpbAqi.setMaxProgress(300);//最大进度，用于计算
-        rpbAqi.setMinText("0");//设置显示最小值
-        rpbAqi.setMinTextSize(32f);
-        rpbAqi.setMaxText("300");//设置显示最大值
-        rpbAqi.setMaxTextSize(32f);
-        rpbAqi.setProgress(Float.valueOf(data.getAqi()));//当前进度
-        rpbAqi.setArcBgColor(getResources().getColor(R.color.arc_bg_color));//圆弧的颜色
-        rpbAqi.setProgressColor(getResources().getColor(R.color.arc_progress_color));//进度圆弧的颜色
-        rpbAqi.setFirstText(data.getCategory());//空气质量描述 取值范围：优，良，轻度污染，中度污染，重度污染，严重污染
-        rpbAqi.setFirstTextSize(44f);//第一行文本的字体大小
-        rpbAqi.setSecondText(data.getAqi());//空气质量值
-        rpbAqi.setSecondTextSize(64f);//第二行文本的字体大小
-        rpbAqi.setMinText("0");
-        rpbAqi.setMinTextColor(getResources().getColor(R.color.arc_progress_color));
+        binding.rpbAqi.setMaxProgress(300);//最大进度，用于计算
+        binding.rpbAqi.setMinText("0");//设置显示最小值
+        binding.rpbAqi.setMinTextSize(32f);
+        binding.rpbAqi.setMaxText("300");//设置显示最大值
+        binding.rpbAqi.setMaxTextSize(32f);
+        binding.rpbAqi.setProgress(Float.valueOf(data.getAqi()));//当前进度
+        binding.rpbAqi.setArcBgColor(getResources().getColor(R.color.arc_bg_color));//圆弧的颜色
+        binding.rpbAqi.setProgressColor(getResources().getColor(R.color.arc_progress_color));//进度圆弧的颜色
+        binding.rpbAqi.setFirstText(data.getCategory());//空气质量描述 取值范围：优，良，轻度污染，中度污染，重度污染，严重污染
+        binding.rpbAqi.setFirstTextSize(44f);//第一行文本的字体大小
+        binding.rpbAqi.setSecondText(data.getAqi());//空气质量值
+        binding.rpbAqi.setSecondTextSize(64f);//第二行文本的字体大小
+        binding.rpbAqi.setMinText("0");
+        binding.rpbAqi.setMinTextColor(getResources().getColor(R.color.arc_progress_color));
 
-        tvPm10.setText(data.getPm10());//PM10  + " μg/m3"
-        progressPm10.setProgress(data.getPm10(), 100);
-        tvPm25.setText(data.getPm2p5());//PM2.5
-        progressPm25.setProgress(data.getPm2p5(), 100);
-        tvNo2.setText(data.getNo2());//二氧化氮
-        progressNo2.setProgress(data.getNo2(), 100);
-        tvSo2.setText(data.getSo2());//二氧化硫
-        progressSo2.setProgress(data.getSo2(), 100);
-        tvO3.setText(data.getO3());//臭氧
-        progressO3.setProgress(data.getO3(), 100);
-        tvCo.setText(data.getCo());//一氧化碳
-        progressCo.setProgress(data.getCo(), 100);
+        binding.tvPm10.setText(data.getPm10());//PM10  + " μg/m3"
+        binding.progressPm10.setProgress(data.getPm10(), 100);
+        binding.tvPm25.setText(data.getPm2p5());//PM2.5
+        binding.progressPm25.setProgress(data.getPm2p5(), 100);
+        binding.tvNo2.setText(data.getNo2());//二氧化氮
+        binding.progressNo2.setProgress(data.getNo2(), 100);
+        binding.tvSo2.setText(data.getSo2());//二氧化硫
+        binding.progressSo2.setProgress(data.getSo2(), 100);
+        binding.tvO3.setText(data.getO3());//臭氧
+        binding.progressO3.setProgress(data.getO3(), 100);
+        binding.tvCo.setText(data.getCo());//一氧化碳
+        binding.progressCo.setProgress(data.getCo(), 100);
     }
 
     /**

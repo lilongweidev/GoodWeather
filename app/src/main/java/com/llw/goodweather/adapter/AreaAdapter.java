@@ -3,7 +3,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.CityResponse;
 
@@ -24,7 +24,5 @@ public class AreaAdapter extends BaseQuickAdapter<CityResponse.CityBean.AreaBean
     protected void convert(BaseViewHolder helper, CityResponse.CityBean.AreaBean item) {
         //区/县的名称
         helper.setText(R.id.tv_city, item.getName());
-        //点击事件 点击之后得到区/县  然后查询天气数据
-        helper.addOnClickListener(R.id.item_city);
     }
 }

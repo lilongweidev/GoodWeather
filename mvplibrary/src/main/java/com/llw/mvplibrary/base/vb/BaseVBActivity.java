@@ -1,58 +1,56 @@
-package com.llw.mvplibrary.base;
+package com.llw.mvplibrary.base.vb;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.view.View;
+import android.view.LayoutInflater;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewbinding.ViewBinding;
 
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
-import com.llw.mvplibrary.kit.KnifeKit;
 
-import butterknife.Unbinder;
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
- * 用于不需要请求网络接口的Activity
- *
- * @author llw
+ * BaseVBActivity
+ * @param <T>
  */
-public abstract class BaseActivity extends AppCompatActivity implements UiCallBack {
+public abstract class BaseVBActivity<T extends ViewBinding> extends AppCompatActivity implements UiVBCallback {
+
+    public T binding;
+    protected Activity context;
     private static final int FAST_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
-    protected Activity context;
-    private Unbinder unbinder;
-    /**
-     * 加载弹窗
-     */
     private Dialog mDialog;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        onRegister();
         super.onCreate(savedInstanceState);
         initBeforeView(savedInstanceState);
         this.context = this;
-        //添加继承这个BaseActivity的Activity
+        //添加继承这个BaseVBActivity的Activity
         BaseApplication.getActivityManager().addActivity(this);
-        if (getLayoutId() > 0) {
-            setContentView(getLayoutId());
-            unbinder = KnifeKit.bind(this);
+
+        Type type = this.getClass().getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            try {
+                Class<T> clazz = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
+                //反射
+                Method method = clazz.getMethod("inflate", LayoutInflater.class);
+                binding = (T) method.invoke(null, getLayoutInflater());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            setContentView(binding.getRoot());
         }
-        initData(savedInstanceState);
-    }
-
-    @Override
-    public void initBeforeView(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
+        initData();
     }
 
     /**
@@ -80,17 +78,12 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
 
     /**
      * 返回
-     *
-     * @param toolbar
      */
     protected void Back(Toolbar toolbar) {
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        toolbar.setNavigationOnClickListener(v -> {
+            context.finish();
+            if (!isFastClick()) {
                 context.finish();
-                if (!isFastClick()) {
-                    context.finish();
-                }
             }
         });
     }
@@ -110,5 +103,4 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
 
         return flag;
     }
-
 }

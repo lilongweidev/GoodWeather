@@ -1,37 +1,24 @@
 package com.llw.goodweather.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import com.llw.goodweather.R;
-import com.llw.mvplibrary.base.BaseActivity;
+import com.llw.goodweather.databinding.ActivityPrivacyPolicyBinding;
+import com.llw.mvplibrary.base.vb.BaseVBActivity;
 
 /**
  * 隐私页面页面
  * @author lonel
  */
-public class PrivacyPolicyActivity extends BaseActivity {
-    private WebView webView;
-    @Override
-    public void initData(Bundle savedInstanceState) {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
-        webView = findViewById(R.id.webview);
+public class PrivacyPolicyActivity extends BaseVBActivity<ActivityPrivacyPolicyBinding> {
 
+    @Override
+    public void initData() {
+        Back(binding.toolbar);
         loadUrl("https://www.umeng.com/page/policy");
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_privacy_policy;
     }
 
     /**
@@ -44,7 +31,7 @@ public class PrivacyPolicyActivity extends BaseActivity {
             return;
         }
 
-        WebSettings webSetting = webView.getSettings();
+        WebSettings webSetting = binding.webview.getSettings();
         //设置JS允许
         webSetting.setJavaScriptEnabled(true);
         //设置WebView是否使用viewport
@@ -67,9 +54,9 @@ public class PrivacyPolicyActivity extends BaseActivity {
         webSetting.setGeolocationEnabled(true);//地理位置
         webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//读取缓存
 
-        webView.loadUrl(url);
+        binding.webview.loadUrl(url);
 
-        webView.setWebViewClient(new WebViewClient() {
+        binding.webview.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -86,7 +73,7 @@ public class PrivacyPolicyActivity extends BaseActivity {
         });
 
         //进度
-        webView.setWebChromeClient(new WebChromeClient() {
+        binding.webview.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView webView, int newProgress) {
                 super.onProgressChanged(webView, newProgress);

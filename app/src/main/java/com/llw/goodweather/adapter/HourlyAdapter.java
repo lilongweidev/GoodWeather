@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.HourlyResponse;
 import com.llw.goodweather.utils.DateUtils;
@@ -42,6 +42,5 @@ public class HourlyAdapter extends BaseQuickAdapter<HourlyResponse.HourlyBean, B
         //获取天气状态码，根据状态码来显示图标
         int code = Integer.parseInt(item.getIcon());
         WeatherUtil.changeIcon(weatherStateIcon, code);
-        helper.addOnClickListener(R.id.item_hourly);
     }
 }

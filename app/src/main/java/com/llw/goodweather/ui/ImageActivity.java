@@ -5,31 +5,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.google.android.material.button.MaterialButton;
-import com.google.gson.Gson;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
+import com.llw.goodweather.databinding.ActivityImageBinding;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
-import com.llw.mvplibrary.base.BaseActivity;
+import com.llw.mvplibrary.base.vb.BaseVBActivity;
 import com.llw.mvplibrary.bean.WallPaper;
-
 import org.litepal.LitePal;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,23 +34,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * 查看图片
  *
  * @author llw
  */
-public class ImageActivity extends BaseActivity {
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.btn_setting_wallpaper)
-    MaterialButton btnSettingWallpaper;
-    @BindView(R.id.btn_download)
-    MaterialButton btnDownload;
-    @BindView(R.id.vp)
-    ViewPager2 vp;
+public class ImageActivity extends BaseVBActivity<ActivityImageBinding> implements View.OnClickListener {
 
     List<WallPaper> mList = new ArrayList<>();
     WallPaperAdapter mAdapter;
@@ -67,7 +50,7 @@ public class ImageActivity extends BaseActivity {
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         showLoadingDialog();
         //透明状态栏
         StatusBarUtil.transparencyBar(context);
@@ -86,9 +69,9 @@ public class ImageActivity extends BaseActivity {
 
         mAdapter = new WallPaperAdapter(R.layout.item_image_list, mList);
         //ViewPager2实现方式
-        vp.setAdapter(mAdapter);
+        binding.vp.setAdapter(mAdapter);
 
-        vp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.vp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 Log.d("position-->", "" + position);
@@ -98,20 +81,19 @@ public class ImageActivity extends BaseActivity {
         });
 
         mAdapter.notifyDataSetChanged();
-        vp.setCurrentItem(position, false);
+        binding.vp.setCurrentItem(position, false);
 
         dismissLoadingDialog();
+
+        //添加点击监听
+        binding.ivBack.setOnClickListener(this);
+        binding.btnSettingWallpaper.setOnClickListener(this);
+        binding.btnDownload.setOnClickListener(this);
     }
 
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_image;
-    }
-
-
-    @OnClick({R.id.iv_back, R.id.btn_setting_wallpaper, R.id.btn_download})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
@@ -135,7 +117,7 @@ public class ImageActivity extends BaseActivity {
     /**
      * 壁纸适配器
      */
-    public class WallPaperAdapter extends BaseQuickAdapter<WallPaper, BaseViewHolder> {
+    public static class WallPaperAdapter extends BaseQuickAdapter<WallPaper, BaseViewHolder> {
 
         public WallPaperAdapter(int layoutResId, @Nullable List<WallPaper> data) {
             super(layoutResId, data);
@@ -144,7 +126,7 @@ public class ImageActivity extends BaseActivity {
         @Override
         protected void convert(BaseViewHolder helper, WallPaper item) {
             ImageView imageView = helper.getView(R.id.wallpaper);
-            Glide.with(mContext).load(item.getImgUrl()).into(imageView);
+            Glide.with(getContext()).load(item.getImgUrl()).into(imageView);
         }
     }
 
@@ -153,7 +135,7 @@ public class ImageActivity extends BaseActivity {
      *
      * @param context 上下文
      * @param bitmap  bitmap
-     * @return
+     * @return 结果
      */
     public boolean saveImageToGallery(Context context, Bitmap bitmap) {
         // 首先保存图片

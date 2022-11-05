@@ -3,7 +3,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 
@@ -23,8 +23,5 @@ public class SearchCityAdapter extends BaseQuickAdapter<NewSearchCityResponse.Lo
     protected void convert(BaseViewHolder helper, NewSearchCityResponse.LocationBean item) {
         //城市名称
         helper.setText(R.id.tv_city_name, item.getName());
-        //绑定点击事件
-        helper.addOnClickListener(R.id.tv_city_name);
-
     }
 }

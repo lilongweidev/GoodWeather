@@ -1,37 +1,25 @@
 package com.llw.goodweather.ui;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import com.llw.goodweather.databinding.ActivityWebBinding;
+import com.llw.mvplibrary.base.vb.BaseVBActivity;
 
-import com.llw.goodweather.R;
-import com.llw.goodweather.utils.Constant;
-import com.llw.goodweather.utils.SPUtils;
-import com.llw.mvplibrary.base.BaseActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 网页
  *
  * @author llw
  */
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseVBActivity<ActivityWebBinding> {
 
-    @BindView(R.id.webView)
-    WebView webView;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        /*String url = SPUtils.getString(Constant.PREC_MORE_URL, null, context);
-
-        loadUrl(url);*/
-    }
+    public void initData() {}
 
     /**
      * 加载网页Url
@@ -43,7 +31,7 @@ public class WebActivity extends BaseActivity {
             return;
         }
 
-        WebSettings webSetting = webView.getSettings();
+        WebSettings webSetting = binding.webView.getSettings();
         //设置JS允许
         webSetting.setJavaScriptEnabled(true);
         //设置WebView是否使用viewport
@@ -66,9 +54,9 @@ public class WebActivity extends BaseActivity {
         webSetting.setGeolocationEnabled(true);//地理位置
         webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//读取缓存
 
-        webView.loadUrl(url);
+        binding.webView.loadUrl(url);
 
-        webView.setWebViewClient(new WebViewClient() {
+        binding.webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -88,7 +76,7 @@ public class WebActivity extends BaseActivity {
         });
 
         //进度
-        webView.setWebChromeClient(new WebChromeClient() {
+        binding.webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView webView, int newProgress) {
                 super.onProgressChanged(webView, newProgress);
@@ -96,10 +84,4 @@ public class WebActivity extends BaseActivity {
             }
         });
     }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_web;
-    }
-
 }

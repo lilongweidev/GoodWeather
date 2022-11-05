@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import com.baidu.panosdk.plugin.indoor.util.ScreenUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.WallPaperResponse;
@@ -47,7 +47,7 @@ public class WallPaperAdapter extends BaseQuickAdapter<WallPaperResponse.ResBean
 
         //获取imageView的LayoutParams
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-        layoutParams.height = dip2px(mHeightList.get(helper.getAdapterPosition()));
+        layoutParams.height = dip2px(mHeightList.get(getItemPosition(item)));
         //重新设置imageView的高度
         imageView.setLayoutParams(layoutParams);
 
@@ -56,18 +56,13 @@ public class WallPaperAdapter extends BaseQuickAdapter<WallPaperResponse.ResBean
         } else if (Bottom.equals(item.getDesc())) {
             imageView.setImageResource(R.mipmap.icon_bottom_wallpaper);
         } else {
-            Glide.with(mContext).load(item.getImg()).into(imageView);
+            Glide.with(getContext()).load(item.getImg()).into(imageView);
         }
-
-        helper.addOnClickListener(R.id.item_wallpaper);
     }
-
 
     // dp 转成 px
     private int dip2px(float dpVale) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
+        final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpVale * scale + 0.5f);
     }
-
-
 }

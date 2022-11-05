@@ -3,7 +3,7 @@ package com.llw.goodweather.adapter;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.mvplibrary.bean.Country;
 
@@ -24,7 +24,5 @@ public class CountryAdapter extends BaseQuickAdapter<Country, BaseViewHolder> {
     protected void convert(BaseViewHolder helper, Country item) {
         //设置名称
         helper.setText(R.id.tv_country_name, item.getName());
-        //点击事件
-        helper.addOnClickListener(R.id.tv_country_name);
     }
 }

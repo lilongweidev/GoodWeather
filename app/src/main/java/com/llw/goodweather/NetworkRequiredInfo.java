@@ -2,7 +2,6 @@ package com.llw.goodweather;
 
 import android.app.Application;
 
-import com.llw.mvplibrary.BuildConfig;
 import com.llw.mvplibrary.newnet.INetworkRequiredInfo;
 
 
@@ -12,7 +11,7 @@ import com.llw.mvplibrary.newnet.INetworkRequiredInfo;
  */
 public class NetworkRequiredInfo implements INetworkRequiredInfo {
 
-    private Application application;
+    private final Application application;
 
     public NetworkRequiredInfo(Application application){
         this.application = application;
@@ -23,14 +22,14 @@ public class NetworkRequiredInfo implements INetworkRequiredInfo {
      */
     @Override
     public String getAppVersionName() {
-        return BuildConfig.VERSION_NAME;
+        return com.llw.goodweather.BuildConfig.VERSION_NAME;
     }
     /**
      * 版本号
      */
     @Override
     public String getAppVersionCode() {
-        return String.valueOf(BuildConfig.VERSION_CODE);
+        return String.valueOf(com.llw.goodweather.BuildConfig.VERSION_CODE);
     }
 
     /**
@@ -38,7 +37,7 @@ public class NetworkRequiredInfo implements INetworkRequiredInfo {
      */
     @Override
     public boolean isDebug() {
-        return BuildConfig.DEBUG;
+        return com.llw.goodweather.BuildConfig.DEBUG;
     }
 
     /**

@@ -18,13 +18,14 @@ import com.llw.goodweather.MainActivity;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.BiYingImgResponse;
 import com.llw.goodweather.contract.SplashContract;
+import com.llw.goodweather.databinding.ActivitySplashBinding;
 import com.llw.goodweather.utils.Constant;
 import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
 import com.llw.mvplibrary.bean.AppVersion;
 import com.llw.mvplibrary.bean.Country;
-import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.mvp.MvpVBActivity;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -46,7 +47,8 @@ import retrofit2.Response;
  *
  * @author llw
  */
-public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> implements SplashContract.ISplashView {
+@SuppressLint("CustomSplashScreen")
+public class SplashActivity extends MvpVBActivity<ActivitySplashBinding, SplashContract.SplashPresenter> implements SplashContract.ISplashView {
     /**
      * 权限请求框架
      */
@@ -54,17 +56,10 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
     private static AlertDialog privacyPolicyDialog;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         //透明状态栏
         StatusBarUtil.transparencyBar(context);
         agreePrivacyPolicy();
-    }
-
-
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_splash;
     }
 
     /**
@@ -144,11 +139,11 @@ public class SplashActivity extends MvpActivity<SplashContract.SplashPresenter> 
     /**
      * 进入主页面
      */
+    @SuppressLint("NewApi")
     private void goToMain() {
         new Handler().postDelayed(() -> {
             finish();
-            Intent intent = new Intent(context, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(context, MainActivity.class));
         }, 1000);
     }
 

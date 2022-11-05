@@ -1,36 +1,23 @@
 package com.llw.goodweather.ui;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.llw.goodweather.R;
 import com.llw.goodweather.adapter.SearchCityAdapter;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.contract.SearchCityContract;
+import com.llw.goodweather.databinding.ActivitySearchCityBinding;
 import com.llw.goodweather.eventbus.SearchCityEvent;
 import com.llw.goodweather.utils.CodeToStringUtils;
 import com.llw.goodweather.utils.Constant;
@@ -38,7 +25,7 @@ import com.llw.goodweather.utils.SPUtils;
 import com.llw.goodweather.utils.SpeechUtil;
 import com.llw.goodweather.utils.StatusBarUtil;
 import com.llw.goodweather.utils.ToastUtils;
-import com.llw.mvplibrary.mvp.MvpActivity;
+import com.llw.mvplibrary.mvp.MvpVBActivity;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
 import com.llw.mvplibrary.view.flowlayout.FlowLayout;
@@ -50,16 +37,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Response;
 
 import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
 
@@ -68,52 +49,11 @@ import static com.llw.mvplibrary.utils.RecyclerViewAnimation.runLayoutAnimation;
  *
  * @author llw
  */
-public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCityPresenter>
-        implements SearchCityContract.ISearchCityView {
+@SuppressLint("NonConstantResourceId")
+public class SearchCityActivity extends MvpVBActivity<ActivitySearchCityBinding, SearchCityContract.SearchCityPresenter>
+        implements SearchCityContract.ISearchCityView, View.OnClickListener {
 
     private static final String ALL_RECORD = "all";
-    /**
-     * 输入框
-     */
-    @BindView(R.id.edit_query)
-    AutoCompleteTextView editQuery;
-    /**
-     * 清空输入的内容图标
-     */
-    @BindView(R.id.iv_clear_search)
-    ImageView ivClearSearch;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    /**
-     * 数据显示列表
-     */
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    /**
-     * 清理所有历史记录
-     */
-    @BindView(R.id.clear_all_records)
-    ImageView clearAllRecords;
-    /**
-     * 搜索历史布局
-     */
-    @BindView(R.id.fl_search_records)
-    TagFlowLayout flSearchRecords;
-    /**
-     * 超过三行就会出现，展开显示更多
-     */
-    @BindView(R.id.iv_arrow)
-    ImageView ivArrow;
-    /**
-     * 搜索历史主布局
-     */
-    @BindView(R.id.ll_history_content)
-    LinearLayout llHistoryContent;
-    /**
-     * 语音搜索
-     */
-    @BindView(R.id.voice_search)
-    ImageView voiceSearch;
 
     /**
      * V7数据源
@@ -141,15 +81,15 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     private AlertDialog tipDialog = null;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         //白色状态栏
         StatusBarUtil.setStatusBarColor(context, R.color.white);
         //黑色字体
         StatusBarUtil.StatusBarLightMode(context);
-        Back(toolbar);
+        Back(binding.toolbar);
 
         initView();//初始化页面数据
-        initAutoComplete("history", editQuery);
+        initAutoComplete("history", binding.editQuery);
         //初始化语音播报
         SpeechUtil.init(this);
     }
@@ -169,48 +109,45 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
             @Override
             public View getView(FlowLayout parent, int position, String s) {
                 TextView tv = (TextView) LayoutInflater.from(context).inflate(R.layout.tv_history,
-                        flSearchRecords, false);
+                        binding.flSearchRecords, false);
                 //为标签设置对应的内容
                 tv.setText(s);
                 return tv;
             }
         };
         //添加输入监听
-        editQuery.addTextChangedListener(textWatcher);
-        editQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    String location = editQuery.getText().toString();
-                    if (!TextUtils.isEmpty(location)) {
-                        showLoadingDialog();
-                        //添加数据
-                        mRecordsDao.addRecords(location);
+        binding.editQuery.addTextChangedListener(textWatcher);
+        binding.editQuery.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String location = binding.editQuery.getText().toString();
+                if (!TextUtils.isEmpty(location)) {
+                    showLoadingDialog();
+                    //添加数据
+                    mRecordsDao.addRecords(location);
 
-                        mPresent.newSearchCity(location);//搜索城市  V7
-                        //数据保存
-                        saveHistory("history", editQuery);
-                    } else {
-                        ToastUtils.showShortToast(context, "请输入搜索关键词");
-                    }
+                    mPresent.newSearchCity(location);//搜索城市  V7
+                    //数据保存
+                    saveHistory("history", binding.editQuery);
+                } else {
+                    ToastUtils.showShortToast(context, "请输入搜索关键词");
                 }
-                return false;
             }
+            return false;
         });
 
-        flSearchRecords.setAdapter(mRecordsAdapter);
-        flSearchRecords.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+        binding.flSearchRecords.setAdapter(mRecordsAdapter);
+        binding.flSearchRecords.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public void onTagClick(View view, int position, FlowLayout parent) {
                 //清空editText之前的数据
-                editQuery.setText("");
+                binding.editQuery.setText("");
                 //将获取到的字符串传到搜索结果界面,点击后搜索对应条目内容
-                editQuery.setText(recordList.get(position));
-                editQuery.setSelection(editQuery.length());
+                binding.editQuery.setText(recordList.get(position));
+                binding.editQuery.setSelection(binding.editQuery.length());
             }
         });
         //长按删除某个条目
-        flSearchRecords.setOnLongClickListener(new TagFlowLayout.OnLongClickListener() {
+        binding.flSearchRecords.setOnLongClickListener(new TagFlowLayout.OnLongClickListener() {
             @Override
             public void onLongClick(View view, final int position) {
                 showTipDialog(position, "确定要删除该条历史记录？");
@@ -218,24 +155,21 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         });
 
         //view加载完成时回调
-        flSearchRecords.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                boolean isOverFlow = flSearchRecords.isOverFlow();
-                boolean isLimit = flSearchRecords.isLimit();
-                if (isLimit && isOverFlow) {
-                    ivArrow.setVisibility(View.VISIBLE);
-                } else {
-                    ivArrow.setVisibility(View.GONE);
-                }
+        binding.flSearchRecords.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            boolean isOverFlow = binding.flSearchRecords.isOverFlow();
+            boolean isLimit = binding.flSearchRecords.isLimit();
+            if (isLimit && isOverFlow) {
+                binding.ivArrow.setVisibility(View.VISIBLE);
+            } else {
+                binding.ivArrow.setVisibility(View.GONE);
             }
         });
 
         //初始化搜索返回的数据列表
         mAdapter = new SearchCityAdapter(R.layout.item_search_city_list, mList);
-        rv.setLayoutManager(new LinearLayoutManager(context));
-        rv.setAdapter(mAdapter);
-
+        binding.rv.setLayoutManager(new LinearLayoutManager(context));
+        binding.rv.setAdapter(mAdapter);
+        mAdapter.addChildClickViewIds(R.id.tv_city_name);//添加点击事件
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             SPUtils.putString(Constant.LOCATION, mList.get(position).getName(), context);
             //发送消息
@@ -244,7 +178,11 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
 
             finish();
         });
-
+        //添加点击事件
+        binding.ivClearSearch.setOnClickListener(this);
+        binding.clearAllRecords.setOnClickListener(this);
+        binding.voiceSearch.setOnClickListener(this);
+        binding.ivArrow.setOnClickListener(this);
     }
 
     /**
@@ -258,9 +196,9 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                     recordList.clear();
                     recordList = s;
                     if (null == recordList || recordList.size() == 0) {
-                        llHistoryContent.setVisibility(View.GONE);
+                        binding.llHistoryContent.setVisibility(View.GONE);
                     } else {
-                        llHistoryContent.setVisibility(View.VISIBLE);
+                        binding.llHistoryContent.setVisibility(View.VISIBLE);
                     }
                     if (mRecordsAdapter != null) {
                         mRecordsAdapter.setData(recordList);
@@ -306,6 +244,41 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_clear_search://清空输入的内容
+                binding.ivClearSearch.setVisibility(View.GONE);
+                binding.editQuery.setText("");
+                break;
+            case R.id.clear_all_records://清除所有记录
+                showTipDialog("all", "确定要删除全部历史记录？");
+                break;
+            case R.id.voice_search: //语音搜索
+                SpeechUtil.startDictation(this, cityName -> {
+                    //判断字符串是否包含句号
+                    if (!cityName.contains("。")) {
+
+                        binding.editQuery.setText(cityName);
+
+                        showLoadingDialog();
+                        //添加数据
+                        mRecordsDao.addRecords(cityName);
+                        //搜索城市
+                        mPresent.newSearchCity(cityName);
+                        //数据保存
+                        saveHistory("history", binding.editQuery);
+                    }
+                });
+                break;
+            case R.id.iv_arrow://向下展开
+                binding.flSearchRecords.setLimit(false);
+                mRecordsAdapter.notifyDataChanged();
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * 把指定AutoCompleteTextView中内容保存到sharedPreference中指定的字符段
@@ -350,10 +323,10 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
                 }).setOnClickListener(R.id.tv_sure, v -> {
                     //传入all则删除所有
                     if (ALL_RECORD.equals(data)) {
-                        flSearchRecords.setLimit(true);
+                        binding.flSearchRecords.setLimit(true);
                         //清除所有数据
                         mRecordsDao.deleteUsernameAllRecords();
-                        llHistoryContent.setVisibility(View.GONE);
+                        binding.llHistoryContent.setVisibility(View.GONE);
                     } else {
                         //删除某一条记录  传入单个的position
                         mRecordsDao.deleteRecord(recordList.get((Integer) data));
@@ -366,12 +339,6 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         tipDialog.show();
     }
 
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_search_city;
-    }
-
     @Override
     protected SearchCityContract.SearchCityPresenter createPresent() {
         return new SearchCityContract.SearchCityPresenter();
@@ -380,7 +347,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
     /**
      * 输入监听
      */
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -394,59 +361,12 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         @Override
         public void afterTextChanged(Editable s) {
             if (!"".equals(s.toString())) {//输入后，显示清除按钮
-                ivClearSearch.setVisibility(View.VISIBLE);
+                binding.ivClearSearch.setVisibility(View.VISIBLE);
             } else {//隐藏按钮
-                ivClearSearch.setVisibility(View.GONE);
+                binding.ivClearSearch.setVisibility(View.GONE);
             }
         }
     };
-
-    /**
-     * 点击事件
-     *
-     * @param view 控件
-     */
-    @OnClick({R.id.iv_clear_search, R.id.clear_all_records, R.id.voice_search, R.id.iv_arrow})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            //清空输入的内容
-            case R.id.iv_clear_search:
-                ivClearSearch.setVisibility(View.GONE);
-                editQuery.setText("");
-                break;
-            //清除所有记录
-            case R.id.clear_all_records:
-                showTipDialog("all", "确定要删除全部历史记录？");
-                break;
-            //语音搜索
-            case R.id.voice_search:
-                SpeechUtil.startDictation(this, cityName -> {
-                    //判断字符串是否包含句号
-                    if (!cityName.contains("。")) {
-
-                        editQuery.setText(cityName);
-
-                        showLoadingDialog();
-                        //添加数据
-                        mRecordsDao.addRecords(cityName);
-                        //搜索城市
-                        mPresent.newSearchCity(cityName);
-                        //数据保存
-                        saveHistory("history", editQuery);
-                    }
-
-                });
-                break;
-            //向下展开
-            case R.id.iv_arrow:
-                flSearchRecords.setLimit(false);
-                mRecordsAdapter.notifyDataChanged();
-                break;
-            default:
-                break;
-        }
-    }
-
 
     /**
      * 搜索城市返回数据  V7
@@ -460,7 +380,7 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
             mList.clear();
             mList.addAll(response.getLocation());
             mAdapter.notifyDataSetChanged();
-            runLayoutAnimation(rv);
+            runLayoutAnimation(binding.rv);
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }
@@ -474,5 +394,4 @@ public class SearchCityActivity extends MvpActivity<SearchCityContract.SearchCit
         dismissLoadingDialog();//关闭弹窗
         ToastUtils.showShortToast(context, "网络异常");
     }
-
 }

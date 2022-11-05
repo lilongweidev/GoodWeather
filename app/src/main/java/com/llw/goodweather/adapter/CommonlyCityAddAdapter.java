@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.llw.goodweather.R;
 import com.llw.goodweather.bean.NewSearchCityResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
@@ -36,7 +36,7 @@ public class CommonlyCityAddAdapter extends BaseQuickAdapter<NewSearchCityRespon
 
         String result = item.getName() + " , " + item.getAdm2() + " , " + item.getAdm1() + " , " + item.getCountry();
         if (edStr != null && edStr.length() > 0) {
-            textView.setText(matcherSearchText(mContext.getResources().getColor(R.color.shallow_yellow), result, edStr));
+            textView.setText(matcherSearchText(getContext().getResources().getColor(R.color.shallow_yellow), result, edStr));
 
         } else {
             textView.setText(item.getName() + " , " +
@@ -44,9 +44,6 @@ public class CommonlyCityAddAdapter extends BaseQuickAdapter<NewSearchCityRespon
                     item.getAdm1() + " , " +
                     item.getCountry());
         }
-
-        helper.addOnClickListener(R.id.item_add_city);
-
     }
 
     /**

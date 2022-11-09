@@ -14,10 +14,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-
     }
 
     compileOptions {//指定使用的JDK11
@@ -27,7 +25,6 @@ android {
 
     // 自定义打包
     android.applicationVariants.all { variant ->
-
         variant.outputs.all {
             outputFileName = "GoodWeather${variant.versionName}.apk"
         }
@@ -53,9 +50,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    //butterknife  这个部分比较特殊，所以不管是模块还是项目里都要引入依赖，否则你的控件会报空对象
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation project(':mvplibrary')//引入模块  然后将项目里的依赖移动到模块的build.gradle里
     //Bugly SDK
     implementation 'com.tencent.bugly:crashreport:3.4.4'

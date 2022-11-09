@@ -12,9 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.llw.mvplibrary.R;
-import com.llw.mvplibrary.kit.KnifeKit;
-
-import butterknife.Unbinder;
 
 /**
  * 用于不需要请求网络接口的BaseFragment
@@ -25,7 +22,6 @@ public abstract class BaseFragment extends Fragment implements UiCallBack {
     protected View rootView;
     protected LayoutInflater layoutInflater;
     protected Activity context;
-    private Unbinder unbinder;
     //加载弹窗
     private Dialog mDialog;
 
@@ -41,7 +37,6 @@ public abstract class BaseFragment extends Fragment implements UiCallBack {
         layoutInflater = inflater;
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
-            unbinder = KnifeKit.bind(this, rootView);
         } else {
             ViewGroup viewGroup = (ViewGroup) rootView.getParent();
             if (viewGroup != null) {

@@ -10,9 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.llw.mvplibrary.BaseApplication;
 import com.llw.mvplibrary.R;
-import com.llw.mvplibrary.kit.KnifeKit;
-
-import butterknife.Unbinder;
 
 /**
  * 用于不需要请求网络接口的Activity
@@ -23,7 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
     private static final int FAST_CLICK_DELAY_TIME = 500;
     private static long lastClickTime;
     protected Activity context;
-    private Unbinder unbinder;
     /**
      * 加载弹窗
      */
@@ -39,7 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallBa
         BaseApplication.getActivityManager().addActivity(this);
         if (getLayoutId() > 0) {
             setContentView(getLayoutId());
-            unbinder = KnifeKit.bind(this);
         }
         initData(savedInstanceState);
     }

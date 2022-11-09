@@ -34,10 +34,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    //在模块中添加的依赖若想在项目中使用，则implementation改成api
-    //butterknife  绑定视图依赖BindView，告别findById，不过你还得安装一个butterknife插件才行
-    api 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     //Google Material控件,以及迁移到AndroidX下一些控件的依赖
     api 'com.google.android.material:material:1.6.0'//更强
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -57,7 +53,6 @@ dependencies {
     api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     //支持okhttp
     api 'com.squareup.okhttp3:okhttp:3.14.9'
-
     //retrofit2
     api 'com.squareup.retrofit2:retrofit:2.9.0'
     //这里用api 是为了让其他模块也可以使用gson

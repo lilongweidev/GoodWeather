@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -138,8 +139,14 @@ public class ImageActivity extends BaseVBActivity<ActivityImageBinding> implemen
      * @return 结果
      */
     public boolean saveImageToGallery(Context context, Bitmap bitmap) {
-        // 首先保存图片
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "good_weather";
+        // 图片保存路径要根据Android版本进行修改
+        String filePath;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            filePath = context.getExternalFilesDir(null).getAbsolutePath() + File.separator + "good_weather";
+        }  else {
+            filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "good_weather";
+        }
+
         File appDir = new File(filePath);
         if (!appDir.exists()) {
             appDir.mkdir();

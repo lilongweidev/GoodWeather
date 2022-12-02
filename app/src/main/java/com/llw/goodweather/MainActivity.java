@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
@@ -14,6 +15,14 @@ import com.baidu.location.LocationClientOption;
 import com.llw.goodweather.databinding.ActivityMainBinding;
 import com.llw.goodweather.location.LocationCallback;
 import com.llw.goodweather.location.MyLocationListener;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements LocationCallback {
 
@@ -123,5 +132,34 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         String street = bdLocation.getStreet();    //获取街道信息
         String locationDescribe = bdLocation.getLocationDescribe();    //获取位置描述信息
         binding.tvAddressDetail.setText(addr);//设置文本显示
+
+        searchCity(district);
     }
+
+    /**
+     * 搜索城市
+     * @param district 区/县
+     */
+    private void searchCity(String district) {
+        //使用Get异步请求
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                //拼接访问地址
+                .url("https://geoapi.qweather.com/v2/city/lookup?key=3086e91d66c04ce588a7f538f917c7f4&location="+district)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){//回调的方法执行在子线程。
+                    Log.d("a","获取数据成功了");
+                    Log.d("a","response.code()=="+response.code());
+                    Log.d("a","response.body().string()=="+response.body().string());
+                }
+            }
+        });
+    }
+
 }

@@ -2,31 +2,24 @@ package com.llw.goodweather;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.databinding.ActivityMainBinding;
 import com.llw.goodweather.location.LocationCallback;
 import com.llw.goodweather.location.MyLocationListener;
+import com.llw.goodweather.viewmodel.MainViewModel;
+import com.llw.library.base.NetworkActivity;
 
-import java.io.IOException;
+import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-public class MainActivity extends AppCompatActivity implements LocationCallback {
-
-    private ActivityMainBinding binding;
+public class MainActivity extends NetworkActivity<ActivityMainBinding> implements LocationCallback {
 
     //权限数组
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -36,16 +29,48 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
     public LocationClient mLocationClient = null;
     private final MyLocationListener myListener = new MyLocationListener();
 
+    private MainViewModel viewModel;
+
+    /**
+     * 注册意图
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        registerIntent();
-        super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    public void onRegister() {
+        //请求权限意图
+        requestPermissionIntent = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            boolean fineLocation = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
+            boolean writeStorage = Boolean.TRUE.equals(result.get(Manifest.permission.WRITE_EXTERNAL_STORAGE));
+            if (fineLocation && writeStorage) {
+                //权限已经获取到，开始定位
+                startLocation();
+            }
+        });
+    }
 
+    /**
+     * 初始化
+     */
+    @Override
+    protected void onCreate() {
         initLocation();
-
         requestPermission();
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+    }
+
+    /**
+     * 数据观察
+     */
+    @Override
+    protected void onObserveData() {
+        if (viewModel != null) {
+            viewModel.searchCityResponseMutableLiveData.observe(this, searchCityResponse -> {
+                List<SearchCityResponse.LocationBean> location = searchCityResponse.getLocation();
+                if (location != null && location.size() > 0) {
+                    String id = location.get(0).getId();
+                    Log.d("TAG", "城市ID: " + id);
+                }
+            });
+        }
     }
 
     /**
@@ -63,20 +88,6 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         startLocation();
     }
 
-    /**
-     * 注册意图
-     */
-    private void registerIntent() {
-        //请求权限意图
-        requestPermissionIntent = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-            boolean fineLocation = Boolean.TRUE.equals(result.get(Manifest.permission.ACCESS_FINE_LOCATION));
-            boolean writeStorage = Boolean.TRUE.equals(result.get(Manifest.permission.WRITE_EXTERNAL_STORAGE));
-            if (fineLocation && writeStorage) {
-                //权限已经获取到，开始定位
-                startLocation();
-            }
-        });
-    }
 
     /**
      * 初始化定位
@@ -133,33 +144,12 @@ public class MainActivity extends AppCompatActivity implements LocationCallback 
         String locationDescribe = bdLocation.getLocationDescribe();    //获取位置描述信息
         binding.tvAddressDetail.setText(addr);//设置文本显示
 
-        searchCity(district);
-    }
-
-    /**
-     * 搜索城市
-     * @param district 区/县
-     */
-    private void searchCity(String district) {
-        //使用Get异步请求
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                //拼接访问地址
-                .url("https://geoapi.qweather.com/v2/city/lookup?key=3086e91d66c04ce588a7f538f917c7f4&location="+district)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-            }
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){//回调的方法执行在子线程。
-                    Log.d("a","获取数据成功了");
-                    Log.d("a","response.code()=="+response.code());
-                    Log.d("a","response.body().string()=="+response.body().string());
-                }
-            }
-        });
+        if (viewModel != null && district != null) {
+            //搜索城市
+            viewModel.searchCity(district);
+        } else {
+            Log.e("TAG", "district: " + district);
+        }
     }
 
 }

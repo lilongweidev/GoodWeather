@@ -3,6 +3,7 @@ package com.llw.goodweather;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.util.Log;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.llw.goodweather.bean.NowResponse;
 import com.llw.goodweather.bean.SearchCityResponse;
 import com.llw.goodweather.databinding.ActivityMainBinding;
 import com.llw.goodweather.location.LocationCallback;
@@ -52,6 +54,7 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
      */
     @Override
     protected void onCreate() {
+        setFullScreenImmersion();
         initLocation();
         requestPermission();
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
@@ -63,13 +66,29 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
     @Override
     protected void onObserveData() {
         if (viewModel != null) {
+            //城市数据返回
             viewModel.searchCityResponseMutableLiveData.observe(this, searchCityResponse -> {
                 List<SearchCityResponse.LocationBean> location = searchCityResponse.getLocation();
                 if (location != null && location.size() > 0) {
                     String id = location.get(0).getId();
-                    Log.d("TAG", "城市ID: " + id);
+                    //获取到城市的ID
+                    if (id != null) {
+                        //通过城市ID查询城市实时天气
+                        viewModel.nowWeather(id);
+                    }
                 }
             });
+            //实况天气返回
+            viewModel.nowResponseMutableLiveData.observe(this, nowResponse -> {
+                NowResponse.NowBean now = nowResponse.getNow();
+                if (now != null) {
+                    binding.tvInfo.setText(now.getText());
+                    binding.tvTemp.setText(now.getTemp());
+                    binding.tvUpdateTime.setText("最近更新时间：" + nowResponse.getUpdateTime());
+                }
+            });
+            //错误信息返回
+            viewModel.failed.observe(this, this::showLongMsg);
         }
     }
 
@@ -128,23 +147,11 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
      */
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
-        double latitude = bdLocation.getLatitude();    //获取纬度信息
-        double longitude = bdLocation.getLongitude();    //获取经度信息
-        float radius = bdLocation.getRadius();    //获取定位精度，默认值为0.0f
-        String coorType = bdLocation.getCoorType();
-        //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准
-        int errorCode = bdLocation.getLocType();//161  表示网络定位结果
-        //获取定位类型、定位错误返回码，具体信息可参照类参考中BDLocation类中的说明
-        String addr = bdLocation.getAddrStr();    //获取详细地址信息
-        String country = bdLocation.getCountry();    //获取国家
-        String province = bdLocation.getProvince();    //获取省份
-        String city = bdLocation.getCity();    //获取城市
-        String district = bdLocation.getDistrict();    //获取区县
-        String street = bdLocation.getStreet();    //获取街道信息
-        String locationDescribe = bdLocation.getLocationDescribe();    //获取位置描述信息
-        binding.tvAddressDetail.setText(addr);//设置文本显示
-
+        String city = bdLocation.getCity();             //获取城市
+        String district = bdLocation.getDistrict();     //获取区县
         if (viewModel != null && district != null) {
+            //显示当前定位城市
+            binding.tvCity.setText(district);
             //搜索城市
             viewModel.searchCity(district);
         } else {

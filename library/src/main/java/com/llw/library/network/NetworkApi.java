@@ -63,6 +63,8 @@ public class NetworkApi {
             case SEARCH:
                 mBaseUrl = "https://geoapi.qweather.com";//和风天气搜索城市
                 break;
+            case WEATHER:
+                mBaseUrl = "https://devapi.qweather.com";//和风天气API
             default:
                 break;
         }

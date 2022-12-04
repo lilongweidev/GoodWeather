@@ -20,9 +20,16 @@ public class SearchCityRepository {
 
     private static final String TAG = SearchCityRepository.class.getSimpleName();
 
+    /**
+     * 搜索城市
+     *
+     * @param responseLiveData 成功数据
+     * @param failed           错误信息
+     * @param cityName         城市名称
+     */
     public void searchCity(MutableLiveData<SearchCityResponse> responseLiveData,
                            MutableLiveData<String> failed, String cityName) {
-
+        String type = "搜索城市-->";
         NetworkApi.createService(ApiService.class, ApiType.SEARCH).searchCity(cityName)
                 .compose(NetworkApi.applySchedulers(new BaseObserver<>() {
                     @Override
@@ -35,14 +42,14 @@ public class SearchCityRepository {
                         if (Constant.SUCCESS.equals(searchCityResponse.getCode())) {
                             responseLiveData.postValue(searchCityResponse);
                         } else {
-                            failed.postValue(searchCityResponse.getCode());
+                            failed.postValue(type + searchCityResponse.getCode());
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable e) {
                         Log.e(TAG, "onFailure: " + e.getMessage());
-                        failed.postValue(e.getMessage());
+                        failed.postValue(type + e.getMessage());
                     }
                 }));
     }

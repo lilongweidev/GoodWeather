@@ -11,6 +11,7 @@
     <dimen name="sp_60">60sp</dimen>
 
     <!--尺寸大小-->
+    <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_4">4dp</dimen>

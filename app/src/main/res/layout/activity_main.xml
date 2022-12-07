@@ -7,13 +7,12 @@
     android:background="@drawable/main_bg"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
-
     <!--顶部标题-->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
         android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,62 +25,105 @@
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16" />
     </com.google.android.material.appbar.MaterialToolbar>
-    <!--天气状况-->
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="天气状况"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
-    <!--温度-->
-    <TextView
-        android:id="@+id/tv_temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
-        android:text="0"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_60"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_info" />
-    <!--摄氏度符号-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="℃"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_24"
-        app:layout_constraintStart_toEndOf="@+id/tv_temp"
-        app:layout_constraintTop_toTopOf="@+id/tv_temp" />
-    <!--城市-->
-    <TextView
-        android:id="@+id/tv_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_32"
-        android:text="城市"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_20"
-        app:layout_constraintEnd_toEndOf="@+id/tv_temp"
-        app:layout_constraintStart_toStartOf="@+id/tv_temp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_temp" />
-    <!--上一次更新时间-->
-    <TextView
-        android:id="@+id/tv_update_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="上次更新时间："
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_12"
-        app:layout_constraintEnd_toEndOf="@+id/tv_city"
-        app:layout_constraintStart_toStartOf="@+id/tv_city"
-        app:layout_constraintTop_toBottomOf="@+id/tv_city" />
-
+    <!--滚动视图-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintTop_toBottomOf="@+id/materialToolbar">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <!--天气状况-->
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="天气状况"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--温度-->
+            <TextView
+                android:id="@+id/tv_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_60"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_info" />
+            <!--摄氏度符号-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="℃"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_24"
+                app:layout_constraintStart_toEndOf="@+id/tv_temp"
+                app:layout_constraintTop_toTopOf="@+id/tv_temp" />
+            <!--城市-->
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_32"
+                android:text="城市"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_20"
+                app:layout_constraintEnd_toEndOf="@+id/tv_temp"
+                app:layout_constraintStart_toStartOf="@+id/tv_temp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_temp" />
+            <!--上一次更新时间-->
+            <TextView
+                android:id="@+id/tv_update_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="上次更新时间："
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintEnd_toEndOf="@+id/tv_city"
+                app:layout_constraintStart_toStartOf="@+id/tv_city"
+                app:layout_constraintTop_toBottomOf="@+id/tv_city" />
+            <!--天气预报列表-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_daily"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_update_time" />
+            <!--生活建议-->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:text="生活建议"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_daily" />
+            <!--生活建议列表-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_lifestyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

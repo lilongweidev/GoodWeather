@@ -2,17 +2,21 @@ package com.llw.goodweather.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.llw.goodweather.bean.DailyResponse;
-import com.llw.goodweather.bean.LifestyleResponse;
-import com.llw.goodweather.bean.NowResponse;
-import com.llw.goodweather.bean.SearchCityResponse;
+import com.llw.goodweather.db.bean.DailyResponse;
+import com.llw.goodweather.db.bean.LifestyleResponse;
+import com.llw.goodweather.db.bean.NowResponse;
+import com.llw.goodweather.db.bean.Province;
+import com.llw.goodweather.db.bean.SearchCityResponse;
+import com.llw.goodweather.repository.CityRepository;
 import com.llw.goodweather.repository.SearchCityRepository;
 import com.llw.goodweather.repository.WeatherRepository;
 import com.llw.library.base.BaseViewModel;
 
+import java.util.List;
+
 /**
  * 主页面ViewModel
- * {@link com.llw.goodweather.MainActivity}
+ * {@link com.llw.goodweather.ui.MainActivity}
  */
 public class MainViewModel extends BaseViewModel {
 
@@ -23,6 +27,8 @@ public class MainViewModel extends BaseViewModel {
     public MutableLiveData<DailyResponse> dailyResponseMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<LifestyleResponse> lifestyleResponseMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<List<Province>> cityMutableLiveData = new MutableLiveData<>();
 
     /**
      * 搜索城市
@@ -58,5 +64,12 @@ public class MainViewModel extends BaseViewModel {
      */
     public void lifestyle(String cityId) {
         WeatherRepository.getInstance().lifestyle(lifestyleResponseMutableLiveData, failed, cityId);
+    }
+
+    /**
+     * 获取行政区数据
+     */
+    public void getAllCity() {
+        CityRepository.getInstance().getCityData(cityMutableLiveData);
     }
 }

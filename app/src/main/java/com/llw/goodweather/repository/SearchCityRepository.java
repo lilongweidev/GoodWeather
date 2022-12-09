@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.llw.goodweather.Constant;
 import com.llw.goodweather.api.ApiService;
-import com.llw.goodweather.bean.SearchCityResponse;
+import com.llw.goodweather.db.bean.SearchCityResponse;
 import com.llw.library.network.ApiType;
 import com.llw.library.network.NetworkApi;
 import com.llw.library.network.observer.BaseObserver;

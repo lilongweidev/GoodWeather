@@ -10,8 +10,8 @@ android {
         applicationId "com.llw.goodweather"
         minSdk 23
         targetSdk 32
-        versionCode 17
-        versionName "1.7"
+        versionCode 18
+        versionName "1.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -58,4 +58,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     //依赖子模块
     implementation project(path: ':library')
+    //Room数据库
+    implementation 'androidx.room:room-runtime:2.4.2'
+    annotationProcessor 'androidx.room:room-compiler:2.4.2'
+    //Room 支持RxJava2
+    implementation 'androidx.room:room-rxjava2:2.4.2'
+    //腾讯MMKV
+    implementation 'com.tencent:mmkv:1.2.11'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.9.0'
 }

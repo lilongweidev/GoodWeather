@@ -2,14 +2,13 @@ package com.llw.goodweather.api;
 
 import static com.llw.goodweather.Constant.API_KEY;
 
-import com.llw.goodweather.bean.DailyResponse;
-import com.llw.goodweather.bean.LifestyleResponse;
-import com.llw.goodweather.bean.NowResponse;
-import com.llw.goodweather.bean.SearchCityResponse;
+import com.llw.goodweather.db.bean.DailyResponse;
+import com.llw.goodweather.db.bean.LifestyleResponse;
+import com.llw.goodweather.db.bean.NowResponse;
+import com.llw.goodweather.db.bean.SearchCityResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**

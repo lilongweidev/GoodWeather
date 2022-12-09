@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="temp_min_tx">#B3BCCA</color><!--低温文字颜色-->
+    <color name="line_color">#EEEEEE</color>
+    <color name="tx_color">#201E1E</color><!--未选中文字颜色-->
 </resources>

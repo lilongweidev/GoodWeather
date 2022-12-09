@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.llw.goodweather.Constant;
 import com.llw.goodweather.api.ApiService;
-import com.llw.goodweather.bean.DailyResponse;
-import com.llw.goodweather.bean.LifestyleResponse;
-import com.llw.goodweather.bean.NowResponse;
+import com.llw.goodweather.db.bean.DailyResponse;
+import com.llw.goodweather.db.bean.LifestyleResponse;
+import com.llw.goodweather.db.bean.NowResponse;
 import com.llw.library.network.ApiType;
 import com.llw.library.network.NetworkApi;
 import com.llw.library.network.observer.BaseObserver;

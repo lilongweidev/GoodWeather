@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_1"
+    android:background="@color/white"
+    android:ellipsize="middle"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center"
+    android:padding="@dimen/dp_16"
+    android:singleLine="true"
+    android:text="城市"
+    android:textColor="@color/tx_color" />

@@ -2,6 +2,7 @@ package com.llw.goodweather.utils;
 
 import android.util.Log;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * EasyDate
@@ -413,5 +415,14 @@ public final class EasyDate {
             }
         }
         return timeInfo;
+    }
+
+    /**
+     * 获取当天接近12点的时间戳
+     */
+    public static long getTodayTwelveTimestamp() {
+        long zero = getTimestamp() / (1000 * 3600 * 24) * (1000 * 3600 * 24) - TimeZone.getDefault().getRawOffset();//今天零点零分零秒的毫秒数
+        long twelve = zero + 24 * 60 * 60 * 1000 - 1;//今天23点59分59秒的毫秒数
+        return new Timestamp(twelve).getTime();
     }
 }

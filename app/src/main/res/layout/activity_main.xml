@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/lay_root"
     android:background="@drawable/main_bg"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
     <!--顶部标题-->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
@@ -115,7 +116,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rv_daily" />
             <!--大风车-->
-            <com.llw.goodweather.view.WhiteWindmills
+            <com.llw.goodweather.ui.view.WhiteWindmills
                 android:id="@+id/ww_big"
                 android:layout_width="100dp"
                 android:layout_height="120dp"
@@ -125,7 +126,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2"
                 tools:ignore="MissingConstraints" />
             <!--小风车-->
-            <com.llw.goodweather.view.WhiteWindmills
+            <com.llw.goodweather.ui.view.WhiteWindmills
                 android:id="@+id/ww_small"
                 android:layout_width="50dp"
                 android:layout_height="60dp"

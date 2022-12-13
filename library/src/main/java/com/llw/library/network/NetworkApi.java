@@ -61,10 +61,14 @@ public class NetworkApi {
     private static void getBaseUrl(ApiType apiType) {
         switch (apiType) {
             case SEARCH:
-                mBaseUrl = "https://geoapi.qweather.com";//和风天气搜索城市
+                mBaseUrl = "https://geoapi.qweather.com";   //和风天气搜索城市
                 break;
             case WEATHER:
-                mBaseUrl = "https://devapi.qweather.com";//和风天气API
+                mBaseUrl = "https://devapi.qweather.com";   //和风天气API
+                break;
+            case BING:
+                mBaseUrl = "https://cn.bing.com";           //必应壁纸
+                break;
             default:
                 break;
         }

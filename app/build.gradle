@@ -10,8 +10,8 @@ android {
         applicationId "com.llw.goodweather"
         minSdk 23
         targetSdk 32
-        versionCode 18
-        versionName "1.8"
+        versionCode 19
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,4 +67,7 @@ dependencies {
     implementation 'com.tencent:mmkv:1.2.11'
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 }

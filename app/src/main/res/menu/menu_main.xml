@@ -1,5 +1,16 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_switching_cities"
         android:title="切换城市" />
+    <item
+        android:id="@+id/item_relocation"
+        android:icon="@drawable/ic_round_location_24"
+        android:title="重新定位"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_bing"
+        android:checkable="true"
+        android:orderInCategory="20"
+        android:title="必应壁纸" />
 </menu>

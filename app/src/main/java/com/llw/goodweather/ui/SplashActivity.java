@@ -37,7 +37,8 @@ public class SplashActivity extends NetworkActivity<ActivitySplashBinding> {
         viewModel = new ViewModelProvider(this).get(SplashViewModel.class);
         //检查启动
         checkingStartup();
-        //checkFirstRunToday();
+        //检查今天第一次运行
+        checkFirstRunToday();
         new Handler().postDelayed(() -> jumpActivityFinish(MainActivity.class), 1000);
     }
 
@@ -59,9 +60,10 @@ public class SplashActivity extends NetworkActivity<ActivitySplashBinding> {
         long currentTimeMillis = System.currentTimeMillis();
         long todayTwelveTimestamp = EasyDate.getTodayTwelveTimestamp();
         //满足更新启动时间的条件，1.为0表示没有保存过时间，2. 当前时间
-        if (todayFirstRunTime == 0 || currentTimeMillis > todayFirstRunTime - (1000 * 60 * 10)) {
+        if (todayFirstRunTime == 0 || currentTimeMillis > todayTwelveTimestamp - (1000 * 60 * 10)) {
             MVUtils.put(Constant.FIRST_STARTUP_TIME_TODAY, currentTimeMillis);
             //今天第一次启动要做的事情
+            viewModel.bing();
         }
     }
 
@@ -78,6 +80,19 @@ public class SplashActivity extends NetworkActivity<ActivitySplashBinding> {
                 Log.d(TAG, "onObserveData: 有数据了");
             }
         });
+        //必应壁纸数据返回
+        viewModel.bingResponseMutableLiveData.observe(this, bingResponse -> {
+            if (bingResponse.getImages() == null) {
+                showMsg("未获取到必应的图片");
+                return;
+            }
+            //得到的图片地址是没有前缀的，所以加上前缀否则显示不出来
+            String bingUrl = "https://cn.bing.com" + bingResponse.getImages().get(0).getUrl();
+            Log.d(TAG, "bingUrl: " + bingUrl);
+            MVUtils.put(Constant.BING_URL, bingUrl);
+        });
+        //错误信息返回
+        viewModel.failed.observe(this, this::showLongMsg);
     }
 
     /**

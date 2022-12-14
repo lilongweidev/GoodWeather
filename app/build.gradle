@@ -10,8 +10,8 @@ android {
         applicationId "com.llw.goodweather"
         minSdk 23
         targetSdk 32
-        versionCode 19
-        versionName "1.9"
+        versionCode 20
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,10 +64,12 @@ dependencies {
     //Room 支持RxJava2
     implementation 'androidx.room:room-rxjava2:2.4.2'
     //腾讯MMKV
-    implementation 'com.tencent:mmkv:1.2.11'
+    implementation 'com.tencent:mmkv:1.2.14'
     //Gson
     implementation 'com.google.code.gson:gson:2.9.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+    //下拉刷新
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

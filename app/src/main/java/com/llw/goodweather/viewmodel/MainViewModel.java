@@ -2,6 +2,7 @@ package com.llw.goodweather.viewmodel;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.llw.goodweather.db.bean.AirResponse;
 import com.llw.goodweather.db.bean.DailyResponse;
 import com.llw.goodweather.db.bean.HourlyResponse;
 import com.llw.goodweather.db.bean.LifestyleResponse;
@@ -32,6 +33,8 @@ public class MainViewModel extends BaseViewModel {
     public MutableLiveData<List<Province>> cityMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<HourlyResponse> hourlyResponseMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<AirResponse> airResponseMutableLiveData = new MutableLiveData<>();
 
     /**
      * 搜索城市
@@ -83,5 +86,14 @@ public class MainViewModel extends BaseViewModel {
      */
     public void hourlyWeather(String cityId) {
         WeatherRepository.getInstance().hourlyWeather(hourlyResponseMutableLiveData, failed, cityId);
+    }
+
+    /**
+     * 逐小时天气预报
+     *
+     * @param cityId 城市ID
+     */
+    public void airWeather(String cityId) {
+        WeatherRepository.getInstance().airWeather(airResponseMutableLiveData, failed, cityId);
     }
 }

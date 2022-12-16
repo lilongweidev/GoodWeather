@@ -2,6 +2,7 @@ package com.llw.goodweather.api;
 
 import static com.llw.goodweather.Constant.API_KEY;
 
+import com.llw.goodweather.db.bean.AirResponse;
 import com.llw.goodweather.db.bean.BingResponse;
 import com.llw.goodweather.db.bean.DailyResponse;
 import com.llw.goodweather.db.bean.HourlyResponse;
@@ -74,5 +75,14 @@ public interface ApiService {
      */
     @GET("/v7/weather/24h?key=" + API_KEY)
     Observable<HourlyResponse> hourlyWeather(@Query("location") String location);
+
+    /**
+     * 当天空气质量
+     *
+     * @param location 城市id
+     * @return 返回当天空气质量数据 AirResponse
+     */
+    @GET("/v7/air/now?key=" + API_KEY)
+    Observable<AirResponse> airWeather(@Query("location") String location);
 
 }

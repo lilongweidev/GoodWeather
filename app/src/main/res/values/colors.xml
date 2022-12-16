@@ -10,4 +10,7 @@
     <color name="temp_min_tx">#B3BCCA</color><!--低温文字颜色-->
     <color name="line_color">#EEEEEE</color>
     <color name="tx_color">#201E1E</color><!--未选中文字颜色-->
+    <color name="ari_tx_color">#9FC8E9</color><!--空气提示文字颜色-->
+    <color name="arc_bg_color">#C6D7F4</color>
+    <color name="arc_progress_color">#FBFEF7</color>
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.llw.goodweather.Constant;
 import com.llw.goodweather.api.ApiService;
+import com.llw.goodweather.db.bean.AirResponse;
 import com.llw.goodweather.db.bean.DailyResponse;
 import com.llw.goodweather.db.bean.HourlyResponse;
 import com.llw.goodweather.db.bean.LifestyleResponse;
@@ -157,6 +158,40 @@ public class WeatherRepository {
                             responseLiveData.postValue(hourlyResponse);
                         } else {
                             failed.postValue(type + hourlyResponse.getCode());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e) {
+                        Log.e(TAG, "onFailure: " + e.getMessage());
+                        failed.postValue(type + e.getMessage());
+                    }
+                }));
+    }
+
+    /**
+     * 空气质量天气预报
+     *
+     * @param responseLiveData 成功数据
+     * @param failed           错误信息
+     * @param cityId           城市ID
+     */
+    public void airWeather(MutableLiveData<AirResponse> responseLiveData,
+                              MutableLiveData<String> failed, String cityId) {
+        String type = "空气质量天气预报-->";
+        NetworkApi.createService(ApiService.class, ApiType.WEATHER).airWeather(cityId)
+                .compose(NetworkApi.applySchedulers(new BaseObserver<>() {
+                    @Override
+                    public void onSuccess(AirResponse airResponse) {
+                        if (airResponse == null) {
+                            failed.postValue("空气质量预报数据为null，请检查城市ID是否正确。");
+                            return;
+                        }
+                        //请求接口成功返回数据，失败返回状态码
+                        if (Constant.SUCCESS.equals(airResponse.getCode())) {
+                            responseLiveData.postValue(airResponse);
+                        } else {
+                            failed.postValue(type + airResponse.getCode());
                         }
                     }
 

@@ -12,6 +12,28 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
     </style>
+
+    <!--圆环进度条-->
+    <declare-styleable name="RoundProgressBar">
+        <attr name="round_max_progress" format="float" />
+        <attr name="round_bg_color" format="color" />
+        <attr name="round_stroke_width" format="dimension" />
+        <attr name="round_progress" format="float" />
+        <attr name="round_progress_color" format="color" />
+        <attr name="round_first_text" format="string" />
+        <attr name="round_first_text_color" format="color" />
+        <attr name="round_first_text_size" format="dimension" />
+        <attr name="round_second_text" format="string" />
+        <attr name="round_second_text_color" format="color" />
+        <attr name="round_second_text_size" format="dimension" />
+        <attr name="round_min_text" format="string" />
+        <attr name="round_min_text_color" format="color" />
+        <attr name="round_min_text_size" format="dimension" />
+        <attr name="round_max_text" format="string" />
+        <attr name="round_max_text_color" format="color" />
+        <attr name="round_max_text_size" format="dimension" />
+        <attr name="round_angle_size" format="float" />
+        <attr name="round_start_angle" format="float" />
+    </declare-styleable>
 </resources>

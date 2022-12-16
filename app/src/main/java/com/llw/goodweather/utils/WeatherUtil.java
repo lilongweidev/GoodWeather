@@ -45,6 +45,8 @@ public class WeatherUtil {
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_150);
                 break;
             //晴间多云 晚上  V7
+            case 151://新增
+            case 152://新增
             case 153:
                 weatherStateIcon.setBackgroundResource(R.mipmap.icon_153);
                 break;

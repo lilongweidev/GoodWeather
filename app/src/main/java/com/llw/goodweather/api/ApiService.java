@@ -4,6 +4,7 @@ import static com.llw.goodweather.Constant.API_KEY;
 
 import com.llw.goodweather.db.bean.BingResponse;
 import com.llw.goodweather.db.bean.DailyResponse;
+import com.llw.goodweather.db.bean.HourlyResponse;
 import com.llw.goodweather.db.bean.LifestyleResponse;
 import com.llw.goodweather.db.bean.NowResponse;
 import com.llw.goodweather.db.bean.SearchCityResponse;
@@ -64,5 +65,14 @@ public interface ApiService {
      */
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Observable<BingResponse> bing();
+
+    /**
+     * 逐小时预报（未来24小时）之前是逐三小时预报
+     *
+     * @param location 城市id
+     * @return 返回逐小时数据 HourlyResponse
+     */
+    @GET("/v7/weather/24h?key=" + API_KEY)
+    Observable<HourlyResponse> hourlyWeather(@Query("location") String location);
 
 }

@@ -2,6 +2,7 @@ package com.llw.goodweather.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
 
     private final List<DailyResponse.DailyBean> dailyBeans;
 
+    private OnClickItemCallback onClickItemCallback;
+
+    public void setOnClickItemCallback(OnClickItemCallback onClickItemCallback) {
+        this.onClickItemCallback = onClickItemCallback;
+    }
+
     public DailyAdapter(List<DailyResponse.DailyBean> dailyBeans) {
         this.dailyBeans = dailyBeans;
     }
@@ -29,7 +36,14 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemDailyRvBinding binding = ItemDailyRvBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new ViewHolder(binding);
+        ViewHolder holder = new ViewHolder(binding);
+        //添加点击回调
+        binding.getRoot().setOnClickListener(v -> {
+            if (onClickItemCallback != null) {
+                onClickItemCallback.onItemClick(holder.getAdapterPosition());
+            }
+        });
+        return holder;
     }
 
     @SuppressLint("SetTextI18n")

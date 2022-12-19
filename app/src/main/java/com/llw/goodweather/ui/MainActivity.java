@@ -18,6 +18,7 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +28,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.llw.goodweather.Constant;
 import com.llw.goodweather.R;
+import com.llw.goodweather.databinding.DialogDailyDetailBinding;
+import com.llw.goodweather.databinding.DialogHourlyDetailBinding;
 import com.llw.goodweather.db.bean.AirResponse;
 import com.llw.goodweather.db.bean.HourlyResponse;
 import com.llw.goodweather.location.GoodLocation;
@@ -41,6 +45,7 @@ import com.llw.goodweather.db.bean.NowResponse;
 import com.llw.goodweather.db.bean.SearchCityResponse;
 import com.llw.goodweather.databinding.ActivityMainBinding;
 import com.llw.goodweather.location.LocationCallback;
+import com.llw.goodweather.ui.adapter.OnClickItemCallback;
 import com.llw.goodweather.utils.CityDialog;
 import com.llw.goodweather.utils.EasyDate;
 import com.llw.goodweather.utils.GlideUtils;
@@ -133,6 +138,7 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
         setToolbarMoreIconCustom(binding.materialToolbar);
         //天气预报列表
         binding.rvDaily.setLayoutManager(new LinearLayoutManager(this));
+        dailyAdapter.setOnClickItemCallback(position -> showDailyDetailDialog(dailyBeanList.get(position)));
         binding.rvDaily.setAdapter(dailyAdapter);
         //生活指数列表
         binding.rvLifestyle.setLayoutManager(new LinearLayoutManager(this));
@@ -141,6 +147,7 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
         LinearLayoutManager hourlyLayoutManager = new LinearLayoutManager(this);
         hourlyLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.rvHourly.setLayoutManager(hourlyLayoutManager);
+        hourlyAdapter.setOnClickItemCallback(position -> showHourlyDetailDialog(hourlyBeanList.get(position)));
         binding.rvHourly.setAdapter(hourlyAdapter);
         //下拉刷新监听
         binding.layRefresh.setOnRefreshListener(() -> {
@@ -167,6 +174,64 @@ public class MainActivity extends NetworkActivity<ActivityMainBinding> implement
                 }
             }
         });
+    }
+
+    /**
+     * 显示天气预报详情弹窗
+     * @param dailyBean 天气预报数据
+     */
+    private void showDailyDetailDialog(DailyResponse.DailyBean dailyBean) {
+        BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+        DialogDailyDetailBinding detailBinding = DialogDailyDetailBinding.inflate(LayoutInflater.from(MainActivity.this), null, false);
+        //关闭弹窗
+        detailBinding.ivClose.setOnClickListener(v -> dialog.dismiss());
+        //设置数据显示
+        detailBinding.toolbarDaily.setTitle(String.format("%s   %s", dailyBean.getFxDate(), EasyDate.getWeek(dailyBean.getFxDate())));
+        detailBinding.toolbarDaily.setSubtitle("天气预报详情");
+        detailBinding.tvTmpMax.setText(String.format("%s℃", dailyBean.getTempMax()));
+        detailBinding.tvTmpMin.setText(String.format("%s℃", dailyBean.getTempMin()));
+        detailBinding.tvUvIndex.setText(dailyBean.getUvIndex());
+        detailBinding.tvCondTxtD.setText(dailyBean.getTextDay());
+        detailBinding.tvCondTxtN.setText(dailyBean.getTextNight());
+        detailBinding.tvWindDeg.setText(String.format("%s°", dailyBean.getWind360Day()));
+        detailBinding.tvWindDir.setText(dailyBean.getWindDirDay());
+        detailBinding.tvWindSc.setText(String.format("%s级", dailyBean.getWindScaleDay()));
+        detailBinding.tvWindSpd.setText(String.format("%s公里/小时", dailyBean.getWindSpeedDay()));
+        detailBinding.tvCloud.setText(String.format("%s%%", dailyBean.getCloud()));
+        detailBinding.tvHum.setText(String.format("%s%%", dailyBean.getHumidity()));
+        detailBinding.tvPres.setText(String.format("%shPa", dailyBean.getPressure()));
+        detailBinding.tvPcpn.setText(String.format("%smm", dailyBean.getPrecip()));
+        detailBinding.tvVis.setText(String.format("%skm", dailyBean.getVis()));
+        dialog.setContentView(detailBinding.getRoot());
+        dialog.show();
+    }
+
+    /**
+     * 显示逐小时预报详情弹窗
+     * @param hourlyBean 逐小时预报数据
+     */
+    private void showHourlyDetailDialog(HourlyResponse.HourlyBean hourlyBean) {
+        BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+        DialogHourlyDetailBinding detailBinding = DialogHourlyDetailBinding.inflate(LayoutInflater.from(MainActivity.this), null, false);
+        //关闭弹窗
+        detailBinding.ivClose.setOnClickListener(v -> dialog.dismiss());
+        //设置数据显示
+        String time = EasyDate.updateTime(hourlyBean.getFxTime());
+        detailBinding.toolbarHourly.setTitle(EasyDate.showTimeInfo(time) + time);
+        detailBinding.toolbarHourly.setSubtitle("逐小时预报详情");
+        detailBinding.tvTmp.setText(String.format("%s℃", hourlyBean.getTemp()));
+        detailBinding.tvCondTxt.setText(hourlyBean.getText());
+        detailBinding.tvWindDeg.setText(String.format("%s°", hourlyBean.getWind360()));
+        detailBinding.tvWindDir.setText(hourlyBean.getWindDir());
+        detailBinding.tvWindSc.setText(String.format("%s级", hourlyBean.getWindScale()));
+        detailBinding.tvWindSpd.setText(String.format("公里/小时%s", hourlyBean.getWindSpeed()));
+        detailBinding.tvHum.setText(String.format("%s%%", hourlyBean.getHumidity()));
+        detailBinding.tvPres.setText(String.format("%shPa", hourlyBean.getPressure()));
+        detailBinding.tvPop.setText(String.format("%s%%", hourlyBean.getPop()));
+        detailBinding.tvDew.setText(String.format("%s℃", hourlyBean.getDew()));
+        detailBinding.tvCloud.setText(String.format("%s%%", hourlyBean.getCloud()));
+        dialog.setContentView(detailBinding.getRoot());
+        dialog.show();
     }
 
     /**

@@ -22,6 +22,9 @@
         android:theme="@style/Theme.GoodWeatherNew"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ManageCityActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -32,8 +35,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="false"/>
-        <!-- 添加定位AK -->
+            android:exported="false" /> <!-- 添加定位AK -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="Fh0NIFb6Tg8f7altVIpdGoDH0BR2myG4" /> <!-- 添加定位服务 -->

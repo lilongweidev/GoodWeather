@@ -13,4 +13,7 @@
     <color name="ari_tx_color">#9FC8E9</color><!--空气提示文字颜色-->
     <color name="arc_bg_color">#C6D7F4</color>
     <color name="arc_progress_color">#FBFEF7</color>
+    <color name="bg_color">#F8F8F8</color><!--页面背景颜色-->
+    <color name="btn_ripple_color">#B5B3B3</color><!--按钮触摸颜色-->
+    <color name="card_ripple_color">#A8C0EC</color><!--卡片视图触摸颜色-->
 </resources>

@@ -9,6 +9,9 @@
         android:title="重新定位"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/item_manage_city"
+        android:title="管理城市" />
+    <item
         android:id="@+id/item_bing"
         android:checkable="true"
         android:orderInCategory="20"

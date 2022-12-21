@@ -246,7 +246,6 @@ public final class EasyDate {
             result = sdf.format(new Date());
         } else {
             result = dateTime.substring(11, 16);
-            Log.d("dateTime-->", result);
         }
         return result;
     }

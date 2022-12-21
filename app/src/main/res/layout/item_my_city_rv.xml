@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_marginStart="@dimen/dp_8"
+    android:layout_marginTop="@dimen/dp_4"
+    android:layout_marginEnd="@dimen/dp_8"
+    android:layout_marginBottom="@dimen/dp_4"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="horizontal"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:cardElevation="@dimen/dp_8"
+    app:rippleColor="@color/card_ripple_color"
+    app:state_dragged="true">
+    <!--城市名称-->
+    <TextView
+        android:id="@+id/tv_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_16"
+        android:text="城市名称"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"
+        tools:ignore="RtlSymmetry" />
+    <!--是否定位-->
+    <ImageView
+        android:id="@+id/iv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@drawable/ic_round_location_on_24"
+        android:visibility="invisible" />
+</com.google.android.material.card.MaterialCardView>
+

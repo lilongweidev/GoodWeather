@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 24,
-      "versionName": "2.4",
-      "outputFile": "GoodWeatherNew2.4.apk"
+      "versionCode": 25,
+      "versionName": "2.5",
+      "outputFile": "GoodWeatherNew2.5.apk"
     }
   ],
   "elementType": "File"

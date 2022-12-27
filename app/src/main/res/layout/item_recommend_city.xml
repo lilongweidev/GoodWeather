@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_recommend_city_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dp_1"
+    android:background="@color/white"
+    android:foreground="?attr/selectableItemBackground"
+    android:gravity="center"
+    android:paddingTop="@dimen/dp_16"
+    android:paddingBottom="@dimen/dp_16"
+    android:text="推荐城市"
+    android:textColor="@color/black"
+    android:textSize="@dimen/sp_16" />

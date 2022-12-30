@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_city_name"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginBottom="@dimen/dp_1"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/dp_16"
+    android:text="搜索城市Item"
+    android:textSize="@dimen/sp_16" />

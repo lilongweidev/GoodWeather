@@ -10,8 +10,8 @@ android {
         applicationId "com.llw.goodweather"
         minSdk 23
         targetSdk 32
-        versionCode 25
-        versionName "2.5"
+        versionCode 26
+        versionName "2.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -29,4 +29,18 @@ public class ManageCityViewModel extends BaseViewModel {
     public void addMyCityData(String cityName) {
         CityRepository.getInstance().addMyCityData(new MyCity(cityName));
     }
+
+    /**
+     * 删除我的城市数据
+     */
+    public void deleteMyCityData(MyCity myCity) {
+        CityRepository.getInstance().deleteMyCityData(myCity);
+    }
+
+    /**
+     * 删除我的城市数据
+     */
+    public void deleteMyCityData(String cityName) {
+        CityRepository.getInstance().deleteMyCityData(cityName);
+    }
 }

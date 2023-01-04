@@ -14,21 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        app:title="城市天气"
+        app:titleTextColor="@color/white"
+        app:titleCentered="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="middle"
-            android:singleLine="true"
-            android:text="城市天气"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!--下拉刷新视图-->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

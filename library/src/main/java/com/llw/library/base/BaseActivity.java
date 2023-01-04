@@ -1,5 +1,6 @@
 package com.llw.library.base;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,14 +11,16 @@ import android.view.Window;
 import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.llw.library.R;
+
 public class BaseActivity extends AppCompatActivity {
 
     protected AppCompatActivity mContext;
+    private Dialog mDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,6 +112,29 @@ public class BaseActivity extends AppCompatActivity {
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR :
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
+    }
+
+    /**
+     * 弹窗出现
+     */
+    protected void showLoadingDialog() {
+        if (mDialog == null) {
+            mDialog = new Dialog(mContext, R.style.loading_dialog);
+        }
+        mDialog.setContentView(R.layout.dialog_loading);
+        mDialog.setCancelable(true);
+        mDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        mDialog.show();
+    }
+
+    /**
+     * 弹窗消失
+     */
+    protected void dismissLoadingDialog() {
+        if (mDialog != null) {
+            mDialog.dismiss();
+        }
+        mDialog = null;
     }
 
 }

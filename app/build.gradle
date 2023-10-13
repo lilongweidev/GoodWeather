@@ -52,9 +52,9 @@ dependencies {
 
     implementation project(':mvplibrary')//引入模块  然后将项目里的依赖移动到模块的build.gradle里
     //Bugly SDK
-    implementation 'com.tencent.bugly:crashreport:3.4.4'
+    implementation 'com.tencent.bugly:crashreport:4.1.9'
     // 友盟基础组件库（所有友盟业务SDK都依赖基础组件库）
-    implementation "com.umeng.umsdk:common:9.5.2" //（必选）
-    implementation "com.umeng.umsdk:asms:1.4.1" // asms包依赖(必选)
-    implementation "com.umeng.umsdk:apm:1.7.0" // U-APM包依赖(必选)
+    implementation 'com.umeng.umsdk:common:9.5.4' //（必选）
+    implementation 'com.umeng.umsdk:asms:1.6.3' // asms包依赖(必选)
+    implementation 'com.umeng.umsdk:apm:1.8.0' // U-APM包依赖(必选)
 }

@@ -86,6 +86,7 @@ import com.llw.mvplibrary.utils.AnimationUtil;
 import com.llw.mvplibrary.utils.LiWindow;
 import com.llw.mvplibrary.utils.SizeUtils;
 import com.llw.mvplibrary.view.dialog.AlertDialog;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -1127,42 +1128,44 @@ public class MainActivity extends MvpVBActivity<ActivityMainBinding, WeatherCont
     public void getLifestyleResult(LifestyleResponse response) {
         if (response.getCode().equals(Constant.SUCCESS_CODE)) {
             List<LifestyleResponse.DailyBean> data = response.getDaily();
-            for (int i = 0; i < data.size(); i++) {
-                switch (data.get(i).getType()) {
-                    case "5":
-                        binding.tvUv.setText("紫外线：" + data.get(i).getText());
-                        break;
-                    case "8":
-                        binding.tvComf.setText("舒适度：" + data.get(i).getText());
-                        break;
-                    case "3":
-                        binding.tvDrsg.setText("穿衣指数：" + data.get(i).getText());
-                        break;
-                    case "9":
-                        binding.tvFlu.setText("感冒指数：" + data.get(i).getText());
-                        break;
-                    case "1":
-                        binding.tvSport.setText("运动指数：" + data.get(i).getText());
-                        break;
-                    case "6":
-                        binding.tvTrav.setText("旅游指数：" + data.get(i).getText());
-                        break;
-                    case "2":
-                        binding.tvCw.setText("洗车指数：" + data.get(i).getText());
-                        break;
-                    case "10":
-                        binding.tvAir.setText("空气指数：" + data.get(i).getText());
-                        break;
-                    default:
-                        break;
+            if (data != null) {
+                for (int i = 0; i < data.size(); i++) {
+                    switch (data.get(i).getType()) {
+                        case "5":
+                            binding.tvUv.setText("紫外线：" + data.get(i).getText());
+                            break;
+                        case "8":
+                            binding.tvComf.setText("舒适度：" + data.get(i).getText());
+                            break;
+                        case "3":
+                            binding.tvDrsg.setText("穿衣指数：" + data.get(i).getText());
+                            break;
+                        case "9":
+                            binding.tvFlu.setText("感冒指数：" + data.get(i).getText());
+                            break;
+                        case "1":
+                            binding.tvSport.setText("运动指数：" + data.get(i).getText());
+                            break;
+                        case "6":
+                            binding.tvTrav.setText("旅游指数：" + data.get(i).getText());
+                            break;
+                        case "2":
+                            binding.tvCw.setText("洗车指数：" + data.get(i).getText());
+                            break;
+                        case "10":
+                            binding.tvAir.setText("空气指数：" + data.get(i).getText());
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                //字符串拼接
+                voiceStr = dateDetailStr + tempStr + tempMaxMin + precStr +
+                        airStr + binding.tvComf.getText().toString() +
+                        binding.tvAir.getText().toString() + warnStr;
+                //图标显示
+                binding.ivVoiceBroadcast.setVisibility(View.VISIBLE);
             }
-            //字符串拼接
-            voiceStr = dateDetailStr + tempStr + tempMaxMin + precStr +
-                    airStr + binding.tvComf.getText().toString() +
-                    binding.tvAir.getText().toString() + warnStr;
-            //图标显示
-            binding.ivVoiceBroadcast.setVisibility(View.VISIBLE);
         } else {
             ToastUtils.showShortToast(context, CodeToStringUtils.WeatherCode(response.getCode()));
         }

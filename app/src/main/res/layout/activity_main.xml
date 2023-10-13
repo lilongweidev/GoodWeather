@@ -811,11 +811,15 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/dp_20"
         android:clickable="true"
+        android:focusable="true"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:src="@mipmap/icon_voice_search"
         app:backgroundTint="@color/white"
         app:backgroundTintMode="screen"
         app:fabSize="mini"
         app:hoveredFocusedTranslationZ="@dimen/dp_18"
-        app:pressedTranslationZ="@dimen/dp_18" />
+        app:pressedTranslationZ="@dimen/dp_18"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 </FrameLayout>

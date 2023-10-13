@@ -146,7 +146,7 @@ public class CommonlyUsedCityActivity extends MvpVBActivity<ActivityCommonlyUsed
             binding.rvCommonlyUsed.setLayoutManager(new LinearLayoutManager(context));
             binding.rvCommonlyUsed.setAdapter(mAdapter);
 
-            mAdapter.addChildClickViewIds(R.id.tv_city_name, R.id.btn_delete);//添加点击事件
+            mAdapter.addChildClickViewIds(R.id.tv_city_name, R.id.iv_delete);//添加点击事件
             mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
                 switch (view.getId()) {
                     case R.id.tv_city_name:
@@ -156,7 +156,7 @@ public class CommonlyUsedCityActivity extends MvpVBActivity<ActivityCommonlyUsed
                                 cityList.get(position).getParent_city()));
                         finish();
                         break;
-                    case R.id.btn_delete://删除
+                    case R.id.iv_delete://删除
                         LitePal.delete(ResidentCity.class, cityList.get(position).getId());//删除指定id
                         initCityList();
                         //删除数据后判断一下显示和隐藏的控件

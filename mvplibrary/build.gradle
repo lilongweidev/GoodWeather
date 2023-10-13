@@ -44,29 +44,29 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
 
     //图片加载框架
-    api 'com.github.bumptech.glide:glide:4.10.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    api 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     //权限请求框架
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
     //状态栏
-    api 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    api 'com.readystatesoftware.systembartint:systembartint:1.0.4'
     //支持okhttp
-    api 'com.squareup.okhttp3:okhttp:3.14.9'
+    api 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
     //retrofit2
     api 'com.squareup.retrofit2:retrofit:2.9.0'
     //这里用api 是为了让其他模块也可以使用gson
     api 'com.squareup.retrofit2:converter-gson:2.9.0'
     //日志拦截器
-    api 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    api 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
     //rxjava
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'io.reactivex.rxjava2:rxjava:2.2.12'
+    api 'io.reactivex.rxjava2:rxjava:2.2.21'
     api 'androidx.preference:preference:1.2.0'
 
     //阿里巴巴 FastJson
-    api 'com.alibaba:fastjson:1.2.57'
+    api 'com.alibaba:fastjson:2.0.20.graal'
     //下拉刷新框架
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
     //没有使用特殊Header，可以不加这行
@@ -74,7 +74,7 @@ dependencies {
     //自由嵌套的RadioGroup
     api 'com.github.fodroid:XRadioGroup:v1.5'
     //EventBus
-    api 'org.greenrobot:eventbus:3.1.1'
+    api 'org.greenrobot:eventbus:3.3.1'
 
     //蠕虫蠕动动画TabLayout
     api 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
@@ -82,8 +82,6 @@ dependencies {
     api 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
     //Android SQLite操作框架
     api 'org.litepal.guolindev:core:3.1.1'
-    //列表item侧滑删除
-    api 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     //下拉框
     api 'com.github.arcadefire:nice-spinner:1.4.3'
 }

@@ -2,15 +2,18 @@
 buildscript {
     repositories {
         google()
-        //新增
         mavenCentral()
-        jcenter()
+//        jcenter()
+        // public仓是central仓和jcenter仓的聚合仓
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        // google仓库
+        maven { url 'https://maven.aliyun.com/repository/google' }
         //新增友盟+应用性能监控maven
         maven { url 'https://repo1.maven.org/maven2/' }
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:7.4.2'
     }
 }
 
@@ -19,7 +22,9 @@ allprojects {
         maven { url "https://jitpack.io" }
         mavenCentral()
         google()
-        jcenter()
+//        jcenter()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         //新增友盟+应用性能监控maven
         maven { url 'https://repo1.maven.org/maven2/' }
     }

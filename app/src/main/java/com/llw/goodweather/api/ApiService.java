@@ -43,8 +43,6 @@ public interface ApiService {
      *   getTodayWeather是这个接口的方法名。这样说应该很清楚了吧
      */
 
-
-
     /**
      * 必应每日一图
      *
@@ -52,7 +50,6 @@ public interface ApiService {
      */
     @GET("/HPImageArchive.aspx?format=js&idx=0&n=1")
     Observable<BiYingImgResponse> biying();
-//    Call<BiYingImgResponse> biying();
 
     /**********       以下为 V7版本API使用     **************/
 
@@ -64,7 +61,6 @@ public interface ApiService {
      */
     @GET("/v7/weather/now?key=" + API_KEY + "&gzip=n")
     Observable<NowResponse> nowWeather(@Query("location") String location);
-    //Call<NowResponse> nowWeather(@Query("location") String location);
 
     /**
      * 天气预报  因为是开发者所以最多可以获得15天的数据，但是如果你是普通用户，那么最多只能获得三天的数据
@@ -76,7 +72,6 @@ public interface ApiService {
      */
     @GET("/v7/weather/{type}?key=" + API_KEY)
     Observable<DailyResponse> dailyWeather(@Path("type") String type, @Query("location") String location);
-    //Call<DailyResponse> dailyWeather(@Path("type") String type, @Query("location") String location);
 
     /**
      * 逐小时预报（未来24小时）之前是逐三小时预报
@@ -86,7 +81,6 @@ public interface ApiService {
      */
     @GET("/v7/weather/24h?key=" + API_KEY)
     Observable<HourlyResponse> hourlyWeather(@Query("location") String location);
-    //Call<HourlyResponse> hourlyWeather(@Query("location") String location);
 
     /**
      * 当天空气质量
@@ -96,7 +90,6 @@ public interface ApiService {
      */
     @GET("/v7/air/now?key=" + API_KEY)
     Observable<AirNowResponse> airNowWeather(@Query("location") String location);
-//    Call<AirNowResponse> airNowWeather(@Query("location") String location);
 
     /**
      * 空气质量5天预报
@@ -106,7 +99,6 @@ public interface ApiService {
      */
     @GET("/v7/air/5d?key=" + API_KEY)
     Observable<MoreAirFiveResponse> airFiveWeather(@Query("location") String location);
-//    Call<MoreAirFiveResponse> airFiveWeather(@Query("location") String location);
 
     /**
      * 生活指数
@@ -121,8 +113,6 @@ public interface ApiService {
     @GET("/v7/indices/1d?key=" + API_KEY)
     Observable<LifestyleResponse> lifestyle(@Query("type") String type,
                                       @Query("location") String location);
-//    Call<LifestyleResponse> lifestyle(@Query("type") String type,
-//                                      @Query("location") String location);
 
     /**
      * 搜索城市  V7版本  模糊搜索，国内范围 返回10条数据
@@ -134,8 +124,6 @@ public interface ApiService {
     @GET("/v2/city/lookup?key=" + API_KEY + "&range=cn")
     Observable<NewSearchCityResponse> newSearchCity(@Query("location") String location,
                                               @Query("mode") String mode);
-//    Call<NewSearchCityResponse> newSearchCity(@Query("location") String location,
-//                                              @Query("mode") String mode);
 
     /**
      * 世界城市
@@ -145,7 +133,6 @@ public interface ApiService {
      */
     @GET("/v2/city/top?key=" + API_KEY + "&number=20")
     Observable<WorldCityResponse> worldCity(@Query("range") String range);
-    //Call<WorldCityResponse> worldCity(@Query("range") String range);
 
     /**
      * 当前城市灾害预警
@@ -155,7 +142,6 @@ public interface ApiService {
      */
     @GET("/v7/warning/now?key=" + API_KEY)
     Observable<WarningResponse> nowWarn(@Query("location") String location);
-    //Call<WarningResponse> nowWarn(@Query("location") String location);
 
     /**
      * APP版本更新
@@ -164,8 +150,6 @@ public interface ApiService {
      */
     @GET("/apps/latest/" + UPDATE_USER_ID + "?api_token=" + UPDATE_API_TOKEN)
     Observable<AppVersion> getAppInfo();
-//    @GET("/apps/latest/" + UPDATE_USER_ID + "?api_token=" + UPDATE_API_TOKEN)
-//    Call<AppVersion> getAppInfo();
 
     /**
      * 太阳和月亮  日出日落、月升月落
@@ -176,7 +160,6 @@ public interface ApiService {
      */
     @GET("/v7/astronomy/sunmoon?key=" + API_KEY)
     Observable<SunMoonResponse> getSunMoon(@Query("location") String location, @Query("date") String date);
-    //Call<SunMoonResponse> getSunMoon(@Query("location") String location, @Query("date") String date);
 
     /**
      * 手机壁纸API
@@ -185,8 +168,6 @@ public interface ApiService {
      */
     @GET("/v1/vertical/vertical?limit=30&skip=180&adult=false&first=0&order=hot")
     Observable<WallPaperResponse> getWallPaper();
-    //Call<WallPaperResponse> getWallPaper();
-
 
     /**
      * 分钟级降水 最近两小时内
@@ -196,6 +177,5 @@ public interface ApiService {
      */
     @GET("/v7/minutely/5m?key=" + API_KEY)
     Observable<MinutePrecResponse> getMinutePrec(@Query("location") String location);
-    //Call<MinutePrecResponse> getMinutePrec(@Query("location") String location);
 
 }

@@ -564,11 +564,9 @@ public class MapWeatherActivity extends MvpVBActivity<ActivityMapWeatherBinding,
                     //点击某些地区只要多了市辖区这几个字，和风的搜索城市API就查询不到数据，直接给我返回404，所以处理一下
                     mPresent.searchCity(addressDetail.district.replace("市辖区", ""));//搜索城市的id
                 } else {
-                    mPresent.searchCity(addressDetail.district);//搜索城市的id
+                    mPresent.searchCity(addressDetail.city+addressDetail.district);//搜索城市的id
                 }
-
             }
-
         }
     };
 

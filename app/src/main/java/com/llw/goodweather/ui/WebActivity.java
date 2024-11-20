@@ -49,7 +49,7 @@ public class WebActivity extends BaseVBActivity<ActivityWebBinding> {
         webSetting.setUseWideViewPort(true);
         webSetting.setLoadWithOverviewMode(true);
         webSetting.setSupportMultipleWindows(true);
-        webSetting.setAppCacheEnabled(true);//APP缓存
+//        webSetting.setAppCacheEnabled(true);//APP缓存
         webSetting.setDomStorageEnabled(true);
         webSetting.setGeolocationEnabled(true);//地理位置
         webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//读取缓存

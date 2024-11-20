@@ -91,6 +91,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 [Android 天气APP（三十四）语音搜索](https://blog.csdn.net/qq_38436214/article/details/113699279)<br>
 [Android 天气APP（三十五）修复BUG、升级网络请求框架](https://blog.csdn.net/qq_38436214/article/details/119295627)<br>
 [Android 天气APP（三十六）运行到本地AS、更新项目版本依赖、去掉ButterKnife](https://blog.csdn.net/qq_38436214/article/details/127673536)<br>
+[Android 天气APP（三十七）新版AS编译、更新镜像源、仓库源、修复部分BUG](https://blog.csdn.net/qq_38436214/article/details/143829196)<br>
 
 文章代码是一篇一篇进行迭代的，也欢迎读者提供新的需求，适当采纳，更好的优化这个项目<br>
 
@@ -99,7 +100,9 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 博主：[初学者-Study](https://blog.csdn.net/qq_38436214)<br>
 
 ## 版本说明
-### V 2.9 (最新版本)
+### V 3.0 (最新版本)
+* 新版AS正常编译、更新依赖仓库源，解决部分依赖库在新版AS上报错的问题、解决地图鉴权问题、搜索城市重名问题。
+### V 2.9
 * 新版AS正常编译、更新项目版本依赖、去掉ButterKnife，使用ViewBinding<br>
 ### V 2.8
 * 增加友盟+性能监控SDK<br>

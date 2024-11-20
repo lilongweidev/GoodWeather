@@ -885,11 +885,11 @@ public class MainActivity extends MvpVBActivity<ActivityMainBinding, WeatherCont
                 //在数据请求之前放在加载等待弹窗，返回结果后关闭弹窗
                 showLoadingDialog();
                 //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-                mPresent.newSearchCity(district);//定位返回时
+                mPresent.newSearchCity(city+district);//定位返回时
                 //下拉刷新
                 binding.refresh.setOnRefreshListener(refreshLayout -> {
                     //V7版本中需要先获取到城市ID ,在结果返回值中再进行下一步的数据查询
-                    mPresent.newSearchCity(district);
+                    mPresent.newSearchCity(city+district);
                 });
             }
         }

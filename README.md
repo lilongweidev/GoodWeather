@@ -46,7 +46,7 @@ GIF看不了的，打开下面的视频地址进行观看<br>
 
 ## 网址下载
 
-点击下载[好天气APP](http://d.maps9.com/h4sg)<br>
+点击下载[好天气APP](https://www.pgyer.com/z4BytAv7)<br>
 
 ## 扫码下载
 ![下载图片](https://github.com/lilongweidev/GoodWeather/blob/master/download/code.png)<br>

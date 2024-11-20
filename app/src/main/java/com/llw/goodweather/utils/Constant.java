@@ -10,7 +10,7 @@ public class Constant {
     /**
      * 和风天气KEY，此处的key替换为自己的，不要问我为什么？我的账号都被封了！！！
      */
-    public static final String API_KEY = "7050755a26cc4b88ab116a5b35797d7f";
+    public static final String API_KEY = "Your Key";
     /**
      * 更新APP的用户Id
      */
